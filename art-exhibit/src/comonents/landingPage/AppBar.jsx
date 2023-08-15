@@ -1,21 +1,33 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
+import React from "react";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import { Stack } from "@mui/material";
+import CategoryMenu from "./CategoryMenu";
 
-const pages = ["Artists", "Category", "Commuity", "Portofolio"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const logoTitleStyles = {
+  mr: 2,
+  ml: 10,
+  display: { xs: "none", md: "flex" },
+  fontWeight: 700,
+  fontFamily: "Poppins, sans-serif",
+  fontSize: "25px",
+  lineHeight: "37.5px",
+  textDecoration: "none",
+  color: "#C882FF",
+}
 
-function ResponsiveAppBar() {
+const menuOptionsStyles = {
+  textDecoration: 'none',
+  color: "#222222",
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 500,
+  fontSize: "20px",
+  lineHeight: "30px"
+}
+
+const AppBarMenu = () => {
   return (
     <Container maxWidth="xl">
       <Toolbar sx={{ mt: 2 }}>
@@ -24,17 +36,7 @@ function ResponsiveAppBar() {
           noWrap
           component="a"
           href="/"
-          sx={{
-            mr: 2,
-            ml: 10,
-            display: { xs: "none", md: "flex" },
-            fontWeight: 700,
-            fontFamily: "Poppins, sans-serif",
-            fontSize: "25px",
-            lineHeight: "37.5px",
-            textDecoration: "none",
-            color: "#C882FF",
-          }}
+          sx={logoTitleStyles}
         >
           ArtExhibit
         </Typography>
@@ -44,22 +46,28 @@ function ResponsiveAppBar() {
           width={"60%"}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          {pages.map((page) => (
             <Typography
               component="a"
               href="/"
-              sx={{
-                textDecoration: 'none',
-                color: "#222222",
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: 500,
-                fontSize: "20px",
-                lineHeight: "30px",
-              }}
+              sx={menuOptionsStyles}
             >
-              {page}
+              Artists
             </Typography>
-          ))}
+            <CategoryMenu typographyStyles={menuOptionsStyles}/>
+            <Typography
+              component="a"
+              href="/"
+              sx={menuOptionsStyles}
+            >
+              Commuity
+            </Typography>
+            <Typography
+              component="a"
+              href="/"
+              sx={menuOptionsStyles}
+            >
+              Portofolio
+            </Typography>
         </Stack>
 
         <Stack
@@ -77,13 +85,7 @@ function ResponsiveAppBar() {
             }}
           >
             <Typography
-              sx={{
-                color: "#222222",
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: 500,
-                fontSize: "20px",
-                lineHeight: "30px",
-              }}
+              sx={menuOptionsStyles}
             >
               Log In
             </Typography>
@@ -98,13 +100,7 @@ function ResponsiveAppBar() {
             }}
           >
             <Typography
-              sx={{
-                color: "#222222",
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: 500,
-                fontSize: "20px",
-                lineHeight: "30px",
-              }}
+              sx={menuOptionsStyles}
             >
               Get Started
             </Typography>
@@ -114,4 +110,4 @@ function ResponsiveAppBar() {
     </Container>
   );
 }
-export default ResponsiveAppBar;
+export default AppBarMenu;
