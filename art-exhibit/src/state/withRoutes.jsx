@@ -11,7 +11,7 @@ const withRoutes = (App) => (props) => {
 
   return (
     <RouterProvider router={routes}>
-      <App {...props} />
+      <App {...props}  />
     </RouterProvider>
   );
 };
