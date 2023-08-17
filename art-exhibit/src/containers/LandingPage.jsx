@@ -5,6 +5,7 @@ import Grid  from "@mui/material/Grid";
 import PersonalizeSections from "../comonents/landingPage/PersonalizeSections";
 import EngaginStoriesSection from "../comonents/landingPage/EngaginStoriesSection";
 import WeProvideSection from "../comonents/landingPage/weProvideSection/WeProvideSection";
+import EventSection from "../comonents/landingPage/eventSection/EventSection";
 
 const LandingPage = () => {
   return (
@@ -23,6 +24,9 @@ const LandingPage = () => {
       </Grid>
       <Grid item xs={12} padding={'6rem 8rem'} sx={{backgroundColor : '#FFFFFF'}}>
         <WeProvideSection />
+      </Grid>
+      <Grid item xs={12} padding={'6rem 8rem'} sx={{backgroundColor : '#FFFFFF'}}>
+        <EventSection />
       </Grid>
     </Grid>
   );

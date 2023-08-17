@@ -45,7 +45,7 @@ const WeProvideSection = () => {
   return (
     <Grid spacing={10} container>
     {sectionData.map(item => {
-        return <Grid item xs={4}>
+        return <Grid key={item.title} item xs={4}>
         <Card
           title={item.title}
           subtitle={item.subtitle}

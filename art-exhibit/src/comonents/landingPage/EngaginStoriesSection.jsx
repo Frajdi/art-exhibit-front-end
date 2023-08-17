@@ -53,7 +53,7 @@ const EngaginStoriesSection = () => {
           </Stack>
           <Stack>
             {contentLines.map((item) => (
-              <TextAnimation color={"#C786FF"}>
+              <TextAnimation key={item} color={"#C786FF"}>
                 <Typography style={contentStyles}>{item}</Typography>
               </TextAnimation>
             ))}

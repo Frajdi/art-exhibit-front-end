@@ -67,7 +67,7 @@ const PersonalizeSections = () => {
           </Stack>
           <Stack>
             {contentLines.map((item) => (
-              <TextAnimation color={"#FFFFFF"}>
+              <TextAnimation key={item} color={"#FFFFFF"}>
                 <Typography style={contentStyles}>{item}</Typography>
               </TextAnimation>
             ))}
