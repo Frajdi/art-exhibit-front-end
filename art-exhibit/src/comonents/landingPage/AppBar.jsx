@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { Stack } from "@mui/material";
-import CategoryMenu from "./CategoryMenu";
 
 const logoTitleStyles = {
   mr: 2,
@@ -53,13 +52,19 @@ const AppBarMenu = () => {
             >
               Artists
             </Typography>
-            <CategoryMenu typographyStyles={menuOptionsStyles}/>
             <Typography
               component="a"
               href="/"
               sx={menuOptionsStyles}
             >
-              Commuity
+              Catgeory
+            </Typography>
+            <Typography
+              component="a"
+              href="/"
+              sx={menuOptionsStyles}
+            >
+              Community
             </Typography>
             <Typography
               component="a"
@@ -73,7 +78,7 @@ const AppBarMenu = () => {
         <Stack
           direction={"row"}
           spacing={3}
-          sx={{ padding: "20px", width: "20%", justifyContent: "flex-end" }}
+          sx={{ padding: "20px", width: "20%", justifyContent: "center" }}
         >
           <Button
             style={{
@@ -88,21 +93,6 @@ const AppBarMenu = () => {
               sx={menuOptionsStyles}
             >
               Log In
-            </Typography>
-          </Button>
-          <Button
-            style={{
-              backgroundColor: "#EBD4FF",
-              color: "black",
-              borderRadius: "50px",
-              padding: "0px 20px",
-              textTransform: "none",
-            }}
-          >
-            <Typography
-              sx={menuOptionsStyles}
-            >
-              Get Started
             </Typography>
           </Button>
         </Stack>

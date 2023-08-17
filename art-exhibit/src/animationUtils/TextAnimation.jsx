@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import {motion, useInView, useAnimation} from "framer-motion"
 
-const TextAnimation = ({children, width = 'fit-content'}) => {
+const TextAnimation = ({children, width = 'fit-content', color}) => {
 
 
     const ref = useRef(null)
@@ -44,7 +44,7 @@ const TextAnimation = ({children, width = 'fit-content'}) => {
             bottom: 4,
             left: 0,
             right: 0,
-            background: "#C786FF",
+            background: color,
             zIndex: 20
         }}
       />

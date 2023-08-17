@@ -43,19 +43,36 @@ const HeaderSection = () => {
     <Grid container padding={'4rem 8rem'}>
       <Grid item xs={6}>
       <Stack spacing={5} direction={'column'}   width={'85%'}>
-      <TextAnimation>
+      <Stack>
+      <TextAnimation color={"#C786FF"}>
         <Typography style={titleStyles}>
-          Where creativity meets innovation, and every portofolio tells a story
+          Where creativity
         </Typography>
         </TextAnimation>
-        <TextAnimation>
+      <TextAnimation color={"#C786FF"}>
+        <Typography style={titleStyles}>
+          meets innovation,
+        </Typography>
+        </TextAnimation>
+      <TextAnimation color={"#C786FF"}>
+        <Typography style={titleStyles}>
+          and every portofolio 
+        </Typography>
+        </TextAnimation>
+      <TextAnimation color={"#C786FF"}>
+        <Typography style={titleStyles}>
+           tells a story
+        </Typography>
+        </TextAnimation>
+        </Stack>
+        <TextAnimation color = "#C786FF">
         <Typography style={subtitleStyles}>
           Manage and grow your art business
         </Typography>
         </TextAnimation>
         <Button style={buttonStyles}>
         <Typography style={buttonTextStyles}>
-          Discover More
+          Get Started
           </Typography>
         </Button>
         </Stack>
