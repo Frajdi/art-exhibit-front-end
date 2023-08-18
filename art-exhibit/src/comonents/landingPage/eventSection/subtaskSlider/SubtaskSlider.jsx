@@ -3,13 +3,13 @@ import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import ImageContainer from "./components/ImageContainer";
 import SubTaskContent from "./SubTaskContent";
-import { subTasks, subImages } from "./components/data";
+import { subTasks, subImages, subtaskTitles, subtaskCreators, subtaskDates } from "./components/data";
 
 const SubtaskSlider = () => {
   const [hoveredIndex, setHoveredIndex] = useState(3);
 
   return (
-    <Stack justifyContent="center" alignItems="center" height="80vh" width={'100%'}>
+    <Stack marginTop={5} alignItems="center" height="80vh" width={'100%'}>
       <Stack direction="row" height={"373px"} width={"1195px"} alignItems="flex-end">
         {subImages.map((item, index) => (
           <ImageContainer
@@ -30,8 +30,10 @@ const SubtaskSlider = () => {
             />
             {hoveredIndex === index + 1 &&  (
               <SubTaskContent
-                part={index + 1}
+                title={subtaskTitles[index]}
                 content={subTasks[index]}
+                date = {subtaskDates[index]}
+                createdBy = {subtaskCreators[index]}
               />
             )}
           </ImageContainer>

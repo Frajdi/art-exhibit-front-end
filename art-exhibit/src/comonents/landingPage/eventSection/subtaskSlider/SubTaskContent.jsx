@@ -4,7 +4,41 @@ import Stack from "@mui/material/Stack";
 import TextContainer from "./components/textSubComponents/TextContainer";
 import TextUnderlines from "./components/textSubComponents/TextUnderlines";
 
-const SubTaskContent = ({ part, content }) => {
+
+const titleStyles = {
+  textDecoration: "none",
+  color: "#222222",
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 700,
+  fontSize: "25px",
+  lineHeight: "32px",
+  inlineSize: "100%",
+  overflowWrap: "break-word",
+  color: '#FFFFFF'
+};
+
+const contentStyles = {
+  ...titleStyles,
+  fontWeight: 400,
+  fontSize: '18px',
+  lineHeight: '25px',
+  opacity: 0.8
+}
+
+const dateStyles = {
+  ...titleStyles,
+  fontWeight: 500,
+  fontSize: '22px',
+  marginTop: '1rem'
+}
+
+const createdByStyles = {
+  ...dateStyles,
+  color: '#C786FF',
+  marginTop: '2rem'
+}
+
+const SubTaskContent = ({ title, content, date, createdBy }) => {
   return (
     <Box
       sx={{
@@ -13,7 +47,7 @@ const SubTaskContent = ({ part, content }) => {
         bottom: 0,
         pr: 3,
         width: "100%",
-        height: "fit-content",
+        height: "80%",
         background: "linear-gradient(to top, black, rgba(242, 242, 242, 0))",
       }}
     >
@@ -21,27 +55,33 @@ const SubTaskContent = ({ part, content }) => {
         <TextUnderlines length='10%' thickness='5px'/>
        <TextContainer>
           <Typography
-            fontFamily={"Bruno Ace SC"}
-            width={"fit-content"}
-            fontSize={40}
-            color={'white'}
+           style={titleStyles}
           >
-            PART {part}
+            {title}
           </Typography>
         </TextContainer>
       </Stack>
         <TextUnderlines length='45%' thickness='2px'/>
      <TextContainer>
+     <Stack direction={"column"} padding={'5% 13% '}>
       <Typography
-        fontFamily={"Bruno Ace SC"}
-        width={"fit-content"}
-        fontSize={20}
-        margin={3}
-        color={'white'}
-        sx={{ inlineSize: "100%", overflowWrap: "break-word" }}
+       style={contentStyles}
       >
         {content}
       </Typography>
+      <Typography
+      style={dateStyles}
+      // align="center"
+        >
+        {date}
+      </Typography>
+      <Typography
+        align="center"
+        style={createdByStyles}
+        >
+        By {createdBy}
+      </Typography>
+      </Stack>
       </TextContainer>
     </Box>
   );

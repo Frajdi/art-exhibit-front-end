@@ -59,7 +59,7 @@ const ImageContainer = ({
         reduceSecondary: {
             height: secondaryHeight(),
             width: width,
-            filter: 'brightness(50%)',
+            filter: 'brightness(65%)',
             borderTopRightRadius : hoveredIndex > index ? 0 : '15px',
             borderBottomRightRadius: hoveredIndex > index || index < 5 ? 0 : '15px',
             borderTopLeftRadius : hoveredIndex < index ? 0 : '15px',
