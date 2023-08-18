@@ -9,7 +9,7 @@ const SubtaskSlider = () => {
   const [hoveredIndex, setHoveredIndex] = useState(3);
 
   return (
-    <Stack marginTop={5} alignItems="center" height="80vh" width={'100%'}>
+    <Stack marginTop={5} alignItems="center" height="65vh" width={'100%'}>
       <Stack direction="row" height={"373px"} width={"1195px"} alignItems="flex-end">
         {subImages.map((item, index) => (
           <ImageContainer
