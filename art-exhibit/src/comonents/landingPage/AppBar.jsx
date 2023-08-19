@@ -43,7 +43,7 @@ const navBarStyles = {
   backdropFilter: " blur( 10px )",
   position: "fixed",
   width: "100%",
-  zIndex: 10,
+  zIndex: 10
 }
 
 const AppBarMenu = () => {
@@ -63,7 +63,7 @@ const AppBarMenu = () => {
   });
 
   return (
-    <Stack direction={"row"} justifyContent={"center"}>
+    <Stack direction={"row"} justifyContent={"center"} sx={{mt: 2}}>
       <motion.nav
         style={navBarStyles}
         variants={{
