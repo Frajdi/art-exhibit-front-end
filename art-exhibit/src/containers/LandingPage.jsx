@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import HeaderSection from "../comonents/landingPage/headerSection/HeaderSection";
 import Grid from "@mui/material/Grid";
@@ -33,7 +33,7 @@ const LandingPage = () => {
       <Grid item xs={12}>
         <AppBarMenu />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} paddingTop={5}>
         <HeaderSection />
       </Grid>
       <Grid

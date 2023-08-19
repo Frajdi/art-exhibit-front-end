@@ -1,103 +1,135 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import { Stack } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useAnimation,
+} from "framer-motion";
 
 const logoTitleStyles = {
-  mr: 2,
-  ml: 10,
   display: { xs: "none", md: "flex" },
   fontWeight: 700,
   fontFamily: "Poppins, sans-serif",
   fontSize: "25px",
-  lineHeight: "37.5px",
+  lineHeight: "50px",
   textDecoration: "none",
   color: "#C882FF",
-}
+};
 
 const menuOptionsStyles = {
-  textDecoration: 'none',
+  textDecoration: "none",
   color: "#222222",
   fontFamily: "Poppins, sans-serif",
   fontWeight: 500,
   fontSize: "20px",
-  lineHeight: "30px"
+  lineHeight: "50px",
+};
+
+const buttonStyles = {
+  backgroundColor: "#C786FF",
+  color: "black",
+  borderRadius: "50px",
+  padding: "10px 20px",
+  textTransform: "none",
+};
+
+const navBarStyles = {
+  backgroundColor: "rgba(245,233,255, 0.7)",
+  boxShadow: 0,
+  backdropFilter: " blur( 10px )",
+  position: "fixed",
+  width: "100%",
+  zIndex: 10,
 }
 
 const AppBarMenu = () => {
-  return (
-    <Container maxWidth="xl">
-      <Toolbar sx={{ mt: 2 }}>
-        <Typography
-          variant="h6"
-          noWrap
-          component="a"
-          href="/"
-          sx={logoTitleStyles}
-        >
-          ArtExhibit
-        </Typography>
-        <Stack
-          spacing={7}
-          direction={"row"}
-          width={"60%"}
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-            <Typography
-              component="a"
-              href="/"
-              sx={menuOptionsStyles}
-            >
-              Artists
-            </Typography>
-            <Typography
-              component="a"
-              href="/"
-              sx={menuOptionsStyles}
-            >
-              Catgeory
-            </Typography>
-            <Typography
-              component="a"
-              href="/"
-              sx={menuOptionsStyles}
-            >
-              Community
-            </Typography>
-            <Typography
-              component="a"
-              href="/"
-              sx={menuOptionsStyles}
-            >
-              Portofolio
-            </Typography>
-        </Stack>
+  const { scrollY } = useScroll();
 
-        <Stack
-          direction={"row"}
-          spacing={3}
-          sx={{ padding: "20px", width: "20%", justifyContent: "center" }}
-        >
-          <Button
+  const appBarControls = useAnimation();
+  const contentControls = useAnimation();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest >= 100) {
+      appBarControls.start("middle");
+      contentControls.start("middle");
+    } else {
+      appBarControls.start("top");
+      contentControls.start("top");
+    }
+  });
+
+  return (
+    <Stack direction={"row"} justifyContent={"center"}>
+      <motion.nav
+        style={navBarStyles}
+        variants={{
+          top: { width: "100%", borderRadius: 0, margin: 0, border: "none" },
+          middle: {
+            width: "60%",
+            borderRadius: "50px",
+            margin: "0 auto",
+            border: "1px solid rgba(255, 255, 255, 0.8)",
+          },
+        }}
+        initial="top"
+        animate={appBarControls}
+        transition={{ duration: 0.5 }}
+      >
+        <Toolbar>
+          <motion.div
             style={{
-              backgroundColor: "#C786FF",
-              color: "black",
-              borderRadius: "50px",
-              padding: "10px 20px",
-              textTransform: "none",
+              display: "flex",
+              justifyContent: "space-between",
+              width: "83%",
             }}
+            variants={{
+              top: { width: "83%", padding: "1rem 6.5rem", margin: 0 },
+              middle: {
+                width: "100%",
+                padding: "1rem 0.5rem",
+                margin: "0 auto",
+              },
+            }}
+            initial="top"
+            animate={contentControls}
+            transition={{ duration: 0.5 }}
           >
             <Typography
-              sx={menuOptionsStyles}
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={logoTitleStyles}
             >
-              Log In
+              ArtExhibit
             </Typography>
-          </Button>
-        </Stack>
-      </Toolbar>
-    </Container>
+            <Stack direction={"row"} spacing={6}>
+              <Typography component="a" href="/" sx={menuOptionsStyles}>
+                Artists
+              </Typography>
+              <Typography component="a" href="/" sx={menuOptionsStyles}>
+                Catgeory
+              </Typography>
+              <Typography component="a" href="/" sx={menuOptionsStyles}>
+                Community
+              </Typography>
+              <Typography component="a" href="/" sx={menuOptionsStyles}>
+                Portofolio
+              </Typography>
+            </Stack>
+            <Button style={buttonStyles}>
+              <Typography sx={{ ...menuOptionsStyles, lineHeight: "20px" }}>
+                Log In
+              </Typography>
+            </Button>
+          </motion.div>
+        </Toolbar>
+      </motion.nav>
+    </Stack>
   );
-}
+};
 export default AppBarMenu;
