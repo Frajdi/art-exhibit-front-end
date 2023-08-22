@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import HeaderSection from "../comonents/landingPage/headerSection/HeaderSection";
 import Grid from "@mui/material/Grid";
@@ -10,7 +10,7 @@ import EventSection from "../comonents/landingPage/eventSection/EventSection";
 import StartTodaySection from "../comonents/landingPage/StartTodaySection";
 import Footer from "../comonents/landingPage/Footer";
 import TextAnimation from "../animationUtils/TextAnimation";
-import { Stack } from "@mui/material";
+import Stack from "@mui/material/Stack";
 
 const LandingPage = () => {
   const signitureStyles = {
