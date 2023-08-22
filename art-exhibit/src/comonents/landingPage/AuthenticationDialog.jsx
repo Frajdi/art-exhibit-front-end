@@ -9,6 +9,10 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import TextReveal from "../../animationUtils/TextReveal";
 import Avatar from "@mui/material/Avatar";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { motion, useAnimation } from "framer-motion";
@@ -57,6 +61,8 @@ const Transition = forwardRef(function Transition(props, ref) {
 const AuthenticationDialog = ({ open, setOpen }) => {
   const [replay, setReplay] = useState(true);
   const [signIn, setSignIn] = useState(true);
+  const [category, setCategory] = useState('');
+  const [student, setStudent] = useState('');
   const [profilePictureHovered, setProfilePictureHovered] = useState(false);
 
   const signUpButtonGroupControls = useAnimation();
@@ -121,14 +127,14 @@ const AuthenticationDialog = ({ open, setOpen }) => {
               style={{ width: 56 }}
               onMouseEnter={() => setProfilePictureHovered(true)}
               onMouseLeave={() => setProfilePictureHovered(false)}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={"hidden"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-                >
+              variants={{
+                hidden: { height: 0, x: "-100%" },
+                visible: { height: "50px", x: 0 },
+              }}
+              initial={"hidden"}
+              animate={confirmPasswordControl}
+              transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+            >
               <Avatar
                 sx={{
                   bgcolor: "#C786FF",
@@ -231,11 +237,30 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.5 }}
               >
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  label="Choose category"
-                />
+                <FormControl variant="standard" sx={{  width: '100%' }}>
+                  <InputLabel id="demo-simple-select-standard-label">
+                    Choose category
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    label="Choose category"
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={'Musician'}>Musician</MenuItem>
+                    <MenuItem value={'Designer'}>Designer</MenuItem>
+                    <MenuItem value={'Painting'}>Painting</MenuItem>
+                    <MenuItem value={'Architecture'}>Architecture</MenuItem>
+                    <MenuItem value={'Drawing'}>Drawing</MenuItem>
+                    <MenuItem value={'Photography'}>Photography</MenuItem>
+                    <MenuItem value={'Dance'}>Dance</MenuItem>
+                    <MenuItem value={'Sculpture'}>Sculpture</MenuItem>
+                  </Select>
+                </FormControl>
               </motion.div>
               <motion.div
                 style={{ width: "100%" }}
@@ -247,11 +272,21 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.6 }}
               >
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  label="Are you a student ?"
-                />
+               <FormControl variant="standard" sx={{  width: '100%' }}>
+                  <InputLabel id="demo-simple-select-standard-label">
+                    Are you a student ?
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={student}
+                    onChange={(e) => setStudent(e.target.value)}
+                    label="Are you a student ?"
+                  >
+                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                  </Select>
+                </FormControl>
               </motion.div>
             </motion.div>
           </Stack>
