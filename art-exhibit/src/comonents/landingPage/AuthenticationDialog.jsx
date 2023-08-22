@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,6 +16,7 @@ import Select from "@mui/material/Select";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { motion, useAnimation } from "framer-motion";
+import useAuthenticate from "../../commands/authentication";
 
 const dialogStyles = {
   "& .MuiDialog-paper": {
@@ -24,7 +25,7 @@ const dialogStyles = {
     backdropFilter: " blur( 10px )",
     borderRadius: "70px",
     width: "912px",
-    padding: "1.5rem 3rem",
+    padding: "2rem 3rem",
     overflow: "hidden",
   },
 };
@@ -58,12 +59,88 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AuthenticationDialog = ({ open, setOpen }) => {
+const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
+  //   UI States
   const [replay, setReplay] = useState(true);
-  const [signIn, setSignIn] = useState(true);
-  const [category, setCategory] = useState('');
-  const [student, setStudent] = useState('');
+  const [signIn, setSignIn] = useState(isSignIn);
   const [profilePictureHovered, setProfilePictureHovered] = useState(false);
+
+  //   Data States
+  const [signUpData, setSignUpData] = useState({
+    address: "",
+    category: "",
+    description: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    phoneNumber: "",
+    profileImage: "",
+    username: "",
+  });
+  const [signInData, setSignInData] = useState({
+    password: "",
+    username: "",
+  });
+
+//   const [base64Image, setBase64Image] = useState(null);
+
+//   const handleFileChange = (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.readAsDataURL(file);
+//       reader.onload = () => {
+//         // The result contains the base64 representation of the image
+//         setBase64Image(reader.result);
+//       };
+//     }
+//   };
+
+  const handleAvatarClick = () => {
+    // Trigger the hidden file input when the avatar is clicked
+    document.getElementById("fileInput").click();
+  };
+
+  const handleChange = (field) => (e) => {
+    if (signIn) {
+      setSignInData((prev) => {
+        const newData = { ...prev };
+        newData[field] = e.target.value;
+        return newData;
+      });
+    } else {
+      if (field === "profileImage") {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            // The result contains the base64 representation of the image
+            setSignUpData((prev) => {
+                const newData = { ...prev };
+                console.log()
+                newData[field] = reader.result;
+                return newData;
+              });
+          };
+        }
+      }else{
+          setSignUpData((prev) => {
+            const newData = { ...prev };
+            newData[field] = e.target.value;
+            return newData;
+          });
+      }
+    }
+  };
+
+  const { data, error, isLoading, postRequest } = useAuthenticate(
+    signIn ? "login" : "signup"
+  );
+  useEffect(() => {
+    console.log({ signUpData });
+  }, [signUpData]);
 
   const signUpButtonGroupControls = useAnimation();
   const signInButtonGroupControls = useAnimation();
@@ -114,14 +191,18 @@ const AuthenticationDialog = ({ open, setOpen }) => {
           animate={replay ? "visible" : "hidden"}
           variants={container}
         >
-          <DialogTitle>
+          <DialogTitle sx={{ p: 0 }}>
             <TextReveal
-              text={signIn ? "Log In" : "Sign Up"}
+              text={
+                signIn
+                  ? "Welcome Back To ArtExhibit"
+                  : "Get Started Set Up Your Account"
+              }
               style={headerStyles}
             />
           </DialogTitle>
         </motion.div>
-        <DialogContent sx={{ overflow: "hidden" }}>
+        <DialogContent sx={{ overflow: "hidden", p: 0 }}>
           <Stack direction="column" spacing={2} style={contentStyles}>
             <motion.div
               style={{ width: 56 }}
@@ -131,34 +212,60 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                 hidden: { height: 0, x: "-100%" },
                 visible: { height: "50px", x: 0 },
               }}
-              initial={"hidden"}
+              initial={signIn ? "hidden" : "visible"}
               animate={confirmPasswordControl}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
             >
-              <Avatar
-                sx={{
-                  bgcolor: "#C786FF",
-                  width: 56,
-                  height: 56,
-                  cursor: "pointer",
-                }}
-              >
-                {profilePictureHovered ? (
-                  <FileUploadIcon />
-                ) : (
-                  <PersonAddAltIcon />
-                )}
-              </Avatar>
+              <div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleChange('profileImage')}
+                  style={{ display: "none" }}
+                  id="fileInput"
+                />
+                <Avatar
+                  sx={{
+                    bgcolor: "#C786FF",
+                    width: 56,
+                    height: 56,
+                    cursor: "pointer",
+                  }}
+                  onClick={handleAvatarClick}
+                  onMouseEnter={() => setProfilePictureHovered(true)}
+                  onMouseLeave={() => setProfilePictureHovered(false)}
+                >
+                  {profilePictureHovered ? (
+                    <FileUploadIcon />
+                  ) : signUpData.profileImage ? (
+                    <img style={{objectFit: 'cover', width: 56,
+                    height: 56}} src={signUpData.profileImage} />
+                  ) : (
+                    <PersonAddAltIcon />
+                  )}
+                </Avatar>
+              </div>
             </motion.div>
-            <TextField variant="standard" label="User Name" />
-            <TextField variant="standard" label="Password" type="password" />
+            <TextField
+              variant="standard"
+              label="User Name"
+              onChange={handleChange("username")}
+              value={signIn ? signInData.username : signUpData.username}
+            />
+            <TextField
+              variant="standard"
+              label="Password"
+              type="password"
+              onChange={handleChange("password")}
+              value={signIn ? signInData.password : signUpData.password}
+            />
             <motion.div
               style={{ width: "100%" }}
               variants={{
                 hidden: { height: 0 },
                 visible: { height: "100%" },
               }}
-              initial={"hidden"}
+              initial={signIn ? "hidden" : "visible"}
               animate={confirmPasswordControl}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
@@ -168,15 +275,16 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                   hidden: { height: 0, x: "-100%" },
                   visible: { height: "50px", x: 0 },
                 }}
-                initial={"hidden"}
+                initial={signIn ? "hidden" : "visible"}
                 animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
               >
                 <TextField
+                  onChange={handleChange("firstName")}
+                  value={signUpData.firstName}
                   fullWidth
                   variant="standard"
-                  label="Confirm Password"
-                  type="password"
+                  label="First Name"
                 />
               </motion.div>
               <motion.div
@@ -185,23 +293,17 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                   hidden: { height: 0, x: "-100%" },
                   visible: { height: "50px", x: 0 },
                 }}
-                initial={"hidden"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-              >
-                <TextField fullWidth variant="standard" label="Date of birth" />
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={"hidden"}
+                initial={signIn ? "hidden" : "visible"}
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
               >
-                <TextField fullWidth variant="standard" label="Phone number" />
+                <TextField
+                  onChange={handleChange("lastName")}
+                  value={signUpData.lastName}
+                  fullWidth
+                  variant="standard"
+                  label="Last Name"
+                />
               </motion.div>
               <motion.div
                 style={{ width: "100%" }}
@@ -209,11 +311,35 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                   hidden: { height: 0, x: "-100%" },
                   visible: { height: "50px", x: 0 },
                 }}
-                initial={"hidden"}
+                initial={signIn ? "hidden" : "visible"}
+                animate={confirmPasswordControl}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+              >
+                <TextField
+                  onChange={handleChange("phoneNumber")}
+                  value={signUpData.phoneNumber}
+                  fullWidth
+                  variant="standard"
+                  label="Phone number"
+                />
+              </motion.div>
+              <motion.div
+                style={{ width: "100%" }}
+                variants={{
+                  hidden: { height: 0, x: "-100%" },
+                  visible: { height: "50px", x: 0 },
+                }}
+                initial={signIn ? "hidden" : "visible"}
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
               >
-                <TextField fullWidth variant="standard" label="Email" />
+                <TextField
+                  onChange={handleChange("email")}
+                  value={signUpData.email}
+                  fullWidth
+                  variant="standard"
+                  label="Email"
+                />
               </motion.div>
               <motion.div
                 style={{ width: "100%" }}
@@ -221,11 +347,17 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                   hidden: { height: 0, x: "-100%" },
                   visible: { height: "50px", x: 0 },
                 }}
-                initial={"hidden"}
+                initial={signIn ? "hidden" : "visible"}
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.4 }}
               >
-                <TextField fullWidth variant="standard" label="Country" />
+                <TextField
+                  onChange={handleChange("address")}
+                  value={signUpData.address}
+                  fullWidth
+                  variant="standard"
+                  label="Country"
+                />
               </motion.div>
               <motion.div
                 style={{ width: "100%" }}
@@ -233,32 +365,32 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                   hidden: { height: 0, x: "-100%" },
                   visible: { height: "50px", x: 0 },
                 }}
-                initial={"hidden"}
+                initial={signIn ? "hidden" : "visible"}
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.5 }}
               >
-                <FormControl variant="standard" sx={{  width: '100%' }}>
+                <FormControl variant="standard" sx={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-standard-label">
                     Choose category
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    onChange={handleChange("category")}
+                    value={signUpData.category}
                     label="Choose category"
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={'Musician'}>Musician</MenuItem>
-                    <MenuItem value={'Designer'}>Designer</MenuItem>
-                    <MenuItem value={'Painting'}>Painting</MenuItem>
-                    <MenuItem value={'Architecture'}>Architecture</MenuItem>
-                    <MenuItem value={'Drawing'}>Drawing</MenuItem>
-                    <MenuItem value={'Photography'}>Photography</MenuItem>
-                    <MenuItem value={'Dance'}>Dance</MenuItem>
-                    <MenuItem value={'Sculpture'}>Sculpture</MenuItem>
+                    <MenuItem value={"MUSICIAN"}>Musician</MenuItem>
+                    <MenuItem value={"DESIGNER"}>Designer</MenuItem>
+                    <MenuItem value={"PAINTING"}>Painting</MenuItem>
+                    <MenuItem value={"ARCHITECTURE"}>Architecture</MenuItem>
+                    <MenuItem value={"DRAWING"}>Drawing</MenuItem>
+                    <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
+                    <MenuItem value={"DANCE"}>Dance</MenuItem>
+                    <MenuItem value={"SCULPTURE"}>Sculpture</MenuItem>
                   </Select>
                 </FormControl>
               </motion.div>
@@ -268,19 +400,19 @@ const AuthenticationDialog = ({ open, setOpen }) => {
                   hidden: { height: 0, x: "-100%" },
                   visible: { height: "50px", x: 0 },
                 }}
-                initial={"hidden"}
+                initial={signIn ? "hidden" : "visible"}
                 animate={confirmPasswordControl}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.6 }}
               >
-               <FormControl variant="standard" sx={{  width: '100%' }}>
+                <FormControl variant="standard" sx={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-standard-label">
                     Are you a student ?
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={student}
-                    onChange={(e) => setStudent(e.target.value)}
+                    onChange={handleChange("description")}
+                    value={signUpData.description}
                     label="Are you a student ?"
                   >
                     <MenuItem value={true}>Yes</MenuItem>
@@ -296,17 +428,22 @@ const AuthenticationDialog = ({ open, setOpen }) => {
             hidden: { x: "150%", display: "none" },
             visible: { x: 0, display: "inline-block" },
           }}
-          initial="visible"
+          initial={signIn ? "visible" : "hidden"}
           animate={signUpButtonGroupControls}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <Stack
             direction={"row"}
-            sx={{ m: 3 }}
+            sx={{ mt: 3, p: 0 }}
             spacing={2}
             alignItems={"center"}
           >
-            <Button style={buttonStyles} onClick={handleClose}>
+            <Button
+              style={buttonStyles}
+              onClick={() => {
+                postRequest(signInData);
+              }}
+            >
               <Typography style={buttonTextStyles}>Log In</Typography>
             </Button>
             <Typography style={buttonTextStyles}>
@@ -331,17 +468,22 @@ const AuthenticationDialog = ({ open, setOpen }) => {
             hidden: { x: "-150%", display: "none" },
             visible: { x: 0, display: "inline-block" },
           }}
-          initial="hidden"
+          initial={signIn ? "hidden" : "visible"}
           animate={signInButtonGroupControls}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <Stack
             direction={"row"}
-            sx={{ m: 3 }}
+            sx={{ mt: 3, p: 0 }}
             spacing={2}
             alignItems={"center"}
           >
-            <Button style={buttonStyles} onClick={handleClose}>
+            <Button
+              style={buttonStyles}
+              onClick={() => {
+                postRequest(signUpData);
+              }}
+            >
               <Typography style={buttonTextStyles}>Sign Up</Typography>
             </Button>
             <Typography style={buttonTextStyles}>

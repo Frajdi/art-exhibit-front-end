@@ -138,7 +138,7 @@ const AppBarMenu = () => {
           </Toolbar>
         </motion.nav>
       </Stack>
-      <AuthenticationDialog open={open} setOpen={setOpen} />
+      <AuthenticationDialog open={open} setOpen={setOpen} isSignIn={true} />
     </>
   );
 };

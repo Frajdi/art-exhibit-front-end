@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import ImageGroup from "./ImageGroup";
 import TextAnimation from "../../../animationUtils/TextAnimation";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import AuthenticationDialog from "../AuthenticationDialog";
 
 const titleStyles = {
   textDecoration: "none",
@@ -37,6 +38,11 @@ const buttonTextStyles = {
 };
 
 const HeaderSection = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
   return (
     <Grid container padding={"4rem 8rem"}>
       <Grid item xs={6}>
@@ -60,7 +66,7 @@ const HeaderSection = () => {
               Manage and grow your art business
             </Typography>
           </TextAnimation>
-          <Button style={buttonStyles}>
+          <Button style={buttonStyles} onClick={handleClickOpen}>
             <TextAnimation color={"#FFFFFF"}>
               <Typography style={buttonTextStyles}>Get Started</Typography>
             </TextAnimation>
@@ -70,6 +76,7 @@ const HeaderSection = () => {
       <Grid item xs={6}>
         <ImageGroup />
       </Grid>
+      <AuthenticationDialog open={open} setOpen={setOpen} isSignIn={false} />
     </Grid>
   );
 };
