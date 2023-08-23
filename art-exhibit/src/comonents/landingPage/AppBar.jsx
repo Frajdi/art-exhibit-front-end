@@ -139,7 +139,7 @@ const AppBarMenu = () => {
                   Artists
                 </Typography>
                 <Typography component="a" href="/" sx={menuOptionsStyles}>
-                  Catgeory
+                Category
                 </Typography>
                 <Typography component="a" href="/" sx={menuOptionsStyles}>
                   Community

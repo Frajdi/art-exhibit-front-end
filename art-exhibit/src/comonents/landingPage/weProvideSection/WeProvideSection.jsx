@@ -3,10 +3,7 @@ import Card from "./Card";
 import Grid from "@mui/material/Grid";
 import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
 import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
-import TranslateOutlinedIcon from '@mui/icons-material/TranslateOutlined';
-import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
-import PowerOutlinedIcon from '@mui/icons-material/PowerOutlined';
-import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
+import CollectionsIcon from '@mui/icons-material/Collections';
 
 const sectionData = [
     {
@@ -16,23 +13,13 @@ const sectionData = [
     },
     {
         title: "Quick and responsive",
-        subtitle: "Our templates are automatically built to be fully responsive on all devices.",
+        subtitle: "Our templates are automatically built on to be fully responsive.",
         icon: DevicesOutlinedIcon
     },
     {
-        title: "Multiple languages",
-        subtitle: "Increase your global reach with easy multi-language management.",
-        icon: TranslateOutlinedIcon
-    },
-    {
-        title: "Online Viewing Rooms",
-        subtitle: "Create time-sensitive online exhibitions and collect invaluable collector data.",
-        icon: MeetingRoomOutlinedIcon
-    },
-    {
-        title: "Platform integration",
-        subtitle: "Build pages, track enquiries and online sales, all within a few clicks.",
-        icon: PowerOutlinedIcon
+        title: "Online Art Collection",
+        subtitle: "Create online collections of best artworks on the platform.",
+        icon: CollectionsIcon
     },
     {
         title: "Advanced SEO tools",
@@ -45,7 +32,7 @@ const WeProvideSection = () => {
   return (
     <Grid spacing={10} container>
     {sectionData.map(item => {
-        return <Grid key={item.title} item xs={4}>
+        return <Grid key={item.title} item xs={6}>
         <Card
           title={item.title}
           subtitle={item.subtitle}

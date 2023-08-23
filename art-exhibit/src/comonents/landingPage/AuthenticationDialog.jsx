@@ -75,8 +75,6 @@ const AuthenticationDialog = () => {
   const [signIn, setSignIn] = useState(isLogIn);
   const [profilePictureHovered, setProfilePictureHovered] = useState(false);
 
-  
-
   //   Data States
   const [signUpData, setSignUpData] = useState({
     address: "",
@@ -400,14 +398,22 @@ const AuthenticationDialog = () => {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={"MUSICIAN"}>Musician</MenuItem>
-                    <MenuItem value={"DESIGNER"}>Designer</MenuItem>
-                    <MenuItem value={"PAINTING"}>Painting</MenuItem>
                     <MenuItem value={"ARCHITECTURE"}>Architecture</MenuItem>
-                    <MenuItem value={"DRAWING"}>Drawing</MenuItem>
-                    <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
+                    <MenuItem value={"CALLIGRAPHY"}>Calligraphy</MenuItem>
+                    <MenuItem value={"CINEMATOGRAPHY"}>Cinematography</MenuItem>
                     <MenuItem value={"DANCE"}>Dance</MenuItem>
+                    <MenuItem value={"DESIGNER"}>Designer</MenuItem>
+                    <MenuItem value={"DRAWING"}>Drawing</MenuItem>
+                    <MenuItem value={"FILM"}>Film</MenuItem>
+                    <MenuItem value={"MUSIC"}>Music</MenuItem>
+                    <MenuItem value={"PAINTING"}>Painting</MenuItem>
+                    <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
                     <MenuItem value={"SCULPTURE"}>Sculpture</MenuItem>
+                    <MenuItem value={"PERFORMING"}>Performing</MenuItem>
+                    <MenuItem value={"ARTS"}>Arts</MenuItem>
+                    <MenuItem value={"POTTERY"}>Pottery</MenuItem>
+                    <MenuItem value={"PRINTMAKING"}>Printmaking</MenuItem>
+                    <MenuItem value={"WRITING"}>Writing</MenuItem>
                   </Select>
                 </FormControl>
               </motion.div>

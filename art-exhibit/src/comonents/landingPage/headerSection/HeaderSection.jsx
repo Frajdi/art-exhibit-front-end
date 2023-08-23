@@ -50,7 +50,7 @@ const HeaderSection = () => {
   return (
     <Grid container padding={"4rem 8rem"}>
       <Grid item xs={6}>
-        <Stack spacing={5} direction={"column"} width={"85%"}>
+        <Stack spacing={5} direction={"column"} width={"85%"} height={'100%'} justifyContent={'center'}>
           <Stack>
             <TextAnimation color={"#C786FF"}>
               <Typography style={titleStyles}>Where creativity</Typography>
@@ -65,11 +65,6 @@ const HeaderSection = () => {
               <Typography style={titleStyles}>tells a story</Typography>
             </TextAnimation>
           </Stack>
-          <TextAnimation color="#C786FF">
-            <Typography style={subtitleStyles}>
-              Manage and grow your art business
-            </Typography>
-          </TextAnimation>
           <Button style={buttonStyles} onClick={handleClickOpen}>
             <TextAnimation color={"#FFFFFF"}>
               <Typography style={buttonTextStyles}>Get Started</Typography>

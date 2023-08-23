@@ -6,12 +6,12 @@ import Stack from "@mui/material/Stack";
 import TextAnimation from "../../animationUtils/TextAnimation";
 
 const contentLines = [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet nisl",
-  "luctus, scelerisque mauris ac, commodo turpis. Fusce tincidunt tincidunt",
-  "rhoncus. Nulla dapibus fermentum egestas. Sed congue nisi vitae ornare",
-  "suscipit. Proin non neque a ex iaculis porttitor. Integer tempus mauris augue.",
-  "Sed at rhoncus diam. Quisque sed tellus at est dictum tincidunt. Nulla blandit",
-  "nulla et vestibulum eleifend. Cras ornare dignissim rutrum.",
+  "We place a strong emphasis on design and individuality, offering",
+  "artists like you a canvas to vividly curate your online portfolio.",
+  "Our platform is artist-friendly, ensuring you can seamlessly craft",
+  "bespoke,responsive portfolio pages that truly represent your artistry.",
+  "With no coding required, it's a breeze to assemble a captivating digital",
+  "gallery, showcasing your unique talents and creations to the world.",
 ];
 
 const titleStyles = {
