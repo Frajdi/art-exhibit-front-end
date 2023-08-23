@@ -17,6 +17,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { motion, useAnimation } from "framer-motion";
 import useAuthenticate from "../../commands/authentication";
+import { useArtContext } from "../../state/AppContext";
 
 const dialogStyles = {
   "& .MuiDialog-paper": {
@@ -59,18 +60,30 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
+const AuthenticationDialog = () => {
+  const {
+    setProfilePicture,
+    setUsername,
+    setAuthToken,
+    authDialogOpen,
+    setAuthDialogOpen,
+    isLogIn,
+  } = useArtContext();
+
   //   UI States
   const [replay, setReplay] = useState(true);
-  const [signIn, setSignIn] = useState(isSignIn);
+  const [signIn, setSignIn] = useState(isLogIn);
   const [profilePictureHovered, setProfilePictureHovered] = useState(false);
+
+  
 
   //   Data States
   const [signUpData, setSignUpData] = useState({
     address: "",
     category: "",
-    description: "",
+    student: "",
     email: "",
+    files: [{}],
     firstName: "",
     lastName: "",
     password: "",
@@ -78,24 +91,32 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
     profileImage: "",
     username: "",
   });
+
   const [signInData, setSignInData] = useState({
     password: "",
     username: "",
   });
 
-//   const [base64Image, setBase64Image] = useState(null);
+  //custom hooks for authentication
 
-//   const handleFileChange = (event) => {
-//     const file = event.target.files[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.readAsDataURL(file);
-//       reader.onload = () => {
-//         // The result contains the base64 representation of the image
-//         setBase64Image(reader.result);
-//       };
-//     }
-//   };
+  const { data, error, isLoading, postRequest } = useAuthenticate(
+    signIn ? "login" : "signup"
+  );
+
+  //hooks for animation
+
+  const signUpButtonGroupControls = useAnimation();
+  const signInButtonGroupControls = useAnimation();
+  const confirmPasswordControl = useAnimation();
+
+  useEffect(() => {
+    const accessToken = data?.access_token;
+    if (accessToken) {
+      setProfilePicture(`data:image/png;base64,${data.profileImage}`);
+      setUsername(data.username);
+      setAuthToken(accessToken);
+    }
+  }, [data]);
 
   const handleAvatarClick = () => {
     // Trigger the hidden file input when the avatar is clicked
@@ -118,33 +139,23 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
           reader.onload = () => {
             // The result contains the base64 representation of the image
             setSignUpData((prev) => {
-                const newData = { ...prev };
-                console.log()
-                newData[field] = reader.result;
-                return newData;
-              });
+              const newData = { ...prev };
+              const fullBase64img = reader.result;
+              const base64Image = fullBase64img.split(",")[1];
+              newData[field] = base64Image;
+              return newData;
+            });
           };
         }
-      }else{
-          setSignUpData((prev) => {
-            const newData = { ...prev };
-            newData[field] = e.target.value;
-            return newData;
-          });
+      } else {
+        setSignUpData((prev) => {
+          const newData = { ...prev };
+          newData[field] = e.target.value;
+          return newData;
+        });
       }
     }
   };
-
-  const { data, error, isLoading, postRequest } = useAuthenticate(
-    signIn ? "login" : "signup"
-  );
-  useEffect(() => {
-    console.log({ signUpData });
-  }, [signUpData]);
-
-  const signUpButtonGroupControls = useAnimation();
-  const signInButtonGroupControls = useAnimation();
-  const confirmPasswordControl = useAnimation();
 
   const handleReplay = () => {
     setReplay(!replay);
@@ -163,8 +174,12 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
     }, 600);
   };
 
+  useEffect(() => {
+    handleReplay()
+  },[isLogIn])
+
   const handleClose = () => {
-    setOpen(false);
+    setAuthDialogOpen(false);
   };
 
   const container = {
@@ -175,10 +190,12 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
     },
   };
 
+  useEffect(() => handleReplay(), []);
+
   return (
     <div>
       <Dialog
-        open={open}
+        open={authDialogOpen}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
@@ -216,35 +233,35 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
               animate={confirmPasswordControl}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
             >
-              <div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleChange('profileImage')}
-                  style={{ display: "none" }}
-                  id="fileInput"
-                />
-                <Avatar
-                  sx={{
-                    bgcolor: "#C786FF",
-                    width: 56,
-                    height: 56,
-                    cursor: "pointer",
-                  }}
-                  onClick={handleAvatarClick}
-                  onMouseEnter={() => setProfilePictureHovered(true)}
-                  onMouseLeave={() => setProfilePictureHovered(false)}
-                >
-                  {profilePictureHovered ? (
-                    <FileUploadIcon />
-                  ) : signUpData.profileImage ? (
-                    <img style={{objectFit: 'cover', width: 56,
-                    height: 56}} src={signUpData.profileImage} />
-                  ) : (
-                    <PersonAddAltIcon />
-                  )}
-                </Avatar>
-              </div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleChange("profileImage")}
+                style={{ display: "none" }}
+                id="fileInput"
+              />
+              <Avatar
+                sx={{
+                  bgcolor: "#C786FF",
+                  width: 56,
+                  height: 56,
+                  cursor: "pointer",
+                }}
+                onClick={handleAvatarClick}
+                onMouseEnter={() => setProfilePictureHovered(true)}
+                onMouseLeave={() => setProfilePictureHovered(false)}
+              >
+                {profilePictureHovered ? (
+                  <FileUploadIcon />
+                ) : signUpData.profileImage ? (
+                  <img
+                    style={{ objectFit: "cover", width: 56, height: 56 }}
+                    src={`data:image/png;base64,${signUpData.profileImage}`}
+                  />
+                ) : (
+                  <PersonAddAltIcon />
+                )}
+              </Avatar>
             </motion.div>
             <TextField
               variant="standard"
@@ -411,8 +428,8 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    onChange={handleChange("description")}
-                    value={signUpData.description}
+                    onChange={handleChange("student")}
+                    value={signUpData.student}
                     label="Are you a student ?"
                   >
                     <MenuItem value={true}>Yes</MenuItem>
@@ -442,6 +459,7 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
               style={buttonStyles}
               onClick={() => {
                 postRequest(signInData);
+                handleClose();
               }}
             >
               <Typography style={buttonTextStyles}>Log In</Typography>
@@ -482,6 +500,7 @@ const AuthenticationDialog = ({ open, setOpen, isSignIn }) => {
               style={buttonStyles}
               onClick={() => {
                 postRequest(signUpData);
+                handleReplay();
               }}
             >
               <Typography style={buttonTextStyles}>Sign Up</Typography>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -8,8 +8,11 @@ import {
   useMotionValueEvent,
   useScroll,
   useAnimation,
+  AnimatePresence,
 } from "framer-motion";
 import AuthenticationDialog from "./AuthenticationDialog";
+import { useArtContext } from "../../state/AppContext";
+import { Avatar } from "@mui/material";
 
 const logoTitleStyles = {
   display: { xs: "none", md: "flex" },
@@ -36,6 +39,7 @@ const buttonStyles = {
   borderRadius: "50px",
   padding: "10px 20px",
   textTransform: "none",
+  height: "100%",
 };
 
 const navBarStyles = {
@@ -48,11 +52,16 @@ const navBarStyles = {
 };
 
 const AppBarMenu = () => {
-  const [open, setOpen] = useState(false);
+  const [logedIn, setLogedIn] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const {
+    profilePicture,
+    username,
+    authToken,
+    setAuthDialogOpen,
+    authDialogOpen,
+    isLogIn,
+  } = useArtContext();
 
   const { scrollY } = useScroll();
 
@@ -69,6 +78,15 @@ const AppBarMenu = () => {
     }
   });
 
+  useEffect(() => {
+    if (profilePicture && username && authToken) {
+      setLogedIn(true);
+    }
+  }, [profilePicture, username, authToken]);
+
+  const handleClickOpen = () => {
+    setAuthDialogOpen(true);
+  };
   return (
     <>
       <Stack direction={"row"} justifyContent={"center"} sx={{ mt: 2 }}>
@@ -93,6 +111,7 @@ const AppBarMenu = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 width: "83%",
+                alignItems: "center",
               }}
               variants={{
                 top: { width: "83%", padding: "1rem 6.5rem", margin: 0 },
@@ -129,16 +148,70 @@ const AppBarMenu = () => {
                   Portofolio
                 </Typography>
               </Stack>
-              <Button style={buttonStyles} onClick={handleClickOpen}>
-                <Typography sx={{ ...menuOptionsStyles, lineHeight: "20px" }}>
-                  Log In
-                </Typography>
-              </Button>
+              <AnimatePresence mode="wait">
+                {logedIn ? (
+                  <motion.div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      width: "17%",
+                      borderRadius: "50px",
+                      boxShadow:
+                        "0px 0px 73px 20px rgba(199,134,255,0.57) inset",
+                    }}
+                    key="logedIn"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Typography
+                      style={{ ...menuOptionsStyles, marginLeft: "10%" }}
+                    >
+                      {username}
+                    </Typography>
+                    <Avatar
+                      sx={{
+                        bgcolor: "#C786FF",
+                        width: 56,
+                        height: 56,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {profilePicture.length < 100 ? (
+                        username.charAt(0)
+                      ) : (
+                        <img
+                          style={{ objectFit: "cover", width: 56, height: 56 }}
+                          src={profilePicture}
+                        />
+                      )}
+                    </Avatar>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="logedOut"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Button style={buttonStyles} onClick={handleClickOpen}>
+                      <Typography
+                        sx={{ ...menuOptionsStyles, lineHeight: "20px" }}
+                      >
+                        Log In
+                      </Typography>
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </Toolbar>
         </motion.nav>
       </Stack>
-      <AuthenticationDialog open={open} setOpen={setOpen} isSignIn={true} />
+      <AuthenticationDialog/>
     </>
   );
 };

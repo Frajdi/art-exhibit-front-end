@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import AuthenticationDialog from "../AuthenticationDialog";
+import { useArtContext } from "../../../state/AppContext";
 
 const titleStyles = {
   textDecoration: "none",
@@ -38,10 +38,14 @@ const buttonTextStyles = {
 };
 
 const HeaderSection = () => {
-  const [open, setOpen] = useState(false);
+  const {
+    setAuthDialogOpen,
+    setIsLogIn
+  } = useArtContext();
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setIsLogIn(false)
+    setAuthDialogOpen(true);
   };
   return (
     <Grid container padding={"4rem 8rem"}>
@@ -76,7 +80,6 @@ const HeaderSection = () => {
       <Grid item xs={6}>
         <ImageGroup />
       </Grid>
-      <AuthenticationDialog open={open} setOpen={setOpen} isSignIn={false} />
     </Grid>
   );
 };

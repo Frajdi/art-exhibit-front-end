@@ -7,6 +7,7 @@ const useAuthenticate = (context) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const postRequest = async (postData) => {
+    console.log({postData})
     setIsLoading(true);
     try {
       const response = await axios.post(`http://localhost:8080/auth/${context}`, postData);
