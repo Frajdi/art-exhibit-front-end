@@ -7,14 +7,13 @@ const useAuthenticate = (context) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const postRequest = async (postData) => {
-    console.log({postData})
     setIsLoading(true);
     try {
       const response = await axios.post(`http://localhost:8080/auth/${context}`, postData);
       setData(response.data);
       setError(null);
     } catch (err) {
-      setError(err);
+      setError(err.response.data.details);
       setData(null);
     }
     setIsLoading(false);

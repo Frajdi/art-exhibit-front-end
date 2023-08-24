@@ -13,6 +13,7 @@ import {
 import AuthenticationDialog from "./AuthenticationDialog";
 import { useArtContext } from "../../state/AppContext";
 import { Avatar } from "@mui/material";
+import NotificationToaster from "./NotificationToaster";
 
 const logoTitleStyles = {
   display: { xs: "none", md: "flex" },
@@ -59,8 +60,8 @@ const AppBarMenu = () => {
     username,
     authToken,
     setAuthDialogOpen,
-    authDialogOpen,
-    isLogIn,
+    authError,
+    setAuthError,
   } = useArtContext();
 
   const { scrollY } = useScroll();
@@ -87,8 +88,25 @@ const AppBarMenu = () => {
   const handleClickOpen = () => {
     setAuthDialogOpen(true);
   };
+
+  useEffect(() => {
+    console.log(authError);
+  }, [authError])
+
+  const removeNotification = () => {
+    setAuthError(null);
+  };
   return (
     <>
+      {authError && (
+        <AnimatePresence>
+        <NotificationToaster
+          removeNotif={removeNotification}
+          key={Date.now()}
+          text={authError}
+        />
+        </AnimatePresence>
+      )}
       <Stack direction={"row"} justifyContent={"center"} sx={{ mt: 2 }}>
         <motion.nav
           style={navBarStyles}
@@ -139,7 +157,7 @@ const AppBarMenu = () => {
                   Artists
                 </Typography>
                 <Typography component="a" href="/" sx={menuOptionsStyles}>
-                Category
+                  Category
                 </Typography>
                 <Typography component="a" href="/" sx={menuOptionsStyles}>
                   Community
@@ -211,7 +229,7 @@ const AppBarMenu = () => {
           </Toolbar>
         </motion.nav>
       </Stack>
-      <AuthenticationDialog/>
+      <AuthenticationDialog />
     </>
   );
 };

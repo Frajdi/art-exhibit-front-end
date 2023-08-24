@@ -68,6 +68,7 @@ const AuthenticationDialog = () => {
     authDialogOpen,
     setAuthDialogOpen,
     isLogIn,
+    setAuthError,
   } = useArtContext();
 
   //   UI States
@@ -101,11 +102,12 @@ const AuthenticationDialog = () => {
     signIn ? "login" : "signup"
   );
 
-  //hooks for animation
-
-  const signUpButtonGroupControls = useAnimation();
-  const signInButtonGroupControls = useAnimation();
-  const confirmPasswordControl = useAnimation();
+  useEffect(() => {
+    if(isLoading === false && error){
+      console.log(error);
+      setAuthError(error);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     const accessToken = data?.access_token;
@@ -115,6 +117,18 @@ const AuthenticationDialog = () => {
       setAuthToken(accessToken);
     }
   }, [data]);
+
+  useEffect(() => {
+    handleReplay();
+  }, [isLogIn]);
+
+  useEffect(() => handleReplay(), []);
+
+  //hooks for animation
+
+  const signUpButtonGroupControls = useAnimation();
+  const signInButtonGroupControls = useAnimation();
+  const confirmPasswordControl = useAnimation();
 
   const handleAvatarClick = () => {
     // Trigger the hidden file input when the avatar is clicked
@@ -172,10 +186,6 @@ const AuthenticationDialog = () => {
     }, 600);
   };
 
-  useEffect(() => {
-    handleReplay()
-  },[isLogIn])
-
   const handleClose = () => {
     setAuthDialogOpen(false);
   };
@@ -187,8 +197,6 @@ const AuthenticationDialog = () => {
       },
     },
   };
-
-  useEffect(() => handleReplay(), []);
 
   return (
     <div>

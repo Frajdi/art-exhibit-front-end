@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Create the CartContext
 const AppContext = createContext();
@@ -11,6 +11,11 @@ const withContext = (Component) => (props) => {
   const [authToken, setAuthToken] = useState(null);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [isLogIn, setIsLogIn] = useState(true);
+  const [authError, setAuthError] = useState(null);
+
+  useEffect(() => {
+    console.log({authError})
+  },[authError])
 
 
   return (
@@ -21,11 +26,13 @@ const withContext = (Component) => (props) => {
         authToken,
         authDialogOpen,
         isLogIn,
+        authError,
         setProfilePicture,
         setUsername,
         setAuthToken,
         setAuthDialogOpen,
-        setIsLogIn
+        setIsLogIn,
+        setAuthError
       }}
     >
       <Component {...props} />

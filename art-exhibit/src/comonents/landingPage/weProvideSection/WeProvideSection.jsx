@@ -3,6 +3,7 @@ import Card from "./Card";
 import Grid from "@mui/material/Grid";
 import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
 import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
+import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
 import CollectionsIcon from '@mui/icons-material/Collections';
 
 const sectionData = [
