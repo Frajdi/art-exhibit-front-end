@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -143,19 +144,21 @@ const AppBarMenu = () => {
               animate={contentControls}
               transition={{ duration: 0.5 }}
             >
+            <Link style={{textDecoration: 'none'}} to={'/'}>
               <Typography
                 variant="h6"
                 noWrap
-                component="a"
-                href="/"
                 sx={logoTitleStyles}
               >
                 ArtExhibit
               </Typography>
+              </Link>
               <Stack direction={"row"} spacing={6}>
-                <Typography component="a" href="/" sx={menuOptionsStyles}>
+              <Link to={'/artists'} style={{textDecoration: 'none'}}>
+                <Typography  sx={menuOptionsStyles}>
                   Artists
                 </Typography>
+                </Link>
                 <Typography component="a" href="/" sx={menuOptionsStyles}>
                   Category
                 </Typography>
