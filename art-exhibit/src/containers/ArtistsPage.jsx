@@ -1,36 +1,63 @@
 import React from "react";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import Grid from "@mui/material/Grid";
+import Footer from "../comonents/landingPage/Footer";
+import TextAnimation from "../animationUtils/TextAnimation";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import ArtistsSearchGrid from "../comonents/artistsPage/ArtistsSearchGrid";
 
-import { motion } from "framer-motion";
 const ArtistsPage = () => {
+  const signitureStyles = {
+    textDecoration: "none",
+    color: "#222222",
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 700,
+    fontSize: "20px",
+    lineHeight: "30px",
+    opacity: 0.5,
+  };
+
+  const signitureNameStyles = {
+    ...signitureStyles,
+    opacity: 1,
+  };
+
   return (
-    <motion.div
-    style={{height: '100vh', width: '100vw'}}
-      initial={{
-        opacity: 0,
-        clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
-      }}
-      animate={{
-        opacity: 1,
-        clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
-      }}
-      exit={{
-        clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
-        // opacity: 0
-      }}
-      transition={{ duration: 2 }}
-    >
-      <Grid container sx={{ backgroundColor: "#F5E9FF" }}>
-        <Grid item xs={12}>
-          <AppBarMenu />
-        </Grid>
-        <Grid item xs={12}>
-        <div>ARTISTSS</div>
-        </Grid>
-       
+    <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
+      <Grid item xs={12}>
+        <AppBarMenu color="#FFFFFF" />
       </Grid>
-    </motion.div>
+      <Grid item xs={12} padding={"8rem 8rem 0 8rem"}>
+        <ArtistsSearchGrid />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        padding={"4rem 8rem 0 8rem"}
+        sx={{ backgroundColor: "#FFFFFF" }}
+      >
+        <Footer />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        padding={"3rem 8rem 4rem 8rem"}
+        sx={{ backgroundColor: "#FFFFFF" }}
+      >
+        <Stack alignItems={"center"}>
+          <TextAnimation color={"#c786ff"}>
+            <Typography style={signitureStyles}>
+              Created by{" "}
+              <Typography component="span" style={signitureNameStyles}>
+                Denisa
+              </Typography>{" "}
+              | All Right Reserved!
+            </Typography>
+          </TextAnimation>
+        </Stack>
+      </Grid>
+    </Grid>
   );
 };
 

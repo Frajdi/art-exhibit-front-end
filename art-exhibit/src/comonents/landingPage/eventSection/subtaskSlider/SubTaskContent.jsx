@@ -7,7 +7,6 @@ import TextUnderlines from "./components/textSubComponents/TextUnderlines";
 
 const titleStyles = {
   textDecoration: "none",
-  color: "#222222",
   fontFamily: "Poppins, sans-serif",
   fontWeight: 700,
   fontSize: "25px",

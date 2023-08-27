@@ -16,44 +16,50 @@ import { useArtContext } from "../../state/AppContext";
 import { Avatar } from "@mui/material";
 import NotificationToaster from "./NotificationToaster";
 
-const logoTitleStyles = {
-  display: { xs: "none", md: "flex" },
-  fontWeight: 700,
-  fontFamily: "Poppins, sans-serif",
-  fontSize: "25px",
-  lineHeight: "50px",
-  textDecoration: "none",
-  color: "#C882FF",
-};
 
-const menuOptionsStyles = {
-  textDecoration: "none",
-  color: "#222222",
-  fontFamily: "Poppins, sans-serif",
-  fontWeight: 500,
-  fontSize: "20px",
-  lineHeight: "50px",
-};
 
-const buttonStyles = {
-  backgroundColor: "#C786FF",
-  color: "black",
-  borderRadius: "50px",
-  padding: "10px 20px",
-  textTransform: "none",
-  height: "100%",
-};
+const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
 
-const navBarStyles = {
-  boxShadow: 0,
-  backgroundColor: "rgba(245,233,255, 0.7)",
-  backdropFilter: " blur( 10px )",
-  position: "fixed",
-  width: "100%",
-  zIndex: 10,
-};
 
-const AppBarMenu = () => {
+  const logoTitleStyles = {
+    display: { xs: "none", md: "flex" },
+    fontWeight: 700,
+    fontFamily: "Poppins, sans-serif",
+    fontSize: "25px",
+    lineHeight: "50px",
+    textDecoration: "none",
+    color: "#C882FF",
+  };
+  
+  const menuOptionsStyles = {
+    textDecoration: "none",
+    color: "#222222",
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 500,
+    fontSize: "20px",
+    lineHeight: "50px",
+  };
+  
+  const buttonStyles = {
+    backgroundColor: "#C786FF",
+    color: "black",
+    borderRadius: "50px",
+    padding: "10px 20px",
+    textTransform: "none",
+    height: "100%",
+  };
+  
+  const navBarStyles = {
+    boxShadow: 0,
+    backgroundColor: color,
+    backdropFilter: " blur( 10px )",
+    position: "fixed",
+    width: "100%",
+    zIndex: 10,
+    padding: '0.5rem 1rem'
+  };
+
+
   const [logedIn, setLogedIn] = useState(false);
 
   const {
@@ -124,7 +130,7 @@ const AppBarMenu = () => {
           animate={appBarControls}
           transition={{ duration: 0.5 }}
         >
-          <Toolbar>
+          <Stack direction='row' justifyContent={"center"} width={'100%'} >
             <motion.div
               style={{
                 display: "flex",
@@ -229,7 +235,7 @@ const AppBarMenu = () => {
                 )}
               </AnimatePresence>
             </motion.div>
-          </Toolbar>
+          </Stack>
         </motion.nav>
       </Stack>
       <AuthenticationDialog />
