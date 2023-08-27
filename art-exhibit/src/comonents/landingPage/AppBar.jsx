@@ -118,12 +118,13 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
         <motion.nav
           style={navBarStyles}
           variants={{
-            top: { width: "100%", borderRadius: 0, margin: 0, border: "none" },
+            top: { width: "100%", borderRadius: 0, margin: 0, border: "none", backgroundColor: color },
             middle: {
               width: "60%",
               borderRadius: "50px",
               margin: "0 auto",
               border: "1px solid rgba(255, 255, 255, 0.8)",
+              backgroundColor: 'rgba(245,233,255, 0.7)'
             },
           }}
           initial="top"

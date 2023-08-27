@@ -69,10 +69,10 @@ const cards = [
 
 //STYLES
 const gridStyles = {
-  height: "80%",
+  height: "100%",
   width: "100%",
   display: "grid",
-  placeItems: "flex-start center",
+  placeItems: "center center",
 };
 
 const cardContainerStyles = {
@@ -88,8 +88,9 @@ const cardContainerStyles = {
 
 const cardStyles = {
   position: "relative",
+  top: '6.5rem',
   display: "inline-block",
-  height: "70%",
+  height: "60%",
   width: "20%",
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",

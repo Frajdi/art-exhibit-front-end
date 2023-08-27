@@ -24,8 +24,9 @@ const previewPortofolioStyles = {
   overflow: "hidden",
   backdropFilter: "blur(16px) saturate(180%)",
   WebkitBackdropFilter: "blur(16px) saturate(180%)",
-  background:
-    "radial-gradient(circle 929px at 0.6% 1.3%, #c786ff 0%, #ffbcff 82.6%)",
+  backgroundColor: 'rgba(245,233,255, 0.7)',
+//   background:
+//     "radial-gradient(circle 929px at 0.6% 1.3%, #c786ff 0%, #ffbcff 82.6%)",
   borderRadius: "15px",
   border: "1px solid rgba(255, 255, 255, 0.125)",
   boxShadow: "0 5px 4px rgba(0,0,0,0.25)",
@@ -89,7 +90,7 @@ const ArtistsGrid = ({ artists }) => {
   );
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait">
       {selectedSquare ? (
         <Stack
           component={motion.div}
@@ -100,6 +101,7 @@ const ArtistsGrid = ({ artists }) => {
           style={previewCardStyles}
           direction="row"
           alignItems="flex-end"
+          transition={{duration: 2}}
         >
           <Stack
             direction="column"
@@ -117,11 +119,11 @@ const ArtistsGrid = ({ artists }) => {
           <Stack
             direction="column"
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="flex-end"
             style={previewPortofolioStyles}
           >
             <Typography
-              style={{ ...namePreviewStyles, color: "#FFFFFF", fontSize: '50px', padding: 5 }}
+              style={{ ...namePreviewStyles, color: "#222222", fontSize: '50px', padding: 5, position: 'absolute', top: '1rem' }}
               align="center"
             >
               Portofolios
@@ -143,6 +145,8 @@ const ArtistsGrid = ({ artists }) => {
             alignItems: "center",
             background: "white",
           }}
+          transition={{duration: 2}}
+
         >
           {renderArtists()}
         </motion.div>
