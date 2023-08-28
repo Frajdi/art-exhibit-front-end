@@ -16,11 +16,7 @@ import { useArtContext } from "../../state/AppContext";
 import { Avatar } from "@mui/material";
 import NotificationToaster from "./NotificationToaster";
 
-
-
-const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
-
-
+const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
   const logoTitleStyles = {
     display: { xs: "none", md: "flex" },
     fontWeight: 700,
@@ -30,7 +26,7 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
     textDecoration: "none",
     color: "#C882FF",
   };
-  
+
   const menuOptionsStyles = {
     textDecoration: "none",
     color: "#222222",
@@ -39,7 +35,7 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
     fontSize: "20px",
     lineHeight: "50px",
   };
-  
+
   const buttonStyles = {
     backgroundColor: "#C786FF",
     color: "black",
@@ -48,7 +44,7 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
     textTransform: "none",
     height: "100%",
   };
-  
+
   const navBarStyles = {
     boxShadow: 0,
     backgroundColor: color,
@@ -56,9 +52,8 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
     position: "fixed",
     width: "100%",
     zIndex: 10,
-    padding: '0.5rem 1rem'
+    padding: "0.5rem 1rem",
   };
-
 
   const [logedIn, setLogedIn] = useState(false);
 
@@ -98,7 +93,7 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
 
   useEffect(() => {
     console.log(authError);
-  }, [authError])
+  }, [authError]);
 
   const removeNotification = () => {
     setAuthError(null);
@@ -107,31 +102,37 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
     <>
       {authError && (
         <AnimatePresence>
-        <NotificationToaster
-          removeNotif={removeNotification}
-          key={Date.now()}
-          text={authError}
-        />
+          <NotificationToaster
+            removeNotif={removeNotification}
+            key={Date.now()}
+            text={authError}
+          />
         </AnimatePresence>
       )}
       <Stack direction={"row"} justifyContent={"center"} sx={{ mt: 2 }}>
         <motion.nav
           style={navBarStyles}
           variants={{
-            top: { width: "100%", borderRadius: 0, margin: 0, border: "none", backgroundColor: color },
+            top: {
+              width: "100%",
+              borderRadius: 0,
+              margin: 0,
+              border: "none",
+              backgroundColor: color,
+            },
             middle: {
               width: "60%",
               borderRadius: "50px",
               margin: "0 auto",
               border: "1px solid rgba(255, 255, 255, 0.8)",
-              backgroundColor: 'rgba(245,233,255, 0.7)'
+              backgroundColor: "rgba(245,233,255, 0.7)",
             },
           }}
           initial="top"
           animate={appBarControls}
           transition={{ duration: 0.5 }}
         >
-          <Stack direction='row' justifyContent={"center"} width={'100%'} >
+          <Stack direction="row" justifyContent={"center"} width={"100%"}>
             <motion.div
               style={{
                 display: "flex",
@@ -151,28 +152,24 @@ const AppBarMenu = ({color = 'rgba(245,233,255, 0.7)'}) => {
               animate={contentControls}
               transition={{ duration: 0.5 }}
             >
-            <Link style={{textDecoration: 'none'}} to={'/'}>
-              <Typography
-                variant="h6"
-                noWrap
-                sx={logoTitleStyles}
-              >
-                ArtExhibit
-              </Typography>
+              <Link style={{ textDecoration: "none" }} to={"/"}>
+                <Typography variant="h6" noWrap sx={logoTitleStyles}>
+                  ArtExhibit
+                </Typography>
               </Link>
               <Stack direction={"row"} spacing={6}>
-              <Link to={'/artists'} style={{textDecoration: 'none'}}>
-                <Typography  sx={menuOptionsStyles}>
-                  Artists
-                </Typography>
+                <Link to={"/artists"} style={{ textDecoration: "none" }}>
+                  <Typography sx={menuOptionsStyles}>Artists</Typography>
                 </Link>
-                <Typography component="a" href="/" sx={menuOptionsStyles}>
-                  Category
-                </Typography>
-                <Typography component="a" href="/" sx={menuOptionsStyles}>
+                <Link to={"/category"} style={{ textDecoration: "none" }}>
+                  <Typography sx={menuOptionsStyles}>
+                    Category
+                  </Typography>
+                </Link>
+                <Typography sx={menuOptionsStyles}>
                   Community
                 </Typography>
-                <Typography component="a" href="/" sx={menuOptionsStyles}>
+                <Typography sx={menuOptionsStyles}>
                   Portofolio
                 </Typography>
               </Stack>
