@@ -24,14 +24,13 @@ const previewPortofolioStyles = {
   overflow: "hidden",
   backdropFilter: "blur(16px) saturate(180%)",
   WebkitBackdropFilter: "blur(16px) saturate(180%)",
-  backgroundColor: 'rgba(245,233,255, 0.7)',
-//   background:
-//     "radial-gradient(circle 929px at 0.6% 1.3%, #c786ff 0%, #ffbcff 82.6%)",
+  backgroundColor: "rgba(245,233,255, 0.7)",
+  //   background:
+  //     "radial-gradient(circle 929px at 0.6% 1.3%, #c786ff 0%, #ffbcff 82.6%)",
   borderRadius: "15px",
   border: "1px solid rgba(255, 255, 255, 0.125)",
   boxShadow: "0 5px 4px rgba(0,0,0,0.25)",
 };
-
 
 const namePreviewStyles = {
   color: "#222222",
@@ -65,7 +64,7 @@ const squareVariants = {
   },
 };
 
-const ArtistsGrid = ({ artists }) => {
+const ArtistsGrid = ({ artists, scrollTopHeight }) => {
   const [selectedSquare, setSelectedSquare] = useState(null);
 
   const renderArtists = () => (
@@ -74,13 +73,14 @@ const ArtistsGrid = ({ artists }) => {
         {artists.map((artist) => {
           return (
             <Grid item xs={4} key={artist.name}>
-            <Stack alignItems={'center'}>
-              <ArtistCard
-                selectedSquare={selectedSquare}
-                artist={artist}
-                setSelectedSquare={setSelectedSquare}
-                variants={squareVariants}
-              />
+              <Stack alignItems={"center"}>
+                <ArtistCard
+                  selectedSquare={selectedSquare}
+                  artist={artist}
+                  setSelectedSquare={setSelectedSquare}
+                  variants={squareVariants}
+                  scrollTopHeight={scrollTopHeight}
+                />
               </Stack>
             </Grid>
           );
@@ -101,7 +101,7 @@ const ArtistsGrid = ({ artists }) => {
           style={previewCardStyles}
           direction="row"
           alignItems="flex-end"
-          transition={{duration: 2}}
+          transition={{ duration: 2 }}
         >
           <Stack
             direction="column"
@@ -123,7 +123,14 @@ const ArtistsGrid = ({ artists }) => {
             style={previewPortofolioStyles}
           >
             <Typography
-              style={{ ...namePreviewStyles, color: "#222222", fontSize: '50px', padding: 5, position: 'absolute', top: '1rem' }}
+              style={{
+                ...namePreviewStyles,
+                color: "#222222",
+                fontSize: "50px",
+                padding: 5,
+                position: "absolute",
+                top: "1rem",
+              }}
               align="center"
             >
               Portofolios
@@ -145,8 +152,7 @@ const ArtistsGrid = ({ artists }) => {
             alignItems: "center",
             background: "white",
           }}
-          transition={{duration: 2}}
-
+          transition={{ duration: 2 }}
         >
           {renderArtists()}
         </motion.div>

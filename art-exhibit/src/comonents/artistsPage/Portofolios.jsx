@@ -88,7 +88,7 @@ const cardContainerStyles = {
 
 const cardStyles = {
   position: "relative",
-  top: '6.5rem',
+  top: "6.5rem",
   display: "inline-block",
   height: "60%",
   width: "20%",
@@ -193,10 +193,10 @@ const Flashcards = () => {
   }, [containerRef.current]);
 
   useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUpOutsideContainer);
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUpOutsideContainer);
-    };
+      window.addEventListener("mouseup", handleMouseUpOutsideContainer);
+      return () => {
+        window.removeEventListener("mouseup", handleMouseUpOutsideContainer);
+      };
   }, []);
 
   const handleMouseUpOutsideContainer = () => {

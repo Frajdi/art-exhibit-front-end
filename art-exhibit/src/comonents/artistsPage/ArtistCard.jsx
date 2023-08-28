@@ -64,6 +64,7 @@ const ArtistCard = ({
   setSelectedSquare,
   variants,
   selectedSquare,
+  scrollTopHeight
 }) => {
   const { name, bio, profileImage, wallpaperImage } = artist;
   return (
@@ -97,7 +98,7 @@ const ArtistCard = ({
             onClick={() => {
               setSelectedSquare(artist);
               window.scrollTo({
-                top: 20,
+                top: scrollTopHeight,
                 behavior: "smooth", // This provides a smooth scroll animation
               });
             }}

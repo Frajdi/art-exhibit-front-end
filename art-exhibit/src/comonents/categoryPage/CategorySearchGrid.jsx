@@ -106,7 +106,7 @@ const CategorySearchGrid = () => {
   return (
     <Stack direction='column' spacing={3} width={'100%'} alignItems='center'>
       <CategorySearchBar artists={artists} setFilteredArtistsByCategory = {setFilteredArtistsByCategory}/>
-      <ArtistsGrid artists={filteredArtistsByCategory}/>
+      <ArtistsGrid artists={filteredArtistsByCategory} scrollTopHeight={600}/>
     </Stack>
   )
 }

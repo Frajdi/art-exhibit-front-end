@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import Stack from "@mui/material/Stack";
 import SearchBar from "./SearchBar";
 import ArtistsGrid from "./ArtistsGrid";
-import { Stack } from "@mui/material";
 
 const data = [
   {
@@ -92,7 +92,7 @@ const ArtistsSearchGrid = () => {
   return (
     <Stack direction='column' spacing={3} width={'100%'} alignItems='center'>
       <SearchBar artists={artists} setFilteredArtists = {setFilteredArtists} />
-      <ArtistsGrid artists={filteredArtists}/>
+      <ArtistsGrid artists={filteredArtists} scrollTopHeight={20}/>
     </Stack>
   );
 };
