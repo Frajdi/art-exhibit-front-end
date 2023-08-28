@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Toolbar from "@mui/material/Toolbar";
+import { Link, useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -13,7 +12,7 @@ import {
 } from "framer-motion";
 import AuthenticationDialog from "./AuthenticationDialog";
 import { useArtContext } from "../../state/AppContext";
-import { Avatar } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import NotificationToaster from "./NotificationToaster";
 
 const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
@@ -56,6 +55,8 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
   };
 
   const [logedIn, setLogedIn] = useState(false);
+
+  const location = useLocation();
 
   const {
     profilePicture,
@@ -158,20 +159,36 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                 </Typography>
               </Link>
               <Stack direction={"row"} spacing={6}>
-                <Link to={"/artists"} style={{ textDecoration: "none" }}>
+                <Link
+                  to={"/artists"}
+                  style={{
+                    textDecoration: "none",
+                    boxShadow:
+                      location.pathname === "/artists"
+                        ? "0px 0px 73px 20px rgba(199,134,255,0.57) inset"
+                        : "",
+                    borderRadius: "50px",
+                    padding: "0px 20px",
+                  }}
+                >
                   <Typography sx={menuOptionsStyles}>Artists</Typography>
                 </Link>
-                <Link to={"/category"} style={{ textDecoration: "none" }}>
-                  <Typography sx={menuOptionsStyles}>
-                    Category
-                  </Typography>
+                <Link
+                  to={"/category"}
+                  style={{
+                    textDecoration: "none",
+                    boxShadow:
+                      location.pathname === "/category"
+                        ? "0px 0px 73px 20px rgba(199,134,255,0.57) inset"
+                        : "",
+                    borderRadius: "50px",
+                    padding: "0px 20px",
+                  }}
+                >
+                  <Typography sx={menuOptionsStyles}>Category</Typography>
                 </Link>
-                <Typography sx={menuOptionsStyles}>
-                  Community
-                </Typography>
-                <Typography sx={menuOptionsStyles}>
-                  Portofolio
-                </Typography>
+                <Typography sx={menuOptionsStyles}>Community</Typography>
+                <Typography sx={menuOptionsStyles}>Portofolio</Typography>
               </Stack>
               <AnimatePresence mode="wait">
                 {logedIn ? (
