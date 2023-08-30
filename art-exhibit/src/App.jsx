@@ -10,11 +10,13 @@ import ArtistsPage from "./containers/ArtistsPage";
 import CategoryPage from "./containers/CategoryPage";
 import Settings from "./containers/Settings";
 import withRouteAnimation from "./animationUtils/RouteAnimation";
+import CommunityPage from "./containers/CommunityPage";
 
 const AnimatedLandingPage = withRouteAnimation(LandingPage);
 const AnimatedArtistsPage = withRouteAnimation(ArtistsPage);
 const AnimatedCategoryPage = withRouteAnimation(CategoryPage);
 const AnimatedSettings = withRouteAnimation(Settings)
+const AnimatedCommunityPage = withRouteAnimation(CommunityPage)
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -25,6 +27,7 @@ const AnimatedRoutes = () => {
         <Route path="/artists" element={<AnimatedArtistsPage />} />
         <Route path="/category" element={<AnimatedCategoryPage />} />
         <Route path="/settings" element={<AnimatedSettings />} />
+        <Route path="/community" element={<AnimatedCommunityPage />} />
       </Routes>
     </AnimatePresence>
   );

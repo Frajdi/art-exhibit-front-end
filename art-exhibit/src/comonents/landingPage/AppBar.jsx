@@ -195,7 +195,20 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                 >
                   <Typography sx={menuOptionsStyles}>Category</Typography>
                 </Link>
-                <Typography sx={menuOptionsStyles}>Community</Typography>
+                <Link
+                  to={"/community"}
+                  style={{
+                    textDecoration: "none",
+                    boxShadow:
+                      location.pathname === "/category"
+                        ? "0px 0px 73px 20px rgba(199,134,255,0.57) inset"
+                        : "",
+                    borderRadius: "50px",
+                    padding: "0px 20px",
+                  }}
+                >
+                  <Typography sx={menuOptionsStyles}>Community</Typography>
+                </Link>
                 <Typography sx={menuOptionsStyles}>Portfolio</Typography>
               </Stack>
               <AnimatePresence mode="wait">
