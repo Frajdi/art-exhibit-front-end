@@ -151,7 +151,7 @@ const Settings = () => {
             height={"100%"}
             marginBottom={10}
           >
-            <Stack direction="column" alignItems="center" spacing={3}>
+            <Stack direction="column" alignItems="center" spacing={3} height={'60vh'}>
               <Typography style={titleStyles}>Hello there</Typography>
               <Typography style={subtitleStyles}>
                 You need to be loged in to edit account settings
