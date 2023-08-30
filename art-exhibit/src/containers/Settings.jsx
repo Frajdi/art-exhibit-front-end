@@ -172,8 +172,8 @@ const Settings = () => {
               <Typography style={titleStyles}>
                 I'm {userData?.username}
               </Typography>
-              <Typography style={subtitleStyles}>Art seller</Typography>
-              <Stack
+              <Typography style={subtitleStyles}>{userData.category === "ART_COLLECTOR" ? 'Art collector' : 'Art seller' }</Typography>
+              {userData.category !== "ART_COLLECTOR" && <Stack
                 direction="row"
                 spacing={5}
                 justifyContent="center"
@@ -196,7 +196,8 @@ const Settings = () => {
                     Edit portofolio
                   </Typography>
                 </Button>
-              </Stack>
+              </Stack> }
+              
             </Stack>
             <Grid container height={"100%"}>
               <Grid item xs={3}>
