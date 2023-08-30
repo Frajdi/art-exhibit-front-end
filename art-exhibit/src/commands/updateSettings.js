@@ -7,7 +7,6 @@ const useUpdateSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const updateSettings = async (accessToken, requestBody) => {
-    console.log(requestBody);
     setIsLoading(true);
     try {
       const response = await axios.put('http://localhost:8080/artist/update', requestBody, {

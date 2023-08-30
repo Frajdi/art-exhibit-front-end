@@ -97,6 +97,7 @@ const labelStyles = {
 
 const Settings = () => {
   const [userData, setUserData] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const { authToken, authLoading } = useArtContext();
   const { isLoading, data, getRequest } = useGetCurrentUserData();
   const {
@@ -125,7 +126,7 @@ const Settings = () => {
         address: data.address ? data.address : "",
         phoneNumber: data.phoneNumber ? data.phoneNumber : "",
         profileImage: data.profileImage ? data.profileImage : "",
-        password: "frajdimalaj",
+        password: data.password ? data.profileImage : "",
       });
     }
   }, [data]);
@@ -247,6 +248,8 @@ const Settings = () => {
                     <Typography style={labelStyles} align="left">Category:</Typography>
                     <Typography style={labelStyles} align="left">Adress:</Typography>
                     <Typography style={labelStyles} align="left">Date of Birth:</Typography>
+                    <Typography style={labelStyles} align="left">New password:</Typography>
+                    <Typography style={labelStyles} align="left">Confirm new password:</Typography>
                     <Typography style={labelStyles} align="left">Student:</Typography>
                   </Stack>
                   <Stack
@@ -399,6 +402,21 @@ const Settings = () => {
                         });
                       }}
                     />
+                    <input style={{...fieldsStyles, border: confirmPassword === userData.password ? 'none' : '2px solid red'}}
+                    value={userData.password}
+                    type="password"
+                      onChange={(e) => {
+                        setUserData((prev) => {
+                          return { ...prev, password: e.target.value };
+                        });
+                      }}
+                    />
+                    <input style={{...fieldsStyles, border: confirmPassword === userData.password ? 'none' : '2px solid red'}}
+                    type="password"
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                      }}
+                    />
                     <Checkbox
                       checked={userData.student}
                       style={{padding: 0}}
@@ -409,6 +427,7 @@ const Settings = () => {
                       }}
                     />
                     <Button
+                    disabled={confirmPassword !== userData.password }
                     sx={{width: '50%'}}
                       variant="contained"
                       onClick={() => {
