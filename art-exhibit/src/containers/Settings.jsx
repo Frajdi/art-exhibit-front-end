@@ -73,32 +73,30 @@ const generalSettingsTextStyles = {
   color: "#FFFFFF",
 };
 
-
 const fieldsStyles = {
-    height: '30px',
-    width: '374px',
-    background: '#EDF2F9',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '5px 20px',
-    fontFamily: "Poppins, sans-serif",
+  height: "30px",
+  width: "374px",
+  background: "#EDF2F9",
+  border: "none",
+  borderRadius: "5px",
+  padding: "5px 20px",
+  fontFamily: "Poppins, sans-serif",
   fontWeight: 400,
   fontSize: "14px",
-}
+};
 
 const labelStyles = {
-    padding: '5px 10px',
-    fontFamily: "Poppins, sans-serif",
+  padding: "5px 10px",
+  fontFamily: "Poppins, sans-serif",
   fontWeight: 400,
   fontSize: "14px",
-}
-
-
+};
 
 const Settings = () => {
   const [userData, setUserData] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const { authToken, authLoading } = useArtContext();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { authToken, authLoading, setUsername, setProfilePicture } =
+    useArtContext();
   const { isLoading, data, getRequest } = useGetCurrentUserData();
   const {
     isLoading: isUpdateLoading,
@@ -173,32 +171,41 @@ const Settings = () => {
               <Typography style={titleStyles}>
                 I'm {userData?.username}
               </Typography>
-              <Typography style={subtitleStyles}>{userData.category === "ART_COLLECTOR" ? 'Art collector' : 'Art seller' }</Typography>
-              {userData.category !== "ART_COLLECTOR" && <Stack
-                direction="row"
-                spacing={5}
-                justifyContent="center"
-                alignItems="center"
-                height="80px"
-              >
-                <Button
-                  style={{ ...buttonStyles, background: "#7324E8" }}
-                  variant="contained"
+              <Typography style={subtitleStyles}>
+                {userData.category === "ART_COLLECTOR"
+                  ? "Art collector"
+                  : "Art seller"}
+              </Typography>
+              {userData.category !== "ART_COLLECTOR" && (
+                <Stack
+                  direction="row"
+                  spacing={5}
+                  justifyContent="center"
+                  alignItems="center"
+                  height="80px"
                 >
-                  <Typography style={{ ...buttonTextStyles, color: "#FFFFFF" }}>
-                    Create a new portofolio
-                  </Typography>
-                </Button>
-                <Button
-                  style={{ ...buttonStyles, background: "#E7DEEF" }}
-                  variant="contained"
-                >
-                  <Typography style={{ ...buttonTextStyles, color: "#222222" }}>
-                    Edit portofolio
-                  </Typography>
-                </Button>
-              </Stack> }
-              
+                  <Button
+                    style={{ ...buttonStyles, background: "#7324E8" }}
+                    variant="contained"
+                  >
+                    <Typography
+                      style={{ ...buttonTextStyles, color: "#FFFFFF" }}
+                    >
+                      Create a new portofolio
+                    </Typography>
+                  </Button>
+                  <Button
+                    style={{ ...buttonStyles, background: "#E7DEEF" }}
+                    variant="contained"
+                  >
+                    <Typography
+                      style={{ ...buttonTextStyles, color: "#222222" }}
+                    >
+                      Edit portofolio
+                    </Typography>
+                  </Button>
+                </Stack>
+              )}
             </Stack>
             <Grid container height={"100%"}>
               <Grid item xs={3}>
@@ -238,19 +245,45 @@ const Settings = () => {
                     height={"100%"}
                     paddingBottom={3}
                   >
-                    <Typography style={labelStyles} align="left">Profile picture</Typography>
-                    <Typography style={labelStyles} align="left">User Name:</Typography>
-                    <Typography style={labelStyles} align="left">First name:</Typography>
-                    <Typography style={labelStyles} align="left">Last name:</Typography>
-                    <Typography style={labelStyles} align="left">Bio:</Typography>
-                    <Typography style={labelStyles} align="left">Email address:</Typography>
-                    <Typography style={labelStyles} align="left">Phone number:</Typography>
-                    <Typography style={labelStyles} align="left">Category:</Typography>
-                    <Typography style={labelStyles} align="left">Adress:</Typography>
-                    <Typography style={labelStyles} align="left">Date of Birth:</Typography>
-                    <Typography style={labelStyles} align="left">New password:</Typography>
-                    <Typography style={labelStyles} align="left">Confirm new password:</Typography>
-                    <Typography style={labelStyles} align="left">Student:</Typography>
+                    <Typography style={labelStyles} align="left">
+                      Profile picture
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      User Name:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      First name:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Last name:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Bio:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Email address:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Phone number:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Category:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Adress:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Date of Birth:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      New password:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Confirm new password:
+                    </Typography>
+                    <Typography style={labelStyles} align="left">
+                      Student:
+                    </Typography>
                   </Stack>
                   <Stack
                     direction="column"
@@ -305,7 +338,8 @@ const Settings = () => {
                         />
                       )}
                     </Avatar>
-                    <input style={fieldsStyles}
+                    <input
+                      style={fieldsStyles}
                       value={userData?.username}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -313,8 +347,9 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={fieldsStyles}
-                    disabled
+                    <input
+                      style={fieldsStyles}
+                      disabled
                       value={userData?.firstName}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -322,8 +357,9 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={fieldsStyles}
-                    disabled
+                    <input
+                      style={fieldsStyles}
+                      disabled
                       value={userData?.lastName}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -331,7 +367,8 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={fieldsStyles}
+                    <input
+                      style={fieldsStyles}
                       value={userData?.description}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -339,7 +376,8 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={fieldsStyles}
+                    <input
+                      style={fieldsStyles}
                       value={userData?.email}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -347,7 +385,8 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={fieldsStyles}
+                    <input
+                      style={fieldsStyles}
                       value={userData?.phoneNumber}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -355,8 +394,13 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <Select sx={{width: '100%', height: '40px', background: '#EDF2F9'}}
-                    disabled
+                    <Select
+                      sx={{
+                        width: "100%",
+                        height: "40px",
+                        background: "#EDF2F9",
+                      }}
+                      disabled
                       onChange={(e) => {
                         setUserData((prev) => {
                           return { ...prev, category: e.target.value };
@@ -384,7 +428,8 @@ const Settings = () => {
                       <MenuItem value={"PRINTMAKING"}>Printmaking</MenuItem>
                       <MenuItem value={"WRITING"}>Writing</MenuItem>
                     </Select>
-                    <input style={fieldsStyles}
+                    <input
+                      style={fieldsStyles}
                       value={userData?.address}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -392,7 +437,8 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={fieldsStyles}
+                    <input
+                      style={fieldsStyles}
                       type="date"
                       disabled
                       value={userData?.birthOfDate}
@@ -402,24 +448,38 @@ const Settings = () => {
                         });
                       }}
                     />
-                    <input style={{...fieldsStyles, border: confirmPassword === userData.password ? 'none' : '2px solid red'}}
-                    value={userData.password}
-                    type="password"
+                    <input
+                      style={{
+                        ...fieldsStyles,
+                        border:
+                          confirmPassword === userData.password
+                            ? "none"
+                            : "2px solid red",
+                      }}
+                      value={userData.password}
+                      type="password"
                       onChange={(e) => {
                         setUserData((prev) => {
                           return { ...prev, password: e.target.value };
                         });
                       }}
                     />
-                    <input style={{...fieldsStyles, border: confirmPassword === userData.password ? 'none' : '2px solid red'}}
-                    type="password"
+                    <input
+                      style={{
+                        ...fieldsStyles,
+                        border:
+                          confirmPassword === userData.password
+                            ? "none"
+                            : "2px solid red",
+                      }}
+                      type="password"
                       onChange={(e) => {
                         setConfirmPassword(e.target.value);
                       }}
                     />
                     <Checkbox
                       checked={userData.student}
-                      style={{padding: 0}}
+                      style={{ padding: 0 }}
                       onChange={(e) => {
                         setUserData((prev) => {
                           return { ...prev, student: e.target.checked };
@@ -427,8 +487,16 @@ const Settings = () => {
                       }}
                     />
                     <Button
-                    disabled={confirmPassword !== userData.password }
-                    sx={{width: '50%'}}
+                      disabled={
+                        confirmPassword !== userData.password ||
+                        userData.firstName === '' ||
+                        userData.description === '' ||
+                        userData.email === '' ||
+                        userData.phoneNumber === '' ||
+                        userData.address === '' || 
+                        userData.password === ''
+                      }
+                      sx={{ width: "50%" }}
                       variant="contained"
                       onClick={() => {
                         updateSettings(authToken, userData);
