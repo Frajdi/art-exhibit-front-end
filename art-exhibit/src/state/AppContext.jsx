@@ -12,6 +12,7 @@ const withContext = (Component) => (props) => {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [isLogIn, setIsLogIn] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const [authLoading, setAuthLoading] = useState(null);
 
   useEffect(() => {
     console.log({authError})
@@ -27,12 +28,14 @@ const withContext = (Component) => (props) => {
         authDialogOpen,
         isLogIn,
         authError,
+        authLoading,
         setProfilePicture,
         setUsername,
         setAuthToken,
         setAuthDialogOpen,
         setIsLogIn,
-        setAuthError
+        setAuthError,
+        setAuthLoading
       }}
     >
       <Component {...props} />

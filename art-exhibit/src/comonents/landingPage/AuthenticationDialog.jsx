@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import useAuthenticate from "../../commands/authentication";
 import { useArtContext } from "../../state/AppContext";
 
@@ -68,12 +68,13 @@ const AuthenticationDialog = () => {
     authDialogOpen,
     setAuthDialogOpen,
     isLogIn,
+    setAuthLoading,
     setAuthError,
   } = useArtContext();
 
   //   UI States
   const [replay, setReplay] = useState(true);
-  const [signIn, setSignIn] = useState(isLogIn);
+  const [signIn, setSignIn] = useState(false);
   const [profilePictureHovered, setProfilePictureHovered] = useState(false);
 
   //   Data States
@@ -104,7 +105,6 @@ const AuthenticationDialog = () => {
 
   useEffect(() => {
     if(isLoading === false && error){
-      console.log(error);
       setAuthError(error);
     }
   }, [isLoading]);
@@ -113,16 +113,12 @@ const AuthenticationDialog = () => {
     const accessToken = data?.access_token;
     if (accessToken) {
       setProfilePicture(`data:image/png;base64,${data.profileImage}`);
+      setAuthLoading(isLoading)
       setUsername(data.username);
       setAuthToken(accessToken);
     }
   }, [data]);
 
-  useEffect(() => {
-    handleReplay();
-  }, [isLogIn]);
-
-  useEffect(() => handleReplay(), []);
 
   //hooks for animation
 
@@ -181,7 +177,6 @@ const AuthenticationDialog = () => {
       signInButtonGroupControls.start("hidden");
     }
     setTimeout(() => {
-      setSignIn((prev) => !prev);
       setReplay(true);
     }, 600);
   };
@@ -403,9 +398,7 @@ const AuthenticationDialog = () => {
                     value={signUpData.category}
                     label="Choose category"
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
+                    <MenuItem value={"ART_COLLECTOR"}>Art Collector</MenuItem>
                     <MenuItem value={"ARCHITECTURE"}>Architecture</MenuItem>
                     <MenuItem value={"CALLIGRAPHY"}>Calligraphy</MenuItem>
                     <MenuItem value={"CINEMATOGRAPHY"}>Cinematography</MenuItem>
@@ -454,88 +447,96 @@ const AuthenticationDialog = () => {
             </motion.div>
           </Stack>
         </DialogContent>
-        <motion.div
-          variants={{
-            hidden: { x: "150%", display: "none" },
-            visible: { x: 0, display: "inline-block" },
-          }}
-          initial={signIn ? "visible" : "hidden"}
-          animate={signUpButtonGroupControls}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <Stack
-            direction={"row"}
-            sx={{ mt: 3, p: 0 }}
-            spacing={2}
-            alignItems={"center"}
-          >
-            <Button
-              style={buttonStyles}
-              onClick={() => {
-                postRequest(signInData);
-                handleClose();
-              }}
+        <AnimatePresence mode="wait" initial={false}>
+          {signIn ? (
+            <motion.div
+              key={8}
+              layout
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <Typography style={buttonTextStyles}>Log In</Typography>
-            </Button>
-            <Typography style={buttonTextStyles}>
-              Don't have an account
-              <span
-                style={{
-                  ...buttonTextStyles,
-                  color: "#1e12e0",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                }}
-                onClick={() => handleReplay()}
+              <Stack
+                direction={"row"}
+                sx={{ mt: 3, p: 0 }}
+                spacing={2}
+                alignItems={"center"}
               >
-                {" "}
-                Sign Up
-              </span>
-            </Typography>
-          </Stack>
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { x: "-150%", display: "none" },
-            visible: { x: 0, display: "inline-block" },
-          }}
-          initial={signIn ? "hidden" : "visible"}
-          animate={signInButtonGroupControls}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <Stack
-            direction={"row"}
-            sx={{ mt: 3, p: 0 }}
-            spacing={2}
-            alignItems={"center"}
-          >
-            <Button
-              style={buttonStyles}
-              onClick={() => {
-                postRequest(signUpData);
-                handleReplay();
-              }}
+                <Button
+                  style={buttonStyles}
+                  onClick={() => {
+                    postRequest(signInData);
+                    handleClose();
+                  }}
+                >
+                  <Typography style={buttonTextStyles}>Log In</Typography>
+                </Button>
+                <Typography style={buttonTextStyles}>
+                  Don't have an account
+                  <span
+                    style={{
+                      ...buttonTextStyles,
+                      color: "#1e12e0",
+                      cursor: "pointer",
+                      fontWeight: 700,
+                    }}
+                    onClick={() => {
+                      handleReplay();
+                      setSignIn(false);
+                    }}
+                  >
+                    {" "}
+                    Sign Up
+                  </span>
+                </Typography>
+              </Stack>
+            </motion.div>
+          ) : (
+            <motion.div
+            key={9}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <Typography style={buttonTextStyles}>Sign Up</Typography>
-            </Button>
-            <Typography style={buttonTextStyles}>
-              Already have an account
-              <span
-                style={{
-                  ...buttonTextStyles,
-                  color: "#1e12e0",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                }}
-                onClick={() => handleReplay()}
+              <Stack
+                direction={"row"}
+                sx={{ mt: 3, p: 0 }}
+                spacing={2}
+                alignItems={"center"}
               >
-                {" "}
-                Log In
-              </span>
-            </Typography>
-          </Stack>
-        </motion.div>
+                <Button
+                  style={buttonStyles}
+                  onClick={() => {
+                    postRequest(signUpData);
+                    setSignIn(true)
+                  }}
+                >
+                  <Typography style={buttonTextStyles}>Sign Up</Typography>
+                </Button>
+                <Typography style={buttonTextStyles}>
+                  Already have an account
+                  <span
+                    style={{
+                      ...buttonTextStyles,
+                      color: "#1e12e0",
+                      cursor: "pointer",
+                      fontWeight: 700,
+                    }}
+                    onClick={() => {
+                      handleReplay();
+                      setSignIn(true);
+                    }}
+                  >
+                    {" "}
+                    Log In
+                  </span>
+                </Typography>
+              </Stack>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Dialog>
     </div>
   );

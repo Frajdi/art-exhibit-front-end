@@ -122,7 +122,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
               backgroundColor: color,
             },
             middle: {
-              width: "60%",
+              width: "70%",
               borderRadius: "50px",
               margin: "0 auto",
               border: "1px solid rgba(255, 255, 255, 0.8)",
@@ -154,9 +154,17 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
               transition={{ duration: 0.5 }}
             >
               <Link style={{ textDecoration: "none" }} to={"/"}>
-                <Typography variant="h6" noWrap sx={logoTitleStyles}>
-                  ArtExhibit
-                </Typography>
+                <motion.div
+                  style={{ borderRadius: "50px", padding: "0 20px" }}
+                  whileHover={{
+                    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Typography variant={motion.div} noWrap sx={logoTitleStyles}>
+                    ArtExhibit
+                  </Typography>
+                </motion.div>
               </Link>
               <Stack direction={"row"} spacing={6}>
                 <Link
@@ -188,48 +196,68 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                   <Typography sx={menuOptionsStyles}>Category</Typography>
                 </Link>
                 <Typography sx={menuOptionsStyles}>Community</Typography>
-                <Typography sx={menuOptionsStyles}>Portofolio</Typography>
+                <Typography sx={menuOptionsStyles}>Portfolio</Typography>
               </Stack>
               <AnimatePresence mode="wait">
                 {logedIn ? (
                   <motion.div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "17%",
-                      borderRadius: "50px",
-                      boxShadow:
-                        "0px 0px 73px 20px rgba(199,134,255,0.57) inset",
+                    style={{ width: "17%", borderRadius: "50px" }}
+                    whileHover={{
+                      boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+                      cursor: "pointer",
                     }}
-                    key="logedIn"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Typography
-                      style={{ ...menuOptionsStyles, marginLeft: "10%" }}
-                    >
-                      {username}
-                    </Typography>
-                    <Avatar
-                      sx={{
-                        bgcolor: "#C786FF",
-                        width: 56,
-                        height: 56,
-                        cursor: "pointer",
+                    <Link
+                      to={"/settings"}
+                      style={{
+                        textDecoration: "none",
                       }}
                     >
-                      {profilePicture.length < 100 ? (
-                        username.charAt(0)
-                      ) : (
-                        <img
-                          style={{ objectFit: "cover", width: 56, height: 56 }}
-                          src={profilePicture}
-                        />
-                      )}
-                    </Avatar>
+                      <motion.div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          width: "100%",
+                          borderRadius: "50px",
+                          boxShadow:
+                            "0px 0px 73px 20px rgba(199,134,255,0.57) inset",
+                        }}
+                        key="logedIn"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Typography
+                          style={{ ...menuOptionsStyles, marginLeft: "10%" }}
+                        >
+                          {username}
+                        </Typography>
+                        <Avatar
+                          sx={{
+                            bgcolor: "#C786FF",
+                            width: 56,
+                            height: 56,
+                            cursor: "pointer",
+                          }}
+                        >
+                          {profilePicture.length < 100 ? (
+                            username.charAt(0)
+                          ) : (
+                            <img
+                              style={{
+                                objectFit: "cover",
+                                width: 56,
+                                height: 56,
+                              }}
+                              src={profilePicture}
+                            />
+                          )}
+                        </Avatar>
+                      </motion.div>
+                    </Link>
                   </motion.div>
                 ) : (
                   <motion.div

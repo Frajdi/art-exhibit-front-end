@@ -133,7 +133,7 @@ const ArtistsGrid = ({ artists, scrollTopHeight }) => {
               }}
               align="center"
             >
-              Portofolios
+              Portofolio
             </Typography>
             <Flashcards />
           </Stack>

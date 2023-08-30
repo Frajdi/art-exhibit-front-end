@@ -51,10 +51,9 @@ const Footer = () => {
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
             <Typography style={normalTextStyles}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-              turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus
-              nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum
-              tellus elit sed risus.
+              The premier Art Exhibition worldwide, offering portfolio and
+              collection management, art valuations, event coordination, and
+              fostering an artistic community.
             </Typography>
           </TextAnimation>
         </Stack>
@@ -65,35 +64,29 @@ const Footer = () => {
             <Typography style={boldTitleStyles}>About</Typography>
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Product</Typography>
+            <Typography style={optionsStyles}>Company</Typography>
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Resource</Typography>
+            <Typography style={optionsStyles}>Team</Typography>
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Term & Condition</Typography>
-          </TextAnimation>
-          <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>FAQ</Typography>
+            <Typography style={optionsStyles}>Legal</Typography>
           </TextAnimation>
         </Stack>
       </Grid>
       <Grid item xs={3}>
         <Stack direction={"column"} spacing={2}>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={boldTitleStyles}>Company</Typography>
+            <Typography style={boldTitleStyles}>Products</Typography>
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Our Team</Typography>
+            <Typography style={optionsStyles}>Artists</Typography>
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Partner With Us</Typography>
+            <Typography style={optionsStyles}>Collectors</Typography>
           </TextAnimation>
           <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Privacy & Policy</Typography>
-          </TextAnimation>
-          <TextAnimation color={"#c786ff"}>
-            <Typography style={optionsStyles}>Features</Typography>
+            <Typography style={optionsStyles}>Events</Typography>
           </TextAnimation>
         </Stack>
       </Grid>
