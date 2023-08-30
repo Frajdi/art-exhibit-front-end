@@ -80,11 +80,17 @@ const fieldsStyles = {
     background: '#EDF2F9',
     border: 'none',
     borderRadius: '5px',
-    padding: '5px 20px'
+    padding: '5px 20px',
+    fontFamily: "Poppins, sans-serif",
+  fontWeight: 400,
+  fontSize: "14px",
 }
 
 const labelStyles = {
     padding: '5px 10px',
+    fontFamily: "Poppins, sans-serif",
+  fontWeight: 400,
+  fontSize: "14px",
 }
 
 
@@ -226,7 +232,7 @@ const Settings = () => {
                     alignItems="flex-start"
                     justifyContent="center"
                     paddingTop={1}
-                    spacing={2.5}
+                    spacing={3}
                     height={"100%"}
                     paddingBottom={3}
                   >
@@ -398,6 +404,7 @@ const Settings = () => {
                       }}
                     />
                     <Button
+                    sx={{width: '50%'}}
                       variant="contained"
                       onClick={() => {
                         updateSettings(authToken, userData);
