@@ -54,15 +54,15 @@ const profileImageStyles = {
 };
 
 const generalSettingsStyles = {
-  width: "146px",
-  height: "35px",
+  width: "170px",
+  height: "50px",
   borderRadius: "5px",
   padding: "10px",
   gap: "10px",
-  background: "#7324E8",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  textTransform: "none",
 };
 
 const generalSettingsTextStyles = {
@@ -94,6 +94,7 @@ const labelStyles = {
 
 const Settings = () => {
   const [userData, setUserData] = useState(null);
+  const [generalSettings, setGeneralSettings] = useState(true);
   const [confirmPassword, setConfirmPassword] = useState("");
   const { authToken, authLoading, setUsername, setProfilePicture } =
     useArtContext();
@@ -219,11 +220,44 @@ const Settings = () => {
                     src={`data:image/png;base64,${userData?.profileImage}`}
                     style={profileImageStyles}
                   />
-                  <div style={generalSettingsStyles}>
-                    <Typography style={generalSettingsTextStyles}>
-                      General Settings
-                    </Typography>
-                  </div>
+                  <Stack direction="column" spacing={1.5}>
+                    <Button
+                      onClick={() => {
+                        setGeneralSettings(true);
+                      }}
+                      style={{
+                        ...generalSettingsStyles,
+                        background: generalSettings ? "#7324E8" : "#E7DEEF",
+                      }}
+                    >
+                      <Typography
+                        style={{
+                          ...generalSettingsTextStyles,
+                          color: generalSettings ? "white" : "black",
+                        }}
+                      >
+                        General Settings
+                      </Typography>
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setGeneralSettings(false);
+                      }}
+                      style={{
+                        ...generalSettingsStyles,
+                        background: !generalSettings ? "#7324E8" : "#E7DEEF",
+                      }}
+                    >
+                      <Typography
+                        style={{
+                          ...generalSettingsTextStyles,
+                          color: !generalSettings ? "white" : "black",
+                        }}
+                      >
+                        Password Settings
+                      </Typography>
+                    </Button>
+                  </Stack>
                 </Stack>
               </Grid>
               <Grid item xs={9} height={"100%"}>
@@ -245,45 +279,52 @@ const Settings = () => {
                     height={"100%"}
                     paddingBottom={3}
                   >
-                    <Typography style={labelStyles} align="left">
-                      Profile picture
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      User Name:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      First name:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Last name:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Bio:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Email address:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Phone number:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Category:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Adress:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Date of Birth:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      New password:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Confirm new password:
-                    </Typography>
-                    <Typography style={labelStyles} align="left">
-                      Student:
-                    </Typography>
+                    {generalSettings ? (
+                      <>
+                        <Typography style={labelStyles} align="left">
+                          Profile picture
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          User Name:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          First name:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Last name:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Student:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Email address:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Phone number:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Category:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Adress:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Date of Birth:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Bio:
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Typography style={labelStyles} align="left">
+                          New password:
+                        </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Confirm new password:
+                        </Typography>
+                      </>
+                    )}
                   </Stack>
                   <Stack
                     direction="column"
@@ -292,209 +333,220 @@ const Settings = () => {
                     spacing={2}
                     paddingTop={1}
                   >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.readAsDataURL(file);
-                          reader.onload = () => {
-                            // The result contains the base64 representation of the image
-                            setUserData((prev) => {
-                              const newData = { ...prev };
-                              const fullBase64img = reader.result;
-                              const base64Image = fullBase64img.split(",")[1];
-                              newData.profileImage = base64Image;
-                              return newData;
-                            });
-                          };
-                        }
-                      }}
-                      style={{ display: "none" }}
-                      id="fileInput"
-                    />
-                    <Avatar
-                      sx={{
-                        bgcolor: "#C786FF",
-                        width: 50,
-                        height: 50,
-                        cursor: "pointer",
-                      }}
-                      onClick={handleAvatarClick}
-                    >
-                      {" "}
-                      {userData?.profileImage.length < 100 ? (
-                        userData?.username.charAt(0)
-                      ) : (
-                        <img
-                          style={{
-                            objectFit: "cover",
-                            width: 56,
-                            height: 56,
+                    {generalSettings ? (
+                      <>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onload = () => {
+                                setUserData((prev) => {
+                                  const newData = { ...prev };
+                                  const fullBase64img = reader.result;
+                                  const base64Image =
+                                    fullBase64img.split(",")[1];
+                                  newData.profileImage = base64Image;
+                                  return newData;
+                                });
+                              };
+                            }
                           }}
-                          src={`data:image/png;base64,${userData?.profileImage}`}
+                          style={{ display: "none" }}
+                          id="fileInput"
                         />
-                      )}
-                    </Avatar>
-                    <input
-                      style={fieldsStyles}
-                      value={userData?.username}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, username: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={fieldsStyles}
-                      disabled
-                      value={userData?.firstName}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, firstName: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={fieldsStyles}
-                      disabled
-                      value={userData?.lastName}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, lastName: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={fieldsStyles}
-                      value={userData?.description}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, description: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={fieldsStyles}
-                      value={userData?.email}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, email: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={fieldsStyles}
-                      value={userData?.phoneNumber}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, phoneNumber: e.target.value };
-                        });
-                      }}
-                    />
-                    <Select
-                      sx={{
-                        width: "100%",
-                        height: "40px",
-                        background: "#EDF2F9",
-                      }}
-                      disabled
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, category: e.target.value };
-                        });
-                      }}
-                      value={userData?.category}
-                    >
-                      <MenuItem value={"ART_COLLECTOR"}>Art Collector</MenuItem>
-                      <MenuItem value={"ARCHITECTURE"}>Architecture</MenuItem>
-                      <MenuItem value={"CALLIGRAPHY"}>Calligraphy</MenuItem>
-                      <MenuItem value={"CINEMATOGRAPHY"}>
-                        Cinematography
-                      </MenuItem>
-                      <MenuItem value={"DANCE"}>Dance</MenuItem>
-                      <MenuItem value={"DESIGNER"}>Designer</MenuItem>
-                      <MenuItem value={"DRAWING"}>Drawing</MenuItem>
-                      <MenuItem value={"FILM"}>Film</MenuItem>
-                      <MenuItem value={"MUSIC"}>Music</MenuItem>
-                      <MenuItem value={"PAINTING"}>Painting</MenuItem>
-                      <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
-                      <MenuItem value={"SCULPTURE"}>Sculpture</MenuItem>
-                      <MenuItem value={"PERFORMING"}>Performing</MenuItem>
-                      <MenuItem value={"ARTS"}>Arts</MenuItem>
-                      <MenuItem value={"POTTERY"}>Pottery</MenuItem>
-                      <MenuItem value={"PRINTMAKING"}>Printmaking</MenuItem>
-                      <MenuItem value={"WRITING"}>Writing</MenuItem>
-                    </Select>
-                    <input
-                      style={fieldsStyles}
-                      value={userData?.address}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, address: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={fieldsStyles}
-                      type="date"
-                      disabled
-                      value={userData?.birthOfDate}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, birthOfDate: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={{
-                        ...fieldsStyles,
-                        border:
-                          confirmPassword === userData.password
-                            ? "none"
-                            : "2px solid red",
-                      }}
-                      value={userData.password}
-                      type="password"
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, password: e.target.value };
-                        });
-                      }}
-                    />
-                    <input
-                      style={{
-                        ...fieldsStyles,
-                        border:
-                          confirmPassword === userData.password
-                            ? "none"
-                            : "2px solid red",
-                      }}
-                      type="password"
-                      onChange={(e) => {
-                        setConfirmPassword(e.target.value);
-                      }}
-                    />
-                    <Checkbox
-                      checked={userData.student}
-                      style={{ padding: 0 }}
-                      onChange={(e) => {
-                        setUserData((prev) => {
-                          return { ...prev, student: e.target.checked };
-                        });
-                      }}
-                    />
+                        <Avatar
+                          sx={{
+                            bgcolor: "#C786FF",
+                            width: 50,
+                            height: 50,
+                            cursor: "pointer",
+                          }}
+                          onClick={handleAvatarClick}
+                        >
+                          {" "}
+                          {userData?.profileImage.length < 100 ? (
+                            userData?.username.charAt(0)
+                          ) : (
+                            <img
+                              style={{
+                                objectFit: "cover",
+                                width: 56,
+                                height: 56,
+                              }}
+                              src={`data:image/png;base64,${userData?.profileImage}`}
+                            />
+                          )}
+                        </Avatar>
+                        <input
+                          style={fieldsStyles}
+                          value={userData?.username}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, username: e.target.value };
+                            });
+                          }}
+                        />
+                        <input
+                          style={fieldsStyles}
+                          disabled
+                          value={userData?.firstName}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, firstName: e.target.value };
+                            });
+                          }}
+                        />
+                        <input
+                          style={fieldsStyles}
+                          disabled
+                          value={userData?.lastName}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, lastName: e.target.value };
+                            });
+                          }}
+                        />
+                        <Checkbox
+                          checked={userData.student}
+                          style={{ padding: 0 }}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, student: e.target.checked };
+                            });
+                          }}
+                        />
+                        <input
+                          style={fieldsStyles}
+                          value={userData?.email}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, email: e.target.value };
+                            });
+                          }}
+                        />
+                        <input
+                          style={fieldsStyles}
+                          value={userData?.phoneNumber}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, phoneNumber: e.target.value };
+                            });
+                          }}
+                        />
+                        <Select
+                          sx={{
+                            width: "100%",
+                            height: "40px",
+                            background: "#EDF2F9",
+                          }}
+                          disabled
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, category: e.target.value };
+                            });
+                          }}
+                          value={userData?.category}
+                        >
+                          <MenuItem value={"ART_COLLECTOR"}>
+                            Art Collector
+                          </MenuItem>
+                          <MenuItem value={"ARCHITECTURE"}>
+                            Architecture
+                          </MenuItem>
+                          <MenuItem value={"CALLIGRAPHY"}>Calligraphy</MenuItem>
+                          <MenuItem value={"CINEMATOGRAPHY"}>
+                            Cinematography
+                          </MenuItem>
+                          <MenuItem value={"DANCE"}>Dance</MenuItem>
+                          <MenuItem value={"DESIGNER"}>Designer</MenuItem>
+                          <MenuItem value={"DRAWING"}>Drawing</MenuItem>
+                          <MenuItem value={"FILM"}>Film</MenuItem>
+                          <MenuItem value={"MUSIC"}>Music</MenuItem>
+                          <MenuItem value={"PAINTING"}>Painting</MenuItem>
+                          <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
+                          <MenuItem value={"SCULPTURE"}>Sculpture</MenuItem>
+                          <MenuItem value={"PERFORMING"}>Performing</MenuItem>
+                          <MenuItem value={"ARTS"}>Arts</MenuItem>
+                          <MenuItem value={"POTTERY"}>Pottery</MenuItem>
+                          <MenuItem value={"PRINTMAKING"}>Printmaking</MenuItem>
+                          <MenuItem value={"WRITING"}>Writing</MenuItem>
+                        </Select>
+                        <input
+                          style={fieldsStyles}
+                          value={userData?.address}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, address: e.target.value };
+                            });
+                          }}
+                        />
+                        <input
+                          style={fieldsStyles}
+                          type="date"
+                          disabled
+                          value={userData?.birthOfDate}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, birthOfDate: e.target.value };
+                            });
+                          }}
+                        />
+                        <input
+                          style={fieldsStyles}
+                          value={userData?.description}
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, description: e.target.value };
+                            });
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          style={{
+                            ...fieldsStyles,
+                            border:
+                              confirmPassword === userData.password
+                                ? "none"
+                                : "2px solid red",
+                          }}
+                          value={userData.password}
+                          type="password"
+                          onChange={(e) => {
+                            setUserData((prev) => {
+                              return { ...prev, password: e.target.value };
+                            });
+                          }}
+                        />
+                        <input
+                          style={{
+                            ...fieldsStyles,
+                            border:
+                              confirmPassword === userData.password
+                                ? "none"
+                                : "2px solid red",
+                          }}
+                          type="password"
+                          onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+                          }}
+                        />
+                      </>
+                    )}
+
                     <Button
                       disabled={
                         confirmPassword !== userData.password ||
-                        userData.firstName === '' ||
-                        userData.description === '' ||
-                        userData.email === '' ||
-                        userData.phoneNumber === '' ||
-                        userData.address === '' || 
-                        userData.password === ''
+                        userData.firstName === "" ||
+                        userData.description === "" ||
+                        userData.email === "" ||
+                        userData.phoneNumber === "" ||
+                        userData.address === ""
                       }
                       sx={{ width: "50%" }}
                       variant="contained"
