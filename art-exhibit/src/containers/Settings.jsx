@@ -310,6 +310,7 @@ const Settings = () => {
                       }}
                     />
                     <input style={fieldsStyles}
+                    disabled
                       value={userData?.firstName}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -318,6 +319,7 @@ const Settings = () => {
                       }}
                     />
                     <input style={fieldsStyles}
+                    disabled
                       value={userData?.lastName}
                       onChange={(e) => {
                         setUserData((prev) => {
@@ -350,6 +352,7 @@ const Settings = () => {
                       }}
                     />
                     <Select sx={{width: '100%', height: '40px', background: '#EDF2F9'}}
+                    disabled
                       onChange={(e) => {
                         setUserData((prev) => {
                           return { ...prev, category: e.target.value };
@@ -387,6 +390,7 @@ const Settings = () => {
                     />
                     <input style={fieldsStyles}
                       type="date"
+                      disabled
                       value={userData?.birthOfDate}
                       onChange={(e) => {
                         setUserData((prev) => {
