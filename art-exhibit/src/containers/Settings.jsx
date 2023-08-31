@@ -96,7 +96,7 @@ const Settings = () => {
   const [userData, setUserData] = useState(null);
   const [generalSettings, setGeneralSettings] = useState(true);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { authToken, authLoading, setUsername, setProfilePicture } =
+  const { authToken, authLoading, setUsername, setProfilePicture, setAuthError } =
     useArtContext();
   const { isLoading, data, getRequest } = useGetCurrentUserData();
   const {
@@ -104,6 +104,12 @@ const Settings = () => {
     error,
     updateSettings,
   } = useUpdateSettings();
+
+  useEffect(() => {
+    if (isUpdateLoading === false && error) {
+      setAuthError(error);
+    }
+  }, [isUpdateLoading]);
 
   useEffect(() => {
     if (authToken) {

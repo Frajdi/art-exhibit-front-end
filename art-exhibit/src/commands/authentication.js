@@ -13,7 +13,11 @@ const useAuthenticate = (context) => {
       setData(response.data);
       setError(null);
     } catch (err) {
-      setError(err.response.data.details);
+      if(err.response.data.details){
+        setError(err.response.data.details);
+      }else{
+        setError(err.response.data.error)
+      }
       setData(null);
     }
     setIsLoading(false);

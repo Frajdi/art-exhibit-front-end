@@ -13,11 +13,6 @@ const withContext = (Component) => (props) => {
   const [authError, setAuthError] = useState(null);
   const [authLoading, setAuthLoading] = useState(null);
 
-  useEffect(() => {
-    console.log({authError})
-  },[authError])
-
-
   return (
     <AppContext.Provider
       value={{

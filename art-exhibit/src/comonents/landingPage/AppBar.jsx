@@ -88,10 +88,6 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
     }
   }, [profilePicture, username, authToken]);
 
-  useEffect(() => {
-    console.log(authError);
-  }, [authError]);
-
   const removeNotification = () => {
     setAuthError(null);
   };

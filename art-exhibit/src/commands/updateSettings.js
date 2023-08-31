@@ -12,7 +12,6 @@ const useUpdateSettings = () => {
       delete requestBody.password
     }
     try {
-      console.log('<<<<<<<<<>>>>>>>>>>>>',requestBody);
       const response = await axios.put('http://localhost:8080/artist/update', requestBody, {
         headers: {
           Authorization: `Bearer ${accessToken}`, // Include the token in the Authorization header

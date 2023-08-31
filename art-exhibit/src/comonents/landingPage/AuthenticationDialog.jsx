@@ -108,6 +108,7 @@ const AuthenticationDialog = () => {
   useEffect(() => {
     if (isLoading === false && error) {
       setAuthError(error);
+      setIsLogIn(null)
     }
   }, [isLoading]);
 
@@ -273,7 +274,7 @@ const AuthenticationDialog = () => {
               </motion.div>}
               
               <TextField
-              style={{ width: "100%", height: "10px" }}
+              style={{ width: "100%", height: "10px", marginTop:'10px' }}
                 key={1}
                 variant="standard"
                 label="User Name"
