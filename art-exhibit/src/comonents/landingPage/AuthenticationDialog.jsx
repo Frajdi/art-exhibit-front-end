@@ -101,9 +101,6 @@ const AuthenticationDialog = () => {
     isLogIn ? "login" : "signup"
   );
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
 
   useEffect(() => {
     if (isLoading === false && error) {
@@ -164,6 +161,8 @@ const AuthenticationDialog = () => {
               const newData = { ...prev };
               const fullBase64img = reader.result;
               const base64Image = fullBase64img.split(",")[1];
+              console.log(fullBase64img.split(",")[0])
+                                    console.log(fullBase64img.split(",")[1])
               newData[field] = base64Image;
               return newData;
             });

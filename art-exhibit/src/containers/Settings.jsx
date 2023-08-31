@@ -16,6 +16,7 @@ import { useArtContext } from "../state/AppContext";
 import useGetCurrentUserData from "../commands/getCurrentUserData";
 import Footer from "../comonents/landingPage/Footer";
 import useUpdateSettings from "../commands/updateSettings";
+import useUpdatePassword from "../commands/updatePassword";
 
 const titleStyles = {
   color: "#222222",
@@ -95,21 +96,38 @@ const labelStyles = {
 const Settings = () => {
   const [userData, setUserData] = useState(null);
   const [generalSettings, setGeneralSettings] = useState(true);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const { authToken, authLoading, setUsername, setProfilePicture, setAuthError } =
-    useArtContext();
+
+  const [password, setPassword] = useState({
+    confirmNewPassword: "",
+    newPassword: "",
+    oldPassword: "",
+  });
+
+  const { authToken, authLoading, setAuthError } = useArtContext();
+  
   const { isLoading, data, getRequest } = useGetCurrentUserData();
+  
   const {
     isLoading: isUpdateLoading,
     error,
     updateSettings,
   } = useUpdateSettings();
 
+  const {
+    isLoading: isUpdatepasswordLoading,
+    error: passwordError,
+    updatePassword,
+  } = useUpdatePassword();
+
+
   useEffect(() => {
     if (isUpdateLoading === false && error) {
       setAuthError(error);
     }
-  }, [isUpdateLoading]);
+    if (isUpdatepasswordLoading === false && passwordError) {
+      setAuthError(passwordError);
+    }
+  }, [isUpdateLoading, isUpdatepasswordLoading]);
 
   useEffect(() => {
     if (authToken) {
@@ -131,7 +149,6 @@ const Settings = () => {
         address: data.address ? data.address : "",
         phoneNumber: data.phoneNumber ? data.phoneNumber : "",
         profileImage: data.profileImage ? data.profileImage : "",
-        password: data.password ? data.profileImage : "",
       });
     }
   }, [data]);
@@ -157,7 +174,7 @@ const Settings = () => {
             height={"100%"}
             marginBottom={10}
           >
-            <Stack direction="column" alignItems="center" spacing={3} >
+            <Stack direction="column" alignItems="center" spacing={3}>
               <Typography style={titleStyles}>Hello there</Typography>
               <Typography style={subtitleStyles}>
                 You need to be loged in to edit account settings
@@ -329,6 +346,9 @@ const Settings = () => {
                         <Typography style={labelStyles} align="left">
                           Confirm new password:
                         </Typography>
+                        <Typography style={labelStyles} align="left">
+                          Old password:
+                        </Typography>
                       </>
                     )}
                   </Stack>
@@ -355,6 +375,8 @@ const Settings = () => {
                                   const fullBase64img = reader.result;
                                   const base64Image =
                                     fullBase64img.split(",")[1];
+                                    console.log(fullBase64img.split(",")[0])
+                                    console.log(fullBase64img.split(",")[1])
                                   newData.profileImage = base64Image;
                                   return newData;
                                 });
@@ -517,15 +539,15 @@ const Settings = () => {
                           style={{
                             ...fieldsStyles,
                             border:
-                              confirmPassword === userData.password
+                              password.newPassword === password.confirmNewPassword
                                 ? "none"
                                 : "2px solid red",
                           }}
-                          value={userData.password}
+                          value={password.newPassword}
                           type="password"
                           onChange={(e) => {
-                            setUserData((prev) => {
-                              return { ...prev, password: e.target.value };
+                            setPassword((prev) => {
+                              return { ...prev, newPassword: e.target.value };
                             });
                           }}
                         />
@@ -533,35 +555,68 @@ const Settings = () => {
                           style={{
                             ...fieldsStyles,
                             border:
-                              confirmPassword === userData.password
+                            password.newPassword === password.confirmNewPassword
                                 ? "none"
                                 : "2px solid red",
                           }}
                           type="password"
+                          value={password.confirmNewPassword}
                           onChange={(e) => {
-                            setConfirmPassword(e.target.value);
+                            setPassword((prev) => {
+                              return { ...prev, confirmNewPassword: e.target.value };
+                            })
+                          }}
+                        />
+                        <input
+                          style={{
+                            ...fieldsStyles,
+                            border: 'none'
+                          }}
+                          type="password"
+                          value={password.oldPassword}
+                          onChange={(e) => {
+                            setPassword((prev) => {
+                              return { ...prev, oldPassword: e.target.value };
+                            })
                           }}
                         />
                       </>
                     )}
 
-                    <Button
-                      disabled={
-                        confirmPassword !== userData.password ||
-                        userData.firstName === "" ||
-                        userData.description === "" ||
-                        userData.email === "" ||
-                        userData.phoneNumber === "" ||
-                        userData.address === ""
-                      }
-                      sx={{ width: "50%" }}
-                      variant="contained"
-                      onClick={() => {
-                        updateSettings(authToken, userData);
-                      }}
-                    >
-                      Update
-                    </Button>
+                    {generalSettings ? (
+                      <Button
+                        disabled={
+                          userData.firstName === "" ||
+                          userData.description === "" ||
+                          userData.email === "" ||
+                          userData.phoneNumber === "" ||
+                          userData.address === ""
+                        }
+                        sx={{ width: "50%" }}
+                        variant="contained"
+                        onClick={() => {
+                          updateSettings(authToken, userData);
+                        }}
+                      >
+                        Update Settings
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={
+                          password.newPassword !== password.confirmNewPassword ||
+                          password.confirmNewPassword === "" ||
+                          password.newPassword === "" ||
+                          password.oldPassword === ""
+                        }
+                        sx={{ width: "50%" }}
+                        variant="contained"
+                        onClick={() => {
+                          updatePassword(authToken, password);
+                        }}
+                      >
+                        Update Password
+                      </Button>
+                    )}
                   </Stack>
                 </Stack>
               </Grid>

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const useUpdateSettings = () => {
+const useUpdatePassword = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const updateSettings = async (accessToken, requestBody) => {
+  const updatePassword = async (accessToken, requestBody) => {
     setIsLoading(true);
     try {
-      const response = await axios.put('http://localhost:8080/artist/update', requestBody, {
+      const response = await axios.post('http://localhost:8080/auth/change-password', requestBody, {
         headers: {
           Authorization: `Bearer ${accessToken}`, // Include the token in the Authorization header
         },
@@ -23,7 +23,7 @@ const useUpdateSettings = () => {
     setIsLoading(false);
   };
 
-  return { data, error, isLoading, updateSettings };
+  return { data, error, isLoading, updatePassword };
 };
 
-export default useUpdateSettings;
+export default useUpdatePassword;
