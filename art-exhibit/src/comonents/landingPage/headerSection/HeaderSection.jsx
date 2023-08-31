@@ -39,13 +39,11 @@ const buttonTextStyles = {
 
 const HeaderSection = () => {
   const {
-    setAuthDialogOpen,
     setIsLogIn
   } = useArtContext();
 
   const handleClickOpen = () => {
     setIsLogIn(false)
-    setAuthDialogOpen(true);
   };
   return (
     <Grid container padding={"4rem 8rem"}>

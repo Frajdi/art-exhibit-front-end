@@ -9,8 +9,7 @@ const withContext = (Component) => (props) => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [username, setUsername] = useState(null);
   const [authToken, setAuthToken] = useState(null);
-  const [authDialogOpen, setAuthDialogOpen] = useState(false);
-  const [isLogIn, setIsLogIn] = useState(true);
+  const [isLogIn, setIsLogIn] = useState(null);
   const [authError, setAuthError] = useState(null);
   const [authLoading, setAuthLoading] = useState(null);
 
@@ -25,14 +24,12 @@ const withContext = (Component) => (props) => {
         profilePicture,
         username,
         authToken,
-        authDialogOpen,
         isLogIn,
         authError,
         authLoading,
         setProfilePicture,
         setUsername,
         setAuthToken,
-        setAuthDialogOpen,
         setIsLogIn,
         setAuthError,
         setAuthLoading

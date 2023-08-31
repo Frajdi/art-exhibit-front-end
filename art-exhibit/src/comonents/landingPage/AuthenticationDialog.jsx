@@ -54,7 +54,7 @@ const headerStyles = {
   fontSize: "25px",
 };
 
-const contentStyles = { overflow: "hidden" };
+const contentStyles = { overflow: "hidden",};
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -65,23 +65,21 @@ const AuthenticationDialog = () => {
     setProfilePicture,
     setUsername,
     setAuthToken,
-    authDialogOpen,
-    setAuthDialogOpen,
-    isLogIn,
     setAuthLoading,
     setAuthError,
+    isLogIn,
+    setIsLogIn
   } = useArtContext();
 
   //   UI States
-  const [replay, setReplay] = useState(true);
-  const [signIn, setSignIn] = useState(false);
+  // const [isLogIn, setIsLogIn] = useState(isLogIn);
   const [profilePictureHovered, setProfilePictureHovered] = useState(false);
 
   //   Data States
   const [signUpData, setSignUpData] = useState({
     address: "",
     category: "",
-    student: "",
+    birthOfDate: "",
     email: "",
     files: [{}],
     firstName: "",
@@ -92,7 +90,7 @@ const AuthenticationDialog = () => {
     username: "",
   });
 
-  const [signInData, setSignInData] = useState({
+  const [isLogInData, setIsLogInData] = useState({
     password: "",
     username: "",
   });
@@ -100,11 +98,15 @@ const AuthenticationDialog = () => {
   //custom hooks for authentication
 
   const { data, error, isLoading, postRequest } = useAuthenticate(
-    signIn ? "login" : "signup"
+    isLogIn ? "login" : "signup"
   );
 
   useEffect(() => {
-    if(isLoading === false && error){
+    console.log(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (isLoading === false && error) {
       setAuthError(error);
     }
   }, [isLoading]);
@@ -113,18 +115,29 @@ const AuthenticationDialog = () => {
     const accessToken = data?.access_token;
     if (accessToken) {
       setProfilePicture(`data:image/png;base64,${data.profileImage}`);
-      setAuthLoading(isLoading)
+      setAuthLoading(isLoading);
       setUsername(data.username);
       setAuthToken(accessToken);
     }
   }, [data]);
 
+  useEffect(() => {
+    if (!isLogIn) {
+      dialogHeightControls.start('signUp')
+    } else {
+      dialogHeightControls.start('isLogIn')
+    }
+    titleControl.start("hidden");
+    setTimeout(() => {
+      titleControl.start("visible");
+    }, 600);
+  }, [isLogIn, isLogIn]);
+
 
   //hooks for animation
 
-  const signUpButtonGroupControls = useAnimation();
-  const signInButtonGroupControls = useAnimation();
-  const confirmPasswordControl = useAnimation();
+  const titleControl = useAnimation();
+  const dialogHeightControls = useAnimation();
 
   const handleAvatarClick = () => {
     // Trigger the hidden file input when the avatar is clicked
@@ -132,8 +145,8 @@ const AuthenticationDialog = () => {
   };
 
   const handleChange = (field) => (e) => {
-    if (signIn) {
-      setSignInData((prev) => {
+    if (isLogIn) {
+      setIsLogInData((prev) => {
         const newData = { ...prev };
         newData[field] = e.target.value;
         return newData;
@@ -165,24 +178,8 @@ const AuthenticationDialog = () => {
     }
   };
 
-  const handleReplay = () => {
-    setReplay(!replay);
-    if (signIn) {
-      signUpButtonGroupControls.start("hidden");
-      signInButtonGroupControls.start("visible");
-      confirmPasswordControl.start("visible");
-    } else {
-      confirmPasswordControl.start("hidden");
-      signUpButtonGroupControls.start("visible");
-      signInButtonGroupControls.start("hidden");
-    }
-    setTimeout(() => {
-      setReplay(true);
-    }, 600);
-  };
-
   const handleClose = () => {
-    setAuthDialogOpen(false);
+    setIsLogIn(null);
   };
 
   const container = {
@@ -196,7 +193,7 @@ const AuthenticationDialog = () => {
   return (
     <div>
       <Dialog
-        open={authDialogOpen}
+        open={isLogIn !== null}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
@@ -206,13 +203,13 @@ const AuthenticationDialog = () => {
         <motion.div
           className="App"
           initial="hidden"
-          animate={replay ? "visible" : "hidden"}
+          animate={titleControl}
           variants={container}
         >
           <DialogTitle sx={{ p: 0 }}>
             <TextReveal
               text={
-                signIn
+                isLogIn
                   ? "Welcome Back To ArtExhibit"
                   : "Get Started Set Up Your Account"
               }
@@ -221,81 +218,81 @@ const AuthenticationDialog = () => {
           </DialogTitle>
         </motion.div>
         <DialogContent sx={{ overflow: "hidden", p: 0 }}>
-          <Stack direction="column" spacing={2} style={contentStyles}>
-            <motion.div
-              style={{ width: 56 }}
-              onMouseEnter={() => setProfilePictureHovered(true)}
-              onMouseLeave={() => setProfilePictureHovered(false)}
+          <AnimatePresence mode="wait" initial={false}>
+            <Stack
+              direction="column"
+              spacing={5}
+              style={contentStyles}
+              component={motion.div}
+              layout
               variants={{
-                hidden: { height: 0, x: "-100%" },
-                visible: { height: "50px", x: 0 },
+                signUp: { height: '70vh' },
+                isLogIn: { height: '15vh' }
               }}
-              initial={signIn ? "hidden" : "visible"}
-              animate={confirmPasswordControl}
-              transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+              initial={'signUp'}
+              animate={dialogHeightControls}
+              transition={{duration: 0.3}}
+              justifyContent='flex-start'
             >
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleChange("profileImage")}
-                style={{ display: "none" }}
-                id="fileInput"
-              />
-              <Avatar
-                sx={{
-                  bgcolor: "#C786FF",
-                  width: 56,
-                  height: 56,
-                  cursor: "pointer",
-                }}
-                onClick={handleAvatarClick}
+            {!isLogIn && <motion.div
+                layout
+                key={0}
+                style={{ width: 56 }}
                 onMouseEnter={() => setProfilePictureHovered(true)}
                 onMouseLeave={() => setProfilePictureHovered(false)}
               >
-                {profilePictureHovered ? (
-                  <FileUploadIcon />
-                ) : signUpData.profileImage ? (
-                  <img
-                    style={{ objectFit: "cover", width: 56, height: 56 }}
-                    src={`data:image/png;base64,${signUpData.profileImage}`}
-                  />
-                ) : (
-                  <PersonAddAltIcon />
-                )}
-              </Avatar>
-            </motion.div>
-            <TextField
-              variant="standard"
-              label="User Name"
-              onChange={handleChange("username")}
-              value={signIn ? signInData.username : signUpData.username}
-            />
-            <TextField
-              variant="standard"
-              label="Password"
-              type="password"
-              onChange={handleChange("password")}
-              value={signIn ? signInData.password : signUpData.password}
-            />
-            <motion.div
-              style={{ width: "100%" }}
-              variants={{
-                hidden: { height: 0 },
-                visible: { height: "100%" },
-              }}
-              initial={signIn ? "hidden" : "visible"}
-              animate={confirmPasswordControl}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleChange("profileImage")}
+                  style={{ display: "none" }}
+                  id="fileInput"
+                />
+                <Avatar
+                  sx={{
+                    bgcolor: "#C786FF",
+                    width: 56,
+                    height: 56,
+                    cursor: "pointer",
+                  }}
+                  onClick={handleAvatarClick}
+                  onMouseEnter={() => setProfilePictureHovered(true)}
+                  onMouseLeave={() => setProfilePictureHovered(false)}
+                >
+                  {profilePictureHovered ? (
+                    <FileUploadIcon />
+                  ) : signUpData.profileImage ? (
+                    <img
+                      style={{ objectFit: "cover", width: 56, height: 56 }}
+                      src={`data:image/png;base64,${signUpData.profileImage}`}
+                    />
+                  ) : (
+                    <PersonAddAltIcon />
+                  )}
+                </Avatar>
+              </motion.div>}
+              
+              <TextField
+              style={{ width: "100%", height: "10px" }}
+                key={1}
+                variant="standard"
+                label="User Name"
+                onChange={handleChange("username")}
+                value={isLogIn ? isLogInData.username : signUpData.username}
+              />
+              <TextField
+              style={{ width: "100%", height: "10px" }}
+                key={2}
+                variant="standard"
+                label="Password"
+                type="password"
+                onChange={handleChange("password")}
+                value={isLogIn ? isLogInData.password : signUpData.password}
+              />
+              {!isLogIn && <motion.div
+                layout
+                key={3}
+                style={{ width: "100%", height: "10px" }}
               >
                 <TextField
                   onChange={handleChange("firstName")}
@@ -304,16 +301,12 @@ const AuthenticationDialog = () => {
                   variant="standard"
                   label="First Name"
                 />
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+              </motion.div>}
+              
+              {!isLogIn && <motion.div
+                layout
+                key={4}
+                style={{ width: "100%", height: "10px" }}
               >
                 <TextField
                   onChange={handleChange("lastName")}
@@ -322,16 +315,12 @@ const AuthenticationDialog = () => {
                   variant="standard"
                   label="Last Name"
                 />
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+              </motion.div>}
+              
+              {!isLogIn && <motion.div
+                layout
+                key={5}
+                style={{ width: "100%", height: "10px" }}
               >
                 <TextField
                   onChange={handleChange("phoneNumber")}
@@ -340,16 +329,12 @@ const AuthenticationDialog = () => {
                   variant="standard"
                   label="Phone number"
                 />
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
+              </motion.div>}
+              
+              {!isLogIn && <motion.div
+                layout
+                key={6}
+                style={{ width: "100%", height: "10px" }}
               >
                 <TextField
                   onChange={handleChange("email")}
@@ -358,16 +343,12 @@ const AuthenticationDialog = () => {
                   variant="standard"
                   label="Email"
                 />
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.4 }}
+              </motion.div>}
+              
+              {!isLogIn && <motion.div
+                layout
+                key={7}
+                style={{ width: "100%", height: "10px" }}
               >
                 <TextField
                   onChange={handleChange("address")}
@@ -376,16 +357,12 @@ const AuthenticationDialog = () => {
                   variant="standard"
                   label="Country"
                 />
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.5 }}
+              </motion.div>}
+              
+              {!isLogIn &&  <motion.div
+                layout
+                key={8}
+                style={{ width: "100%", height: "10px" }}
               >
                 <FormControl variant="standard" sx={{ width: "100%" }}>
                   <InputLabel id="demo-simple-select-standard-label">
@@ -417,40 +394,36 @@ const AuthenticationDialog = () => {
                     <MenuItem value={"WRITING"}>Writing</MenuItem>
                   </Select>
                 </FormControl>
-              </motion.div>
-              <motion.div
-                style={{ width: "100%" }}
-                variants={{
-                  hidden: { height: 0, x: "-100%" },
-                  visible: { height: "50px", x: 0 },
-                }}
-                initial={signIn ? "hidden" : "visible"}
-                animate={confirmPasswordControl}
-                transition={{ duration: 0.5, ease: "easeOut", delay: 0.6 }}
+              </motion.div>}
+             
+              {!isLogIn && <motion.div
+                layout
+                key={9}
+                style={{ width: "100%", height: "10px" }}
               >
-                <FormControl variant="standard" sx={{ width: "100%" }}>
-                  <InputLabel id="demo-simple-select-standard-label">
-                    Are you a student ?
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    onChange={handleChange("student")}
-                    value={signUpData.student}
-                    label="Are you a student ?"
-                  >
-                    <MenuItem value={true}>Yes</MenuItem>
-                    <MenuItem value={false}>No</MenuItem>
-                  </Select>
-                </FormControl>
-              </motion.div>
-            </motion.div>
-          </Stack>
+                <TextField
+                  style={{ width: "100%", height: "10px" }}
+                  variant="standard"
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  onChange={handleChange("birthOfDate")}
+                  value={signUpData.birthOfDate}
+                  label="Date Of Birth"
+                  type="date"
+                  InputLabelProps={{
+                    style: {
+                      marginLeft: "7rem", // Adjust the value as needed
+                    },
+                  }}
+                />
+              </motion.div>}
+            </Stack>
+          </AnimatePresence>
         </DialogContent>
         <AnimatePresence mode="wait" initial={false}>
-          {signIn ? (
+          {isLogIn ? (
             <motion.div
-              key={8}
+              key={0}
               layout
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -466,7 +439,7 @@ const AuthenticationDialog = () => {
                 <Button
                   style={buttonStyles}
                   onClick={() => {
-                    postRequest(signInData);
+                    postRequest(isLogInData);
                     handleClose();
                   }}
                 >
@@ -482,8 +455,7 @@ const AuthenticationDialog = () => {
                       fontWeight: 700,
                     }}
                     onClick={() => {
-                      handleReplay();
-                      setSignIn(false);
+                      setIsLogIn(false);
                     }}
                   >
                     {" "}
@@ -494,7 +466,7 @@ const AuthenticationDialog = () => {
             </motion.div>
           ) : (
             <motion.div
-            key={9}
+              key={1}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
@@ -510,7 +482,7 @@ const AuthenticationDialog = () => {
                   style={buttonStyles}
                   onClick={() => {
                     postRequest(signUpData);
-                    setSignIn(true)
+                    setIsLogIn(true);
                   }}
                 >
                   <Typography style={buttonTextStyles}>Sign Up</Typography>
@@ -525,8 +497,7 @@ const AuthenticationDialog = () => {
                       fontWeight: 700,
                     }}
                     onClick={() => {
-                      handleReplay();
-                      setSignIn(true);
+                      setIsLogIn(true);
                     }}
                   >
                     {" "}

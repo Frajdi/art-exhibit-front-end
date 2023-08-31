@@ -62,9 +62,9 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
     profilePicture,
     username,
     authToken,
-    setAuthDialogOpen,
     authError,
     setAuthError,
+    setIsLogIn
   } = useArtContext();
 
   const { scrollY } = useScroll();
@@ -87,10 +87,6 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
       setLogedIn(true);
     }
   }, [profilePicture, username, authToken]);
-
-  const handleClickOpen = () => {
-    setAuthDialogOpen(true);
-  };
 
   useEffect(() => {
     console.log(authError);
@@ -280,7 +276,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                     exit={{ scale: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Button style={buttonStyles} onClick={handleClickOpen}>
+                    <Button style={buttonStyles} onClick={() => {setIsLogIn(true)}}>
                       <Typography
                         sx={{ ...menuOptionsStyles, lineHeight: "20px" }}
                       >
