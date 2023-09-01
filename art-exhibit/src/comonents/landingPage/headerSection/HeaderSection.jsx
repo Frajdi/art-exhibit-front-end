@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ImageGroup from "./ImageGroup";
+import ScrollingTestimonials from "./ImageGroup";
 import TextAnimation from "../../../animationUtils/TextAnimation";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -71,7 +71,7 @@ const HeaderSection = () => {
         </Stack>
       </Grid>
       <Grid item xs={6}>
-        <ImageGroup />
+        <ScrollingTestimonials />
       </Grid>
     </Grid>
   );

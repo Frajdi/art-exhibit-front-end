@@ -153,7 +153,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                     cursor: "pointer",
                   }}
                 >
-                  <Typography variant={motion.div} noWrap sx={logoTitleStyles}>
+                  <Typography noWrap sx={logoTitleStyles}>
                     ArtExhibit
                   </Typography>
                 </motion.div>

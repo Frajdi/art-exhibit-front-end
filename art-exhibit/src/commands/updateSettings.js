@@ -14,7 +14,7 @@ const useUpdateSettings = () => {
           Authorization: `Bearer ${accessToken}`, // Include the token in the Authorization header
         },
       });
-      setData(response.data);
+      setData(response.status);
       setError(null);
     } catch (err) {
       setError(err.response.data.details);

@@ -22,9 +22,9 @@ const containerStyles = {
     backgroundColor: "rgba(245,233,255, 0.7)",
     backdropFilter: " blur( 15px )",
     border: '1px solid #C882FF',
-    position: 'fixed',
-    zIndex: "99999", // z-50
-    top: "16px", // bottom-4
+    position: "fixed",
+    zIndex: "50", // z-50
+    bottom: "16px", // bottom-4
     right: "16px", // right-4,
 }
 

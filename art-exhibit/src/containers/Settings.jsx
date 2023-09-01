@@ -103,12 +103,19 @@ const Settings = () => {
     oldPassword: "",
   });
 
-  const { authToken, authLoading, setAuthError } = useArtContext();
-  
+  const {
+    authToken,
+    authLoading,
+    setAuthError,
+    setUsername,
+    setProfilePicture,
+  } = useArtContext();
+
   const { isLoading, data, getRequest } = useGetCurrentUserData();
-  
+
   const {
     isLoading: isUpdateLoading,
+    data: updateStatus,
     error,
     updateSettings,
   } = useUpdateSettings();
@@ -119,7 +126,6 @@ const Settings = () => {
     updatePassword,
   } = useUpdatePassword();
 
-
   useEffect(() => {
     if (isUpdateLoading === false && error) {
       setAuthError(error);
@@ -128,6 +134,13 @@ const Settings = () => {
       setAuthError(passwordError);
     }
   }, [isUpdateLoading, isUpdatepasswordLoading]);
+
+  useEffect(() => {
+    if (updateStatus === 200) {
+      setUsername(userData.username);
+      setProfilePicture(`data:image/png;base64,${userData?.profileImage}`);
+    }
+  }, [updateStatus]);
 
   useEffect(() => {
     if (authToken) {
@@ -375,8 +388,6 @@ const Settings = () => {
                                   const fullBase64img = reader.result;
                                   const base64Image =
                                     fullBase64img.split(",")[1];
-                                    console.log(fullBase64img.split(",")[0])
-                                    console.log(fullBase64img.split(",")[1])
                                   newData.profileImage = base64Image;
                                   return newData;
                                 });
@@ -539,7 +550,8 @@ const Settings = () => {
                           style={{
                             ...fieldsStyles,
                             border:
-                              password.newPassword === password.confirmNewPassword
+                              password.newPassword ===
+                              password.confirmNewPassword
                                 ? "none"
                                 : "2px solid red",
                           }}
@@ -555,7 +567,8 @@ const Settings = () => {
                           style={{
                             ...fieldsStyles,
                             border:
-                            password.newPassword === password.confirmNewPassword
+                              password.newPassword ===
+                              password.confirmNewPassword
                                 ? "none"
                                 : "2px solid red",
                           }}
@@ -563,21 +576,24 @@ const Settings = () => {
                           value={password.confirmNewPassword}
                           onChange={(e) => {
                             setPassword((prev) => {
-                              return { ...prev, confirmNewPassword: e.target.value };
-                            })
+                              return {
+                                ...prev,
+                                confirmNewPassword: e.target.value,
+                              };
+                            });
                           }}
                         />
                         <input
                           style={{
                             ...fieldsStyles,
-                            border: 'none'
+                            border: "none",
                           }}
                           type="password"
                           value={password.oldPassword}
                           onChange={(e) => {
                             setPassword((prev) => {
                               return { ...prev, oldPassword: e.target.value };
-                            })
+                            });
                           }}
                         />
                       </>
@@ -603,7 +619,8 @@ const Settings = () => {
                     ) : (
                       <Button
                         disabled={
-                          password.newPassword !== password.confirmNewPassword ||
+                          password.newPassword !==
+                            password.confirmNewPassword ||
                           password.confirmNewPassword === "" ||
                           password.newPassword === "" ||
                           password.oldPassword === ""

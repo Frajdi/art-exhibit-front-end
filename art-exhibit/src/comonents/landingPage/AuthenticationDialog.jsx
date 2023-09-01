@@ -161,8 +161,6 @@ const AuthenticationDialog = () => {
               const newData = { ...prev };
               const fullBase64img = reader.result;
               const base64Image = fullBase64img.split(",")[1];
-              console.log(fullBase64img.split(",")[0])
-                                    console.log(fullBase64img.split(",")[1])
               newData[field] = base64Image;
               return newData;
             });
@@ -369,7 +367,6 @@ const AuthenticationDialog = () => {
                     Choose category
                   </InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     onChange={handleChange("category")}
                     value={signUpData.category}
@@ -404,7 +401,6 @@ const AuthenticationDialog = () => {
                 <TextField
                   style={{ width: "100%", height: "10px" }}
                   variant="standard"
-                  labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   onChange={handleChange("birthOfDate")}
                   value={signUpData.birthOfDate}
