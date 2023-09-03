@@ -1,9 +1,12 @@
-import { Grid, Stack, Typography } from "@mui/material";
 import React from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import Footer from "../comonents/landingPage/Footer";
 import TextAnimation from "../animationUtils/TextAnimation";
 import TitleGroup from "../comonents/communityPage/TitleGroup";
+import EventSlider from "../comonents/communityPage/EventSlider";
 
 const signitureStyles = {
   textDecoration: "none",
@@ -39,6 +42,14 @@ const CommunityPage = () => {
           createNewText={"event"}
           createNewFunction={console.log("event")}
         />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        padding={"4rem 8rem 0 8rem"}
+        sx={{ backgroundColor: "#FFFFFF" }}
+      >
+        <EventSlider />
       </Grid>
       <Grid
         item

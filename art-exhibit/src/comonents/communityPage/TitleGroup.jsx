@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-
+import CreateEventPopUp from "./createEvent/CreateEventPopUp";
 
 const titleStyles = {
     color: "#222222",
@@ -33,12 +33,14 @@ const TitleGroup = ({
   seeAllFunction,
   createNewFunction,
 }) => {
+  const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false)
   return (
     <Stack
       direction="column"
       alignItems="center"
       justifyContent="center"
       spacing={3}
+      width={'100%'}
     >
       <Typography style={titleStyles}>{title}</Typography>
       <Stack
@@ -60,16 +62,15 @@ const TitleGroup = ({
         </Button>
         <Button
           variant="contained"
-          onClick={() => {
-            createNewFunction();
-          }}
           style={{ ...buttonStyles, background: "#E7DEEF" }}
+          onClick = {() =>{ setCreateEventDialogOpen(true)}}
         >
           <Typography style={{ ...buttonTextStyles, color: "#222222" }}>
             Create new {createNewText}
           </Typography>
         </Button>
       </Stack>
+      <CreateEventPopUp open={createEventDialogOpen} handleClose={() => {setCreateEventDialogOpen(false)}}/>
     </Stack>
   );
 };
