@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -66,6 +66,11 @@ const squareVariants = {
 
 const ArtistsGrid = ({ artists, scrollTopHeight }) => {
   const [selectedSquare, setSelectedSquare] = useState(null);
+
+  useEffect(() => {
+    console.log({artists});
+  },[artists])
+
 
   const renderArtists = () => (
     <Grid container layout component={motion.div} spacing={5} padding={5}>

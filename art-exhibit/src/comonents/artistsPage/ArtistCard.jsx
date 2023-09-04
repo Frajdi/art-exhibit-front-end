@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const cardStyles = {
   width: "90%",
-  height: "100%",
+  height: "350px",
   paddingBottom: 30,
   borderRadius: "10px",
   overflow: "hidden",
@@ -66,7 +66,7 @@ const ArtistCard = ({
   selectedSquare,
   scrollTopHeight
 }) => {
-  const { name, bio, profileImage, wallpaperImage } = artist;
+  const { username, description, profileImage } = artist;
   return (
     <Stack
       layout
@@ -78,12 +78,12 @@ const ArtistCard = ({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2, type: "spring" }}
     >
-      <img src={wallpaperImage} style={wallpaperImageStyles} />
-      <img src={profileImage} style={profilePictureStyles} />
-      <Stack direction="column" alignItems="center" spacing={2}>
-        <Typography style={titleStyles}>{name}</Typography>
+      <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDL0XSeU9gN2IENmQwvTt0wHfcOZwvRe4oxAez1guBRPs4hrvADSiOrSphBATx3gmIXM&usqp=CAU'} style={wallpaperImageStyles} />
+      <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDL0XSeU9gN2IENmQwvTt0wHfcOZwvRe4oxAez1guBRPs4hrvADSiOrSphBATx3gmIXM&usqp=CAU'} style={profilePictureStyles} />
+      <Stack direction="column" alignItems="center" spacing={2} width={'100%'}>
+        <Typography style={titleStyles}>{username}</Typography>
         <Typography style={bioStyles} align="center">
-          {bio}
+          {description ? description : 'No Bio Available For This Artist'}
         </Typography>
         {selectedSquare ? (
           <Button

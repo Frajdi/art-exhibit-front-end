@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import SearchBar from "./SearchBar";
 import ArtistsGrid from "./ArtistsGrid";
@@ -86,9 +86,12 @@ const data = [
   },
 ];
 
-const ArtistsSearchGrid = () => {
-    const [artists, setArtists] = useState(data)
-    const [filteredArtists, setFilteredArtists] = useState(data)
+const ArtistsSearchGrid = ({artistsData}) => {
+    const [artists, setArtists] = useState(artistsData)
+    const [filteredArtists, setFilteredArtists] = useState(artistsData)
+    useEffect(() => {
+      console.log({artists});
+    },[artists])
   return (
     <Stack direction='column' spacing={3} width={'100%'} alignItems='center'>
       <SearchBar artists={artists} setFilteredArtists = {setFilteredArtists} />

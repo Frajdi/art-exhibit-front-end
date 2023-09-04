@@ -3,14 +3,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import CreateEventPopUp from "./createEvent/CreateEventPopUp";
+import { useArtContext } from "../../state/AppContext";
 
 const titleStyles = {
-    color: "#222222",
-    fontFamily: "Poppins, sans-serif",
-    fontWeight: 700,
-    fontSize: "40px",
-    lineHeight: "60px",
-  };
+  color: "#222222",
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 700,
+  fontSize: "40px",
+  lineHeight: "60px",
+};
 
 const buttonStyles = {
   width: "320px",
@@ -33,14 +34,15 @@ const TitleGroup = ({
   seeAllFunction,
   createNewFunction,
 }) => {
-  const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false)
+  const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
+  const { category, authToken } = useArtContext();
   return (
     <Stack
       direction="column"
       alignItems="center"
       justifyContent="center"
       spacing={3}
-      width={'100%'}
+      width={"100%"}
     >
       <Typography style={titleStyles}>{title}</Typography>
       <Stack
@@ -60,17 +62,26 @@ const TitleGroup = ({
             See all {seeAllText}
           </Typography>
         </Button>
-        <Button
-          variant="contained"
-          style={{ ...buttonStyles, background: "#E7DEEF" }}
-          onClick = {() =>{ setCreateEventDialogOpen(true)}}
-        >
-          <Typography style={{ ...buttonTextStyles, color: "#222222" }}>
-            Create new {createNewText}
-          </Typography>
-        </Button>
+        {(authToken || category === "ART_COLLECTOR") && (
+          <Button
+            variant="contained"
+            style={{ ...buttonStyles, background: "#E7DEEF" }}
+            onClick={() => {
+              setCreateEventDialogOpen(true);
+            }}
+          >
+            <Typography style={{ ...buttonTextStyles, color: "#222222" }}>
+              Create new {createNewText}
+            </Typography>
+          </Button>
+        )}
       </Stack>
-      <CreateEventPopUp open={createEventDialogOpen} handleClose={() => {setCreateEventDialogOpen(false)}}/>
+      <CreateEventPopUp
+        open={createEventDialogOpen}
+        handleClose={() => {
+          setCreateEventDialogOpen(false);
+        }}
+      />
     </Stack>
   );
 };

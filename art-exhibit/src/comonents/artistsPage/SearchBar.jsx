@@ -33,7 +33,7 @@ const SearchBar = ({artists, setFilteredArtists}) => {
 
     useEffect(() => {
         const filteredArtists = artists.filter(artist => {
-            return artist.name.toLowerCase().includes(searchValue.toLowerCase())
+            return artist.username.toLowerCase().includes(searchValue.toLowerCase())
         })
         setFilteredArtists(filteredArtists)
     }, [searchValue])

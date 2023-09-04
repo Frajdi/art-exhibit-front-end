@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import Grid from "@mui/material/Grid";
 import Footer from "../comonents/landingPage/Footer";
@@ -6,22 +6,38 @@ import TextAnimation from "../animationUtils/TextAnimation";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import ArtistsSearchGrid from "../comonents/artistsPage/ArtistsSearchGrid";
+import useGetArtists from "../commands/getAllArtists";
+
+const signitureStyles = {
+  textDecoration: "none",
+  color: "#222222",
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 700,
+  fontSize: "20px",
+  lineHeight: "30px",
+  opacity: 0.5,
+};
+
+const signitureNameStyles = {
+  ...signitureStyles,
+  opacity: 1,
+};
 
 const ArtistsPage = () => {
-  const signitureStyles = {
-    textDecoration: "none",
-    color: "#222222",
-    fontFamily: "Poppins, sans-serif",
-    fontWeight: 700,
-    fontSize: "20px",
-    lineHeight: "30px",
-    opacity: 0.5,
-  };
+  const { data, error, isLoading, getArtists } = useGetArtists();
+  const [artists, setArtists] = useState(null);
 
-  const signitureNameStyles = {
-    ...signitureStyles,
-    opacity: 1,
-  };
+  useEffect(() => {
+    getArtists();
+  }, []);
+
+  useEffect(() => {
+    setArtists(data);
+  }, [data]);
+
+  useEffect(() => {
+    console.log(">>", artists);
+  }, [artists]);
 
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
@@ -29,7 +45,11 @@ const ArtistsPage = () => {
         <AppBarMenu color="#FFFFFF" />
       </Grid>
       <Grid item xs={12} padding={"8rem 8rem 0 8rem"}>
-        <ArtistsSearchGrid />
+        {artists === null ? (
+          "LOADING ARTISTS ..."
+        ) : (
+          <ArtistsSearchGrid artistsData={artists} />
+        )}
       </Grid>
       <Grid
         item
