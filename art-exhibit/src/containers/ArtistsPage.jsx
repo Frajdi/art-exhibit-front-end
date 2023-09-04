@@ -35,9 +35,6 @@ const ArtistsPage = () => {
     setArtists(data);
   }, [data]);
 
-  useEffect(() => {
-    console.log(">>", artists);
-  }, [artists]);
 
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>

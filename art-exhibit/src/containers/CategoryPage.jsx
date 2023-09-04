@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -6,6 +6,7 @@ import AppBarMenu from "../comonents/landingPage/AppBar";
 import Footer from "../comonents/landingPage/Footer";
 import TextAnimation from "../animationUtils/TextAnimation";
 import CategorySearchGrid from "../comonents/categoryPage/CategorySearchGrid";
+import useGetArtists from "../commands/getAllArtists";
 
 const signitureStyles = {
   textDecoration: "none",
@@ -23,13 +24,31 @@ const signitureNameStyles = {
 };
 
 const CategoryPage = () => {
+  const { data, error, isLoading, getArtists } = useGetArtists();
+  const [artists, setArtists] = useState(null);
+
+  useEffect(() => {
+    getArtists();
+  }, []);
+
+  useEffect(() => {
+    if(data) {
+      setArtists(data);
+    }
+  }, [data]);
+
+
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
       <Grid item xs={12}>
         <AppBarMenu color="#FFFFFF" />
       </Grid>
       <Grid item xs={12} padding={"8rem 8rem 0 8rem"}>
-        <CategorySearchGrid />
+      {artists === null ? (
+          "LOADING ARTISTS ..."
+        ) : (
+          <CategorySearchGrid artistsData={artists}/>
+        )}
       </Grid>
       <Grid
         item

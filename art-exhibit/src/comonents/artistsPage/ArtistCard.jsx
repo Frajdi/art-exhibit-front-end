@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const cardStyles = {
   width: "90%",
-  height: "350px",
+  height: "420px",
   paddingBottom: 30,
   borderRadius: "10px",
   overflow: "hidden",
@@ -78,7 +78,7 @@ const ArtistCard = ({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2, type: "spring" }}
     >
-      <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDL0XSeU9gN2IENmQwvTt0wHfcOZwvRe4oxAez1guBRPs4hrvADSiOrSphBATx3gmIXM&usqp=CAU'} style={wallpaperImageStyles} />
+      <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://media.istockphoto.com/id/174923556/photo/3d-illuminated-podium.jpg?s=612x612&w=0&k=20&c=WC7GBNAhyDYQeVfkTIA6h9ohR8gH89nTPWZweSdcnLo='} style={wallpaperImageStyles} />
       <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDL0XSeU9gN2IENmQwvTt0wHfcOZwvRe4oxAez1guBRPs4hrvADSiOrSphBATx3gmIXM&usqp=CAU'} style={profilePictureStyles} />
       <Stack direction="column" alignItems="center" spacing={2} width={'100%'}>
         <Typography style={titleStyles}>{username}</Typography>

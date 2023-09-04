@@ -26,7 +26,7 @@ const categoryOptions = [
   { value: "POTTERY", label: "Pottery" },
   { value: "PRINTMAKING", label: "Printmaking" },
   { value: "WRITING", label: "Writing" },
-  { value: "", label: "User" },
+  { value: "ART_COLLECTOR", label: "Art Collector" },
 ];
 
 const titleStyles = {
@@ -96,8 +96,10 @@ const CategorySearchBar = ({ artists, setFilteredArtistsByCategory }) => {
 
   useEffect(() => {
     const filteredArtists = artists.filter((artist) => {
+      // console.log(artist.category, selectedCategory);
       return artist.category === selectedCategory;
     });
+    console.log({filteredArtists});
     if (selectedCategory) {
       setFilteredArtistsByCategory(filteredArtists);
     } else {

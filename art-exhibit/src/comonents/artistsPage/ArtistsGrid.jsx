@@ -85,6 +85,7 @@ const ArtistsGrid = ({ artists, scrollTopHeight }) => {
                   setSelectedSquare={setSelectedSquare}
                   variants={squareVariants}
                   scrollTopHeight={scrollTopHeight}
+                  key={artist.username}
                 />
               </Stack>
             </Grid>
