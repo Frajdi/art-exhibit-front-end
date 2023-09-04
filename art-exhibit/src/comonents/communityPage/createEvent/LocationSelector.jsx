@@ -6,13 +6,12 @@ import "leaflet-routing-machine"; // Import Leaflet Routing Machine
 import locationIcon from "../../../locationIcon.png";
 import axios from "axios";
 
-const LocationPicker = () => {
+const LocationPicker = ({ eventData, setEventData }) => {
   const mapRef = useRef(null);
   const mapInstance = useRef(null); // Store the map instance
   const routingControl = useRef(null); // Store the routing control instance
   const markerRef = useRef(null); // Store the marker instance
   const [location, onSelectLocation] = useState(null);
-  const [searchResult, setSearchResult] = useState("");
 
   async function reverseGeocode(lat, lng) {
     // Ensure lat and lng are converted to numbers
@@ -29,15 +28,13 @@ const LocationPicker = () => {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
 
-      // Extract the relevant location details
       const addressComponents = response.data.address;
       const city = addressComponents.city || addressComponents.town;
       const country = addressComponents.country;
 
-      console.log({addressComponents});
-
-      // Construct a formatted result
-      const formattedResult = [city, addressComponents.road].filter(Boolean).join(", ");
+      const formattedResult = [city, addressComponents.road]
+        .filter(Boolean)
+        .join(", ");
 
       return formattedResult;
     } catch (error) {
@@ -47,7 +44,6 @@ const LocationPicker = () => {
   }
 
   useEffect(() => {
-    console.log(location);
 
     if (markerRef.current) {
       // If a marker already exists, remove it from the map
@@ -58,24 +54,26 @@ const LocationPicker = () => {
       // Remove the default marker icon
       mapInstance.current.removeLayer(location.latLng);
 
-    // Create a transparent shadow icon
-  
-  // Create a custom marker icon with the transparent shadow
-  const customIcon = L.icon({
-    iconUrl: locationIcon, // Use the custom marker image
-    iconSize: [42, 42], // Set the size of the marker icon
-    iconAnchor: [25, 45], // Set the anchor point
-    shadowUrl: '', // Set an empty string for the shadow URL
-  });
-  
- // Create a new marker with the custom icon and transparent shadow at the selected location
-const marker = L.marker(location.latLng, { icon: customIcon}).addTo(mapInstance.current);
-markerRef.current = marker;
+      // Create a transparent shadow icon
 
-  
+      // Create a custom marker icon with the transparent shadow
+      // const customIcon = L.icon({
+      //   iconUrl: locationIcon, // Use the custom marker image
+      //   iconSize: [42, 42], // Set the size of the marker icon
+      //   iconAnchor: [25, 45], // Set the anchor point
+      //   shadowUrl: "", // Set an empty string for the shadow URL
+      // });
+
+      // const marker = L.marker(location.latLng, { icon: customIcon }).addTo(
+      //   mapInstance.current
+      // );
+      const marker = L.marker(location.latLng).addTo(
+        mapInstance.current
+      );
+      markerRef.current = marker;
 
       // Set the search result to the human-readable address
-      setSearchResult(location.address);
+      setEventData((prev) => {return {...prev , address: location.address}});
     }
   }, [location]);
 
@@ -114,10 +112,10 @@ markerRef.current = marker;
   return (
     <div>
       <div ref={mapRef} style={{ height: "400px" }}></div>
-      {searchResult && (
+      {eventData.address && (
         <div>
           <h2>Selected Location:</h2>
-          <p>{searchResult}</p>
+          <p>{eventData.address}</p>
         </div>
       )}
     </div>

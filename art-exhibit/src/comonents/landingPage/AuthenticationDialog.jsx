@@ -64,6 +64,7 @@ const AuthenticationDialog = () => {
   const {
     setProfilePicture,
     setUsername,
+    setCategory,
     setAuthToken,
     setAuthLoading,
     setAuthError,
@@ -115,6 +116,7 @@ const AuthenticationDialog = () => {
       setProfilePicture(`data:image/png;base64,${data.profileImage}`);
       setAuthLoading(isLoading);
       setUsername(data.username);
+      setCategory(data.category)
       setAuthToken(accessToken);
     }
   }, [data]);

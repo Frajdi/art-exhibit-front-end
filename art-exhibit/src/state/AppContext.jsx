@@ -8,6 +8,7 @@ const withContext = (Component) => (props) => {
   //User Data
   const [profilePicture, setProfilePicture] = useState(null);
   const [username, setUsername] = useState(null);
+  const [category, setCategory] = useState(null);
   const [authToken, setAuthToken] = useState(null);
   const [isLogIn, setIsLogIn] = useState(null);
   const [authError, setAuthError] = useState(null);
@@ -22,8 +23,10 @@ const withContext = (Component) => (props) => {
         isLogIn,
         authError,
         authLoading,
+        category,
         setProfilePicture,
         setUsername,
+        setCategory,
         setAuthToken,
         setIsLogIn,
         setAuthError,

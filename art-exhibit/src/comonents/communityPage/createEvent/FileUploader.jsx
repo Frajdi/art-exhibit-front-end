@@ -20,7 +20,6 @@ const FileUploader = ({ eventData, setEventData }) => {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-        alignItems: "center",
         height: "70%",
         background:
           "url(https://images.unsplash.com/photo-1608371945786-d47d3cdd31da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGFydCUyMGdhbGxlcnl8ZW58MHx8MHx8fDA%3D&w=1000&q=80)",

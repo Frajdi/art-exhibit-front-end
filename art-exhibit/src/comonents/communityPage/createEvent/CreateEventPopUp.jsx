@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Stepper, Step, Avatar, Stack } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import FileUploader from "./FileUploader";
 import LocationPicker from "./LocationSelector";
+import DateTimePicker from "./DateTimePicker";
+import Description from "./Description";
+import { useArtContext } from "../../../state/AppContext";
+import useCreateEvent from "../../../commands/createEvent";
 
 const steps = [
   {
@@ -13,16 +19,16 @@ const steps = [
     content: FileUploader,
   },
   {
-    label: "Create an ad group",
+    label: "Pick Location",
     content: LocationPicker,
   },
   {
-    label: "Create an ad",
-    content: FileUploader,
+    label: "Pick Date & Time",
+    content: DateTimePicker,
   },
   {
-    label: "Create an ad",
-    content: FileUploader,
+    label: "Description",
+    content: Description,
   },
 ];
 
@@ -40,7 +46,8 @@ const glassmorphismStyles = {
   margin: "auto", // Center the content horizontally and vertically
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between",
+  justifyContent: "space-around",
+  overflow: 'hidden'
 };
 
 const stepNumberStyles = {
@@ -63,17 +70,26 @@ const ActiveContent = ({ activeStep, eventData, setEventData }) => {
 };
 
 const CreateEventPopUp = ({ open, handleClose }) => {
+const {category, username, authToken} = useArtContext()
+const { data, error, isLoading, createEvent } = useCreateEvent()
   const [activeStep, setActiveStep] = useState(0);
   const [eventData, setEventData] = useState({
-    address: "string",
-    category: "string",
-    description: "string",
-    id: 0,
-    name: "string",
+    address: "",
+    category: category,
+    description: "",
+    name: username,
     photo: "",
-    time: "2023-09-03T11:22:43.711Z",
+    time: "",
   });
-  const theme = useTheme();
+
+  useEffect(() => {
+    console.log({eventData})
+  },[eventData])
+  
+  useEffect(() => {
+    setEventData((prev) => {return {...prev , name: username, category: category}});
+  },[username, category])
+
   const maxSteps = steps.length;
 
   const handleNext = () => {
@@ -93,7 +109,7 @@ const CreateEventPopUp = ({ open, handleClose }) => {
     >
       <Typography
         variant="h4"
-        style={{ textAlign: "center", marginBottom: "20px", color: "#FFFFFF" }}
+        style={{ textAlign: "center", marginBottom: '10px', color: "#FFFFFF" }}
       >
         {steps[activeStep].label}
       </Typography>
@@ -105,7 +121,7 @@ const CreateEventPopUp = ({ open, handleClose }) => {
               <Stack
                 direction="row"
                 alignItems="center"
-                justifyContent="space-between"
+                justifyContent="center"
                 spacing={"10px"}
               >
                 <Avatar
@@ -137,15 +153,24 @@ const CreateEventPopUp = ({ open, handleClose }) => {
           >
             Back
           </Button>
+          {(activeStep === maxSteps - 1 &&  eventData.address && eventData.description && eventData.photo && eventData.time) ? <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {createEvent(eventData, authToken)}}
+            style={{ borderRadius: "5px" }}
+          >
+            Create
+          </Button> 
+          : 
           <Button
             variant="contained"
             color="primary"
-            onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
+            onClick={handleNext}
             style={{ borderRadius: "5px" }}
           >
             Next
-          </Button>
+          </Button>}
         </div>
       </Stack>
     </Dialog>
