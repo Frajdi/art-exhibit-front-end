@@ -27,7 +27,7 @@ const steps = [
     content: DateTimePicker,
   },
   {
-    label: "Description",
+    label: "Name & Description",
     content: Description,
   },
 ];
@@ -47,7 +47,7 @@ const glassmorphismStyles = {
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-around",
-  overflow: 'hidden'
+  overflow: "hidden",
 };
 
 const stepNumberStyles = {
@@ -65,29 +65,27 @@ const stepNumberStyles = {
 
 const ActiveContent = ({ activeStep, eventData, setEventData }) => {
   const CurrentComponent = steps[activeStep].content;
-  return <CurrentComponent eventData={eventData} setEventData={setEventData}/>;
+  return <CurrentComponent eventData={eventData} setEventData={setEventData} />;
 };
 
 const CreateEventPopUp = ({ open, handleClose }) => {
-const {category, username, authToken} = useArtContext()
-const { data, error, isLoading, createEvent } = useCreateEvent()
+  const { category, username, authToken } = useArtContext();
+  const { data, error, isLoading, createEvent } = useCreateEvent();
   const [activeStep, setActiveStep] = useState(0);
   const [eventData, setEventData] = useState({
     address: "",
     category: category,
     description: "",
-    name: username,
+    name: "",
     photo: "",
     time: "",
   });
 
   useEffect(() => {
-    console.log({eventData})
-  },[eventData])
-  
-  useEffect(() => {
-    setEventData((prev) => {return {...prev , name: username, category: category}});
-  },[username, category])
+    setEventData((prev) => {
+      return { ...prev, category: category };
+    });
+  }, [category]);
 
   const maxSteps = steps.length;
 
@@ -108,11 +106,15 @@ const { data, error, isLoading, createEvent } = useCreateEvent()
     >
       <Typography
         variant="h4"
-        style={{ textAlign: "center", marginBottom: '10px', color: "#FFFFFF" }}
+        style={{ textAlign: "center", marginBottom: "10px", color: "#FFFFFF" }}
       >
         {steps[activeStep].label}
       </Typography>
-      <ActiveContent activeStep={activeStep} eventData={eventData} setEventData={setEventData} />
+      <ActiveContent
+        activeStep={activeStep}
+        eventData={eventData}
+        setEventData={setEventData}
+      />
       <Stack>
         <Stepper activeStep={activeStep}>
           {steps.map((step, index) => (
@@ -152,24 +154,42 @@ const { data, error, isLoading, createEvent } = useCreateEvent()
           >
             Back
           </Button>
-          {(activeStep === maxSteps - 1 &&  eventData.address && eventData.description && eventData.photo && eventData.time) ? <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {createEvent(eventData, authToken)}}
-            style={{ borderRadius: "5px" }}
-          >
-            Create
-          </Button> 
-          : 
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={activeStep === maxSteps - 1}
-            onClick={handleNext}
-            style={{ borderRadius: "5px" }}
-          >
-            Next
-          </Button>}
+          {activeStep === maxSteps - 1 &&
+          eventData.address &&
+          eventData.description &&
+          eventData.photo &&
+          eventData.time ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                createEvent(eventData, authToken);
+                handleClose();
+                setEventData({
+                  address: "",
+                  category: category,
+                  description: "",
+                  name: "",
+                  photo: "",
+                  time: "",
+                });
+                setActiveStep(0)
+              }}
+              style={{ borderRadius: "5px" }}
+            >
+              Create
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={activeStep === maxSteps - 1}
+              onClick={handleNext}
+              style={{ borderRadius: "5px" }}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </Stack>
     </Dialog>

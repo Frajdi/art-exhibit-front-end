@@ -9,6 +9,8 @@ import TitleGroup from "../comonents/communityPage/TitleGroup";
 import EventSlider from "../comonents/communityPage/EventSlider";
 import AllEvents from "../comonents/communityPage/AllEvents";
 import { AnimatePresence, motion } from "framer-motion";
+import CreateEventPopUp from "../comonents/communityPage/createEvent/CreateEventPopUp";
+import TopNotifications from "../comonents/communityPage/notification/TopNotifications";
 
 const signitureStyles = {
   textDecoration: "none",
@@ -41,6 +43,7 @@ const wrapperVariants = {
 };
 
 const CommunityPage = () => {
+  const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
   const [seeAllEvents, setSeeAllEvents] = useState(false);
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
@@ -50,6 +53,7 @@ const CommunityPage = () => {
         </Grid>
         {/* Initial Page */}
         {!seeAllEvents && (
+          <>
           <motion.div
           variants={wrapperVariants}
           initial="initial"
@@ -69,7 +73,7 @@ const CommunityPage = () => {
                 seeAllText={"events"}
                 seeAllFunction={() => setSeeAllEvents(true)}
                 createNewText={"event"}
-                createNewFunction={console.log("event")}
+                createNewFunction={() => {setCreateEventDialogOpen(true)}}
               />
             </Grid>
             <Grid
@@ -81,6 +85,39 @@ const CommunityPage = () => {
               <EventSlider />
             </Grid>
           </motion.div>
+          <motion.div
+          style={{width: '100%'}}
+          variants={wrapperVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 3 , ease: 'easeLinear'}}
+          key={2}
+          >
+            <Grid
+              item
+              xs={12}
+              padding={"3rem 8rem 0 8rem"}
+              sx={{ backgroundColor: "#FFFFFF" }}
+            >
+              <TitleGroup
+                title={"Notifications"}
+                seeAllText={"notifications"}
+                seeAllFunction={() => {}}
+                createNewText={"notification"}
+                createNewFunction={() =>{}}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              padding={"4rem 8rem 0 8rem"}
+              sx={{ backgroundColor: "#FFFFFF" }}
+            >
+              <TopNotifications />
+            </Grid>
+          </motion.div>
+          </>
         )}
         {/* Event Page */}
         {seeAllEvents && 
@@ -89,7 +126,7 @@ const CommunityPage = () => {
           xs={12}
           padding={"4rem 8rem 0 8rem"}
           sx={{ backgroundColor: "#FFFFFF" }}
-          key={2}
+          key={3}
           component={motion.div}
           variants={wrapperVariants}
           initial="initial"
@@ -105,7 +142,7 @@ const CommunityPage = () => {
           xs={12}
           padding={"4rem 8rem 0 8rem"}
           sx={{ backgroundColor: "#FFFFFF" }}
-          key={3}
+          key={4}
         >
           <Footer />
         </Grid>
@@ -114,7 +151,7 @@ const CommunityPage = () => {
           xs={12}
           padding={"3rem 8rem 4rem 8rem"}
           sx={{ backgroundColor: "#FFFFFF" }}
-          key={4}
+          key={5}
         >
           <Stack alignItems={"center"}>
             <TextAnimation color={"#c786ff"}>
@@ -129,6 +166,12 @@ const CommunityPage = () => {
           </Stack>
         </Grid>
       </AnimatePresence>
+      <CreateEventPopUp
+        open={createEventDialogOpen}
+        handleClose={() => {
+          setCreateEventDialogOpen(false);
+        }}
+      />
     </Grid>
   );
 };

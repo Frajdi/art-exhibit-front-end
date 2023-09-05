@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button/Button";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EventCard from "./EventCard";
+import useGetAllEvents from "../../commands/getAllEvents";
 
 const titleStyles = {
   color: "#222222",
@@ -76,6 +77,20 @@ const fakeData = [
 ];
 
 const AllEvents = ({ setSeeAllEvents }) => {
+  const [events, setEvents] = useState(null)
+  const { data, error, isLoading, getEvents} = useGetAllEvents(0, 2)
+
+  useEffect(() => {
+    getEvents()
+  },[])
+
+  useEffect(() => {
+    if(data){
+      console.log(data);
+      setEvents(data)
+    }
+  },[data])
+
   return (
     <Grid container style={containerStyles} spacing={5}>
       <Grid item xs={12}>

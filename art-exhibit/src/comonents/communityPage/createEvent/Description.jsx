@@ -7,8 +7,34 @@ const Description = ({ eventData, setEventData }) => {
     <Stack
       alignItems="center"
       justifyContent="center"
-      style={{ width: "100%", height: "80%" }} // Increase the height as needed
+      style={{ width: "100%", height: "80%" }} 
+      spacing={3}
     >
+    <TextField label="Event Name" variant="outlined" style={{ width: "80%" }} value={eventData.name}
+        onChange={(e) => {
+          setEventData((prev) => {
+            return { ...prev, name: e.target.value };
+          })
+        }}
+        InputProps={{
+          sx: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            color: "#FFFFFF",
+            width: "100%",
+            borderRadius: "15px 15px 0 15px",
+            boxShadow: '0px 2px 24px #003A75'
+          },
+        }}
+        InputLabelProps={{
+          sx: {
+            color: "#CCCCCC", // Change the label text color
+            fontSize: '17px'
+          },
+        }}
+        />
       <TextField
         label="Event Description"
         variant="outlined"

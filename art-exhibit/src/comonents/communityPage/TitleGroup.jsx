@@ -34,7 +34,6 @@ const TitleGroup = ({
   seeAllFunction,
   createNewFunction,
 }) => {
-  const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
   const [mainCategory, setMainCategory] = useState(null);
   const { category, authToken } = useArtContext();
 
@@ -73,7 +72,7 @@ const TitleGroup = ({
             variant="contained"
             style={{ ...buttonStyles, background: "#E7DEEF" }}
             onClick={() => {
-              setCreateEventDialogOpen(true);
+              createNewFunction();
             }}
           >
             <Typography style={{ ...buttonTextStyles, color: "#222222" }}>
@@ -82,12 +81,6 @@ const TitleGroup = ({
           </Button>
         )}
       </Stack>
-      <CreateEventPopUp
-        open={createEventDialogOpen}
-        handleClose={() => {
-          setCreateEventDialogOpen(false);
-        }}
-      />
     </Stack>
   );
 };
