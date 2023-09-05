@@ -55,7 +55,6 @@ const stepNumberStyles = {
   color: "#FFFFFF", // Text color for the step number
   width: "22px", // Adjust the width as needed
   height: "22px", // Adjust the height as needed
-  fontSize: "1rem",
   fontWeight: "bold",
   fontSize: "15px",
   display: "flex",

@@ -43,7 +43,7 @@ const fakeData = [
       "Explore a collection of modern art masterpieces at our gallery.",
     organizer: "City Art Society",
     image:
-      "https://cpimg.tistatic.com/06448460/b/4/Modern-Art-Handmade-Canvas-Oil-Painting.jpg",
+      "https://res.cloudinary.com/indonesiadesign/image/upload/ar_1:1,f_auto,fl_progressive,w_1080/the-scream.jpg",
   },
   {
     title: "Sculpture Workshop: Abstract Creations",
