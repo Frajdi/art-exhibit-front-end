@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -35,7 +35,13 @@ const TitleGroup = ({
   createNewFunction,
 }) => {
   const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
+  const [mainCategory, setMainCategory] = useState(null);
   const { category, authToken } = useArtContext();
+
+  useEffect(() => {
+    setMainCategory(category)
+  },[category])
+
   return (
     <Stack
       direction="column"
@@ -62,7 +68,7 @@ const TitleGroup = ({
             See all {seeAllText}
           </Typography>
         </Button>
-        {(authToken || category === "ART_COLLECTOR") && (
+        {(authToken && mainCategory !== "ART_COLLECTOR") && (
           <Button
             variant="contained"
             style={{ ...buttonStyles, background: "#E7DEEF" }}

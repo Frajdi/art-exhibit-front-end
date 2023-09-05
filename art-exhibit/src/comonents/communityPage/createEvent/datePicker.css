@@ -1,5 +1,0 @@
-/* Hide the OK and Cancel buttons */
-.customDateTimePicker .MuiPickersStaticToolbar-toolbar > :nth-child(2) {
-    display: none;
-  }
-  

@@ -210,8 +210,8 @@ const Settings = () => {
               </Typography>
               <Typography style={subtitleStyles}>
                 {userData.category === "ART_COLLECTOR"
-                  ? "Art collector"
-                  : "Art seller"}
+                  ? "Art Collector"
+                  : "Art Creator"}
               </Typography>
               {userData.category !== "ART_COLLECTOR" && (
                 <Stack

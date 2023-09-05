@@ -26,12 +26,10 @@ const Description = ({ eventData, setEventData }) => {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
-            borderRadius: "10px",
             border: "1px solid rgba(255, 255, 255, 0.2)",
             color: "#FFFFFF",
             width: "100%",
             borderRadius: "15px 15px 0 15px",
-            border: '1px solid #424a53',
             boxShadow: '0px 2px 24px #003A75'
           },
         }}
