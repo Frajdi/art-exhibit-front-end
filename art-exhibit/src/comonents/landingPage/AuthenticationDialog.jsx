@@ -54,7 +54,10 @@ const headerStyles = {
   fontSize: "25px",
 };
 
-const contentStyles = { overflow: "hidden",};
+const contentStyles = {
+  overflowY: "scroll"
+};
+
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -233,6 +236,7 @@ const AuthenticationDialog = () => {
               animate={dialogHeightControls}
               transition={{duration: 0.3}}
               justifyContent='flex-start'
+              
             >
             {!isLogIn && <motion.div
                 layout

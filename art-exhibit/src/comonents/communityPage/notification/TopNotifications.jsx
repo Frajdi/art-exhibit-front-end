@@ -77,6 +77,7 @@ const TopNotifications = () => {
                   post={post}
                   id={id}
                   setSelectedPost={setSelectedPost}
+                  selectedPost={selectedPost}
                 />
               </Grid>
             );
@@ -101,6 +102,7 @@ const TopNotifications = () => {
                   post={post}
                   id={id}
                   setSelectedPost={setSelectedPost}
+                  selectedPost={selectedPost}
                 />
               </Grid>
             );
