@@ -6,7 +6,7 @@ const useGetAllEvents = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getEvents = async (page = 0, size = 10) => {
+  const getEvents = async (page = 0, size = 6) => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:8080/event/findAll?page=${page}&size=${size}`);

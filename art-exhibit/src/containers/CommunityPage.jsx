@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import SendIcon from "@mui/icons-material/Send";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import Footer from "../comonents/landingPage/Footer";
 import TextAnimation from "../animationUtils/TextAnimation";
@@ -22,9 +28,45 @@ const signitureStyles = {
   opacity: 0.5,
 };
 
+const titleStyles = {
+  color: "#222222",
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 700,
+  fontSize: "40px",
+  lineHeight: "60px",
+};
+
+const buttonStyles = {
+  width: "320px",
+  height: "70px",
+  borderRadius: "120px",
+};
+
+const buttonTextStyles = {
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 500,
+  fontSize: "20px",
+  lineHeight: "36px",
+  textTransform: "none",
+};
+
 const signitureNameStyles = {
   ...signitureStyles,
   opacity: 1,
+};
+
+const inputStyles = {
+  width: "100%",
+  border: "none",
+  padding: "8px",
+  borderRadius: "20px",
+  boxShadow: "none",
+  backgroundColor: "#F4F4F4",
+  outline: "none",
+  transition: "border-color 0.2s ease-in-out",
+  "&:hover, &:focus": {
+    borderColor: "#222222", // Change border color on hover/focus
+  },
 };
 
 const wrapperVariants = {
@@ -45,6 +87,8 @@ const wrapperVariants = {
 const CommunityPage = () => {
   const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
   const [seeAllEvents, setSeeAllEvents] = useState(false);
+  const [seeAllNotifications, setSeeAllNotifications] = useState(false);
+  const [createNotification, setCreateNotification] = useState(false);
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
       <AnimatePresence mode="wait">
@@ -54,89 +98,162 @@ const CommunityPage = () => {
         {/* Initial Page */}
         {!seeAllEvents && (
           <>
-          <motion.div
-          variants={wrapperVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ duration: 3 , ease: 'easeLinear'}}
-          key={1}
-          >
-            <Grid
-              item
-              xs={12}
-              padding={"8rem 8rem 0 8rem"}
-              sx={{ backgroundColor: "#FFFFFF" }}
+            {!seeAllNotifications && (
+              <motion.div
+                variants={wrapperVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ duration: 3, ease: "easeLinear" }}
+                key={1}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  padding={"8rem 8rem 0 8rem"}
+                  sx={{ backgroundColor: "#FFFFFF" }}
+                >
+                  <TitleGroup
+                    title={"Community"}
+                    seeAllText={"events"}
+                    seeAllFunction={() => setSeeAllEvents(true)}
+                    createNewText={"event"}
+                    createNewFunction={() => {
+                      setCreateEventDialogOpen(true);
+                    }}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  padding={"4rem 8rem 0 8rem"}
+                  sx={{ backgroundColor: "#FFFFFF" }}
+                >
+                  <EventSlider />
+                </Grid>
+              </motion.div>
+            )}
+
+            <motion.div
+              style={{ width: "100%" }}
+              variants={wrapperVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 3, ease: "easeLinear" }}
+              key={2}
             >
-              <TitleGroup
-                title={"Community"}
-                seeAllText={"events"}
-                seeAllFunction={() => setSeeAllEvents(true)}
-                createNewText={"event"}
-                createNewFunction={() => {setCreateEventDialogOpen(true)}}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              padding={"4rem 8rem 0 8rem"}
-              sx={{ backgroundColor: "#FFFFFF" }}
-            >
-              <EventSlider />
-            </Grid>
-          </motion.div>
-          <motion.div
-          style={{width: '100%'}}
-          variants={wrapperVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ duration: 3 , ease: 'easeLinear'}}
-          key={2}
-          >
-            <Grid
-              item
-              xs={12}
-              padding={"3rem 8rem 0 8rem"}
-              sx={{ backgroundColor: "#FFFFFF" }}
-            >
-              <TitleGroup
-                title={"Notifications"}
-                seeAllText={"notifications"}
-                seeAllFunction={() => {}}
-                createNewText={"notification"}
-                createNewFunction={() =>{}}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              padding={"4rem 8rem 0 8rem"}
-              sx={{ backgroundColor: "#FFFFFF" }}
-            >
-              <TopNotifications />
-            </Grid>
-          </motion.div>
+              <Grid
+                item
+                xs={12}
+                padding={"3rem 8rem 0 8rem"}
+                sx={{ backgroundColor: "#FFFFFF" }}
+              >
+                {!seeAllNotifications ? (
+                  <>
+                    <TitleGroup
+                      title={"Notifications"}
+                      seeAllText={"notifications"}
+                      seeAllFunction={() => {
+                        setSeeAllNotifications(true);
+                      }}
+                      createNewText={"notification"}
+                      createNewFunction={() => {
+                        setCreateNotification(true);
+                      }}
+                    />
+                    {createNotification && <Stack alignItems={'center'}  sx={{m: '5rem auto', mb: 0, width: '70%'}}>
+                      <TextField
+                        placeholder="Whats on your mind..."
+                        variant="outlined"
+                        fullWidth
+                        style={inputStyles}
+                        InputProps={{
+                          style: inputStyles,
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                color="primary"
+                                sx={{
+                                  background: "#C786FF",
+                                  color: "white",
+                                  border: "2px solid #C786FF",
+                                  borderRadius: "50%",
+                                }}
+                                aria-label="Send"
+                              >
+                                <SendIcon />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Stack>}
+                    
+                  </>
+                ) : (
+                  <Stack
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    spacing={3}
+                    width={"100%"}
+                    marginTop={10}
+                  >
+                    <Typography style={titleStyles}>Notifications</Typography>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="center"
+                      spacing={8}
+                    >
+                      <Button
+                        variant="contained"
+                        startIcon={<KeyboardBackspaceIcon fontSize="80px" />}
+                        onClick={() => {
+                          setSeeAllNotifications(false);
+                        }}
+                        style={{ ...buttonStyles, background: "#7324E8" }}
+                      >
+                        <Typography
+                          style={{ ...buttonTextStyles, color: "#FFFFFF" }}
+                        >
+                          Go Back
+                        </Typography>
+                      </Button>
+                    </Stack>
+                  </Stack>
+                )}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                padding={"4rem 8rem 0 8rem"}
+                sx={{ backgroundColor: "#FFFFFF" }}
+              >
+                <TopNotifications />
+              </Grid>
+            </motion.div>
           </>
         )}
         {/* Event Page */}
-        {seeAllEvents && 
-        <Grid
-          item
-          xs={12}
-          padding={"4rem 8rem 0 8rem"}
-          sx={{ backgroundColor: "#FFFFFF" }}
-          key={3}
-          component={motion.div}
-          variants={wrapperVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ duration: 3 , ease: 'easeLinear'}}
-        >
-          <AllEvents setSeeAllEvents={setSeeAllEvents}/>
-        </Grid>
-      }
+        {seeAllEvents && (
+          <Grid
+            item
+            xs={12}
+            padding={"4rem 8rem 0 8rem"}
+            sx={{ backgroundColor: "#FFFFFF" }}
+            key={3}
+            component={motion.div}
+            variants={wrapperVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 3, ease: "easeLinear" }}
+          >
+            <AllEvents setSeeAllEvents={setSeeAllEvents} />
+          </Grid>
+        )}
         <Grid
           item
           xs={12}

@@ -6,6 +6,9 @@ import Button from "@mui/material/Button/Button";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EventCard from "./EventCard";
 import useGetAllEvents from "../../commands/getAllEvents";
+import { IconButton, Pagination, Paper } from "@mui/material";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const titleStyles = {
   color: "#222222",
@@ -35,61 +38,20 @@ const buttonTextStyles = {
   textTransform: "none",
 };
 
-const fakeData = [
-  {
-    title: "Art Exhibition: Modern Masterpieces",
-    location: "City Art Gallery",
-    date: "2023-10-15",
-    description:
-      "Explore a collection of modern art masterpieces at our gallery.",
-    organizer: "City Art Society",
-    image:
-      "https://res.cloudinary.com/indonesiadesign/image/upload/ar_1:1,f_auto,fl_progressive,w_1080/the-scream.jpg",
-  },
-  {
-    title: "Sculpture Workshop: Abstract Creations",
-    location: "Art Studio XYZ",
-    date: "2023-11-05",
-    description: "Join our sculpture workshop and create abstract art pieces.",
-    organizer: "Art Creations Workshop",
-    image:
-      "https://i.pinimg.com/550x/b1/e3/db/b1e3dbadf64b89e35dc11e803de90b60.jpg",
-  },
-  {
-    title: "Art Talk: Impressionism in the 21st Century",
-    location: "Community Center",
-    date: "2023-12-02",
-    description:
-      "Join us for a discussion on Impressionism's influence on contemporary art.",
-    organizer: "Art Enthusiasts Club",
-    image: "https://s3.amazonaws.com/showflipper/product/69601536314088.jpg",
-  },
-  ,
-  {
-    title: "Mixed Media Art Workshop",
-    location: "Art Studio ABC",
-    date: "2024-01-20",
-    description: "Learn the art of mixed media in this creative workshop.",
-    organizer: "Artistry Academy",
-    image:
-      "https://res.cloudinary.com/indonesiadesign/image/upload/ar_1:1,f_auto,fl_progressive,w_1080/the-scream.jpg",
-  },
-];
-
 const AllEvents = ({ setSeeAllEvents }) => {
-  const [events, setEvents] = useState(null)
-  const { data, error, isLoading, getEvents} = useGetAllEvents(0, 2)
+  const [events, setEvents] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const { data, error, isLoading, getEvents } = useGetAllEvents();
 
   useEffect(() => {
-    getEvents()
-  },[])
+    getEvents(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
-    if(data){
-      console.log(data);
-      setEvents(data)
+    if (data) {
+      setEvents(data);
     }
-  },[data])
+  }, [data]);
 
   return (
     <Grid container style={containerStyles} spacing={5}>
@@ -110,22 +72,74 @@ const AllEvents = ({ setSeeAllEvents }) => {
           </Button>
         </Stack>
       </Grid>
-      {fakeData.map(
-        ({ title, location, date, description, organizer, image }) => (
-          <Grid item xs={6}>
-          <Stack alignItems={"center"} width={'100%'}>
-            <EventCard
-              title={title}
-              location={location}
-              date={date}
-              description={description}
-              organizer={organizer}
-              image={image}
-            />
-          </Stack>
-          </Grid>
-        )
-      )}
+      {events !== null &&
+        events.map(
+          ({ name, address, time, description, category, photo, id }) => (
+            <Grid item xs={6} key={id}>
+              <Stack alignItems={"center"} width={"100%"}>
+                <EventCard
+                  name={name}
+                  address={address}
+                  time={time}
+                  description={description}
+                  category={category}
+                  photo={photo}
+                />
+              </Stack>
+            </Grid>
+          )
+        )}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: '100%', margin: '2rem 0 0 2.5rem' }}>
+        <Paper
+      elevation={3}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "10px", // Add padding for the glass effect
+        background: "rgba(255, 255, 255, 0.1)", // Glassmorphism effect
+        backdropFilter: "blur(5px)", // Glassmorphism effect
+        borderRadius: "10px", // Rounded corners
+      }}
+    >
+      <IconButton
+        onClick={() => setCurrentPage(currentPage - 1)}
+        disabled={currentPage + 1 === 1}
+        size="large"
+        style={{
+          backgroundColor: currentPage + 1 === 1 ? '#e7deef' : "#007BFF",
+          color: "white",
+          marginRight: "10px", // Adjust the spacing
+          borderRadius: "8px", // Add rounded corners
+        }}
+      >
+        <KeyboardArrowLeftIcon />
+      </IconButton>
+      <Typography
+        variant="h6"
+        style={{
+          margin: "0 20px", // Adjust the spacing
+          color: "#007BFF", // Text color
+          fontWeight: "bold", // Make it bold
+        }}
+      >
+        {currentPage + 1}
+      </Typography>
+      <IconButton
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={events?.length < 6}
+        size="large"
+        style={{
+          backgroundColor: events?.length < 6 ? '#e7deef' : "#007BFF",
+          color: "white",
+          marginLeft: "10px", // Adjust the spacing
+          borderRadius: "8px", // Add rounded corners
+        }}
+      >
+        <KeyboardArrowRightIcon />
+      </IconButton>
+    </Paper>
+    </div>
     </Grid>
   );
 };

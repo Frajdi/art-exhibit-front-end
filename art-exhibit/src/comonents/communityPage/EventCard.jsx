@@ -3,12 +3,12 @@ import { Paper, Stack, Typography } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
 const EventCard = ({
-  title,
-  location,
-  date,
+  name,
+  address,
+  time,
   description,
-  organizer,
-  image,
+  category,
+  photo,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -64,6 +64,11 @@ const EventCard = ({
      fontWeight: 500
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+    return new Date(dateString).toLocaleString(undefined, options);
+  };
+
   return (
     <Paper
       elevation={3}
@@ -72,24 +77,24 @@ const EventCard = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div style={imageContainerStyles}>
-        <img src={image} alt={title} style={imageStyles} />
+        <img src={`data:image/png;base64,${photo}`} alt={name} style={imageStyles} />
       </div>
       <Stack style={textContainerStyles} alignItems={'space-between'} width={'95%'} height={'95%'}>
         <Stack direction={'column'} spacing={2} padding={'1rem'}>
           <Typography variant="h6" style={textStyles}>
-            {title}
+            {name}
           </Typography>
           <Typography style={textStyles} width={'50%'} variant="body1">{description}</Typography>
         </Stack>
         <Stack alignItems={'flex-end'} justifyContent={'center'} padding={'1rem'} sx={{position: 'absolute', bottom: '2rem', right: '2rem'}} >
           <Typography variant="subtitle1" style={textStyles}>
-            <strong>Date:</strong> {date}
+            <strong>Category:</strong> {category?.toLowerCase()}
           </Typography>
           <Typography variant="subtitle1" style={textStyles}>
-            <strong>Organizer:</strong> {organizer}
+            <strong>Location:</strong> {address}
           </Typography>
           <Typography variant="subtitle1" style={textStyles}>
-            <strong>Location:</strong> {location}
+            <strong>Date:</strong> {formatDate(time)}
           </Typography>
         </Stack>
       </Stack>

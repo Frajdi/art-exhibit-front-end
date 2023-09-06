@@ -2,9 +2,9 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 
 const decorLine = {
   width: "9px",
@@ -47,18 +47,19 @@ const postStyles = {
 };
 
 const inputStyles = {
-    width: "100%",
-    border: "none",
-    borderBottom: "1px solid #ccc",
-    padding: "8px",
-    borderRadius: "0",
-    boxShadow: "none",
-    outline: "none",
-    transition: "border-color 0.2s ease-in-out",
-    "&:hover, &:focus": {
-      borderColor: "#007bff", // Change border color on hover/focus
-    },
-  };
+  width: "100%",
+  border: "none",
+  borderBottom: "1px solid #ccc",
+  padding: "8px",
+  borderRadius: "0",
+  boxShadow: "none",
+  background: "#FFFFFF",
+  outline: "none",
+  transition: "border-color 0.2s ease-in-out",
+  "&:hover, &:focus": {
+    borderColor: "#222222", // Change border color on hover/focus
+  },
+};
 
 const fakeData = [
   {
@@ -133,10 +134,10 @@ const NotificationCard = ({
       >
         <div style={decorLine}></div>
         <img src={profileImg} style={imgStyles} />
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={1} width={'100%'}>
           <Typography style={nameStyles}>{username}</Typography>
           <Typography style={descriptionStyles}>Art update</Typography>
-          <Typography style={{ postStyles }}>{post}</Typography>
+          <Typography style={{ ...postStyles, width: Boolean(selectedPost !== null) && '100%' }}>{post}</Typography>
         </Stack>
         {Boolean(selectedPost !== null) && (
           <Stack
@@ -191,16 +192,32 @@ const NotificationCard = ({
               </Stack>
             );
           })}
-          <Stack direction={'row'} sx={{width: '70%'}} alignItems={'center'}>
+          <Stack direction={"row"} sx={{ width: "70%" }} alignItems={"center"}>
             <TextField
               placeholder="Reply..."
               variant="outlined"
               fullWidth
               style={inputStyles}
+              InputProps={{
+                style: inputStyles,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      color="primary"
+                      sx={{
+                        background: "#C786FF",
+                        color: "white",
+                        border: "2px solid #C786FF",
+                        borderRadius: "50%",
+                      }}
+                      aria-label="Send"
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <IconButton color="primary" sx={{ background: "#C786FF", color: 'white', border: "2px solid #C786FF" , borderRadius: '15px', height: '90%'}} aria-label="Send">
-              <SendIcon />
-            </IconButton>
           </Stack>
         </Stack>
       )}
