@@ -5,32 +5,24 @@ import ImageContainer from "./components/ImageContainer";
 import SubTaskContent from "./SubTaskContent";
 import useGetAllEvents from "../../../../commands/getAllEvents";
 
+
 const SubtaskSlider = () => {
   const [hoveredIndex, setHoveredIndex] = useState(3);
   const [events, setEvents] = useState(null);
   const { data, error, isLoading, getEvents } = useGetAllEvents();
 
   useEffect(() => {
-    getEvents(0, 7);
+    getEvents(0, 5);
   }, []);
 
   useEffect(() => {
     if (data) {
       setEvents(data);
-      setHoveredIndex(Math.floor(data.length / 2) + 1);
     }
   }, [data]);
 
   const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    };
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
     return new Date(dateString).toLocaleString(undefined, options);
   };
 
@@ -50,7 +42,6 @@ const SubtaskSlider = () => {
               index={index + 1}
               hoveredIndex={hoveredIndex}
               setHoveredIndex={setHoveredIndex}
-              defaultHoveredIndex={Math.floor(data.length / 2) + 1}
             >
               <img
                 src={`data:image/png;base64,${item.photo}`}

@@ -8,7 +8,6 @@ const ImageContainer = ({
   index,
   setHoveredIndex,
   hoveredIndex,
-  defaultHoveredIndex
 }) => {
   const activateResize = useAnimation();
 
@@ -68,7 +67,7 @@ const ImageContainer = ({
           },
       }}
       onHoverStart = {() => {setHoveredIndex(index)}}
-      onHoverEnd = {() => {setHoveredIndex(defaultHoveredIndex)}}
+      onHoverEnd = {() => {setHoveredIndex(3)}}
       animate = {activateResize}
     >
       {children}
