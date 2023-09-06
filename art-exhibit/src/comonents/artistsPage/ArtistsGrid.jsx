@@ -67,11 +67,6 @@ const squareVariants = {
 const ArtistsGrid = ({ artists, scrollTopHeight }) => {
   const [selectedSquare, setSelectedSquare] = useState(null);
 
-  useEffect(() => {
-    console.log({artists});
-  },[artists])
-
-
   const renderArtists = () => (
     <Grid container layout component={motion.div} spacing={5} padding={5}>
       <AnimatePresence>

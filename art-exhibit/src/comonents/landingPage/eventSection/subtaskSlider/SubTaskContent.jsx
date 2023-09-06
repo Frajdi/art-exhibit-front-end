@@ -78,7 +78,7 @@ const SubTaskContent = ({ title, content, date, createdBy }) => {
         align="center"
         style={createdByStyles}
         >
-        By {createdBy}
+        {createdBy}
       </Typography>
       </Stack>
       </TextContainer>

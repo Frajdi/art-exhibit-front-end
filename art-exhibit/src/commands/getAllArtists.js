@@ -6,7 +6,7 @@ const useGetArtists = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getArtists = async (page = 0, size = 10) => {
+  const getArtists = async (page = 0, size = 9) => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:8080/artist/findAll?page=${page}&size=${size}`);

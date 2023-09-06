@@ -6,7 +6,7 @@ import Button from "@mui/material/Button/Button";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EventCard from "./EventCard";
 import useGetAllEvents from "../../commands/getAllEvents";
-import { IconButton, Pagination, Paper } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
@@ -89,57 +89,65 @@ const AllEvents = ({ setSeeAllEvents }) => {
             </Grid>
           )
         )}
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: '100%', margin: '2rem 0 0 2.5rem' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          margin: "2rem 0 0 2.5rem",
+        }}
+      >
         <Paper
-      elevation={3}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "10px", // Add padding for the glass effect
-        background: "rgba(255, 255, 255, 0.1)", // Glassmorphism effect
-        backdropFilter: "blur(5px)", // Glassmorphism effect
-        borderRadius: "10px", // Rounded corners
-      }}
-    >
-      <IconButton
-        onClick={() => setCurrentPage(currentPage - 1)}
-        disabled={currentPage + 1 === 1}
-        size="large"
-        style={{
-          backgroundColor: currentPage + 1 === 1 ? '#e7deef' : "#007BFF",
-          color: "white",
-          marginRight: "10px", // Adjust the spacing
-          borderRadius: "8px", // Add rounded corners
-        }}
-      >
-        <KeyboardArrowLeftIcon />
-      </IconButton>
-      <Typography
-        variant="h6"
-        style={{
-          margin: "0 20px", // Adjust the spacing
-          color: "#007BFF", // Text color
-          fontWeight: "bold", // Make it bold
-        }}
-      >
-        {currentPage + 1}
-      </Typography>
-      <IconButton
-        onClick={() => setCurrentPage(currentPage + 1)}
-        disabled={events?.length < 6}
-        size="large"
-        style={{
-          backgroundColor: events?.length < 6 ? '#e7deef' : "#007BFF",
-          color: "white",
-          marginLeft: "10px", // Adjust the spacing
-          borderRadius: "8px", // Add rounded corners
-        }}
-      >
-        <KeyboardArrowRightIcon />
-      </IconButton>
-    </Paper>
-    </div>
+          elevation={3}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px", // Add padding for the glass effect
+            background: "rgba(255, 255, 255, 0.1)", // Glassmorphism effect
+            backdropFilter: "blur(5px)", // Glassmorphism effect
+            borderRadius: "10px", // Rounded corners
+          }}
+        >
+          <IconButton
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage + 1 === 1}
+            size="large"
+            style={{
+              backgroundColor: currentPage + 1 === 1 ? "#e7deef" : "#007BFF",
+              color: "white",
+              marginRight: "10px", // Adjust the spacing
+              borderRadius: "8px", // Add rounded corners
+            }}
+          >
+            <KeyboardArrowLeftIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            style={{
+              margin: "0 20px", // Adjust the spacing
+              color: "#007BFF", // Text color
+              fontWeight: "bold", // Make it bold
+            }}
+          >
+            {currentPage + 1}
+          </Typography>
+          <IconButton
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={events?.length < 6}
+            size="large"
+            style={{
+              backgroundColor: events?.length < 6 ? "#e7deef" : "#007BFF",
+              color: "white",
+              marginLeft: "10px", // Adjust the spacing
+              borderRadius: "8px", // Add rounded corners
+            }}
+          >
+            <KeyboardArrowRightIcon />
+          </IconButton>
+        </Paper>
+      </div>
     </Grid>
   );
 };
