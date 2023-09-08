@@ -51,10 +51,9 @@ const fakeData = [
 const TopNotifications = () => {
   const [selectedPost, setSelectedPost] = useState(null);
 
-  console.log({ selectedPost });
   return (
     <Grid container width={"100%"} spacing={0} component={motion.div} layout>
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode='wait'  initial={false}>
         {fakeData.map(({ profileImg, username, post, id }, index) => {
           if (selectedPost === id) {
             return (

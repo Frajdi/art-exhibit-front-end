@@ -17,6 +17,8 @@ import AllEvents from "../comonents/communityPage/AllEvents";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateEventPopUp from "../comonents/communityPage/createEvent/CreateEventPopUp";
 import TopNotifications from "../comonents/communityPage/notification/TopNotifications";
+import useCreateNotification from "../commands/createNotification";
+import { useArtContext } from "../state/AppContext";
 
 const signitureStyles = {
   textDecoration: "none",
@@ -56,7 +58,6 @@ const signitureNameStyles = {
 };
 
 const inputStyles = {
-  width: "100%",
   border: "none",
   padding: "8px",
   borderRadius: "20px",
@@ -89,9 +90,29 @@ const CommunityPage = () => {
   const [seeAllEvents, setSeeAllEvents] = useState(false);
   const [seeAllNotifications, setSeeAllNotifications] = useState(false);
   const [createNotification, setCreateNotification] = useState(false);
+  const [newNotification, setNewNotification] = useState({
+    title: "",
+    description: "",
+  });
+  const[notificationErrors, setNotificationErrors] = useState(false);
+  const { createNotification: createNotificationCommand } =
+    useCreateNotification();
+
+    const {authToken} = useArtContext()
+
+
+
+    const handleSubmitNewNotification = () =>{
+      if(newNotification.title !== '' && newNotification.description !== ''){
+        createNotificationCommand(newNotification, authToken)
+      }else{
+        setNotificationErrors(true)
+      }
+    }
+
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         <Grid item xs={12} key={0}>
           <AppBarMenu color="#FFFFFF" />
         </Grid>
@@ -100,6 +121,7 @@ const CommunityPage = () => {
           <>
             {!seeAllNotifications && (
               <motion.div
+                style={{ width: "100%" }}
                 variants={wrapperVariants}
                 initial="initial"
                 animate="animate"
@@ -162,34 +184,77 @@ const CommunityPage = () => {
                         setCreateNotification(true);
                       }}
                     />
-                    {createNotification && <Stack alignItems={'center'}  sx={{m: '5rem auto', mb: 0, width: '70%'}}>
-                      <TextField
-                        placeholder="Whats on your mind..."
-                        variant="outlined"
-                        fullWidth
-                        style={inputStyles}
-                        InputProps={{
-                          style: inputStyles,
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                color="primary"
-                                sx={{
-                                  background: "#C786FF",
-                                  color: "white",
-                                  border: "2px solid #C786FF",
-                                  borderRadius: "50%",
-                                }}
-                                aria-label="Send"
-                              >
-                                <SendIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Stack>}
-                    
+                    {createNotification && (
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems={"center"}
+                        sx={{ m: "5rem auto", mb: 0, width: "80%" }}
+                      >
+                        <TextField
+                        onKeyDown={(e) => {if(e.key === 'Enter'){
+                          handleSubmitNewNotification()
+                        }}}
+                          error={
+                            notificationErrors && newNotification.title === ""
+                          }
+                          value={newNotification.title}
+                          onChange={(e) => {
+                            setNewNotification((prev) => {
+                              return { ...prev, title: e.target.value };
+                            });
+                            setNotificationErrors(false)
+                          }}
+                          placeholder="Topic"
+                          variant="outlined"
+                          fullWidth
+                          style={{ ...inputStyles, width: "35%" }}
+                          InputProps={{
+                            style: inputStyles,
+                          }}
+                        />
+                        <TextField
+                        onKeyDown={(e) => {if(e.key === 'Enter'){
+                          handleSubmitNewNotification()
+                        }}}
+                          error={
+                            notificationErrors &&
+                            newNotification.description === ""
+                          }
+                          value={newNotification.description}
+                          onChange={(e) => {
+                            setNewNotification((prev) => {
+                              return { ...prev, description: e.target.value };
+                            });
+                            setNotificationErrors(false)
+                          }}
+                          placeholder="Whats on your mind..."
+                          variant="outlined"
+                          fullWidth
+                          style={{ ...inputStyles, width: "65%" }}
+                          InputProps={{
+                            style: inputStyles,
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                onClick={() => {handleSubmitNewNotification()}}
+                                  color="primary"
+                                  sx={{
+                                    background: "#C786FF",
+                                    color: "white",
+                                    border: "2px solid #C786FF",
+                                    borderRadius: "50%",
+                                  }}
+                                  aria-label="Send"
+                                >
+                                  <SendIcon />
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Stack>
+                    )}
                   </>
                 ) : (
                   <Stack
