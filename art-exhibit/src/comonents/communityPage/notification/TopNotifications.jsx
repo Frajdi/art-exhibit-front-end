@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import NotificationCard from "./NotificationCard";
 import { AnimatePresence, motion } from "framer-motion";
+import useGetNotifications from "../../../commands/getNotifications";
 
 const fakeData = [
   {
@@ -50,6 +51,20 @@ const fakeData = [
 
 const TopNotifications = () => {
   const [selectedPost, setSelectedPost] = useState(null);
+  const [notifications, setNotifications] = useState(null)
+  const [currentPage, setCurrentPage] = useState(0);
+  const {data, getNotifications} = useGetNotifications()
+
+  useEffect(() => {
+    getNotifications(currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setNotifications(data);
+    }
+  }, [data]);
 
   return (
     <Grid container width={"100%"} spacing={0} component={motion.div} layout>

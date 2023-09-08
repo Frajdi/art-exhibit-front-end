@@ -62,9 +62,10 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
     profilePicture,
     username,
     authToken,
+    category,
     authError,
     setAuthError,
-    setIsLogIn
+    setIsLogIn,
   } = useArtContext();
 
   const { scrollY } = useScroll();
@@ -201,7 +202,22 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                 >
                   <Typography sx={menuOptionsStyles}>Community</Typography>
                 </Link>
-                <Typography sx={menuOptionsStyles}>Portfolio</Typography>
+                {category && (
+                  <Link
+                    to={"/portofolio"}
+                    style={{
+                      textDecoration: "none",
+                      boxShadow:
+                        location.pathname === "/portofolio"
+                          ? "0px 0px 73px 20px rgba(199,134,255,0.57) inset"
+                          : "",
+                      borderRadius: "50px",
+                      padding: "0px 20px",
+                    }}
+                  >
+                    <Typography sx={menuOptionsStyles}>{category === 'ART_COLLECTOR'? 'Collection' : 'Portfolio'}</Typography>
+                  </Link>
+                )}
               </Stack>
               <AnimatePresence mode="wait">
                 {logedIn ? (
@@ -272,7 +288,12 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                     exit={{ scale: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Button style={buttonStyles} onClick={() => {setIsLogIn(true)}}>
+                    <Button
+                      style={buttonStyles}
+                      onClick={() => {
+                        setIsLogIn(true);
+                      }}
+                    >
                       <Typography
                         sx={{ ...menuOptionsStyles, lineHeight: "20px" }}
                       >

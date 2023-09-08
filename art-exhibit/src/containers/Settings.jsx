@@ -1,22 +1,20 @@
-import Grid from "@mui/material/Grid";
 import React, { useEffect, useState } from "react";
-import AppBarMenu from "../comonents/landingPage/AppBar";
-import {
-  Avatar,
-  Button,
-  Checkbox,
-  MenuItem,
-  Paper,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useArtContext } from "../state/AppContext";
-import useGetCurrentUserData from "../commands/getCurrentUserData";
+import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+import Select from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import Footer from "../comonents/landingPage/Footer";
+import AppBarMenu from "../comonents/landingPage/AppBar";
+import useGetCurrentUserData from "../commands/getCurrentUserData";
 import useUpdateSettings from "../commands/updateSettings";
 import useUpdatePassword from "../commands/updatePassword";
+import { useArtContext } from "../state/AppContext";
 
 const titleStyles = {
   color: "#222222",
@@ -110,6 +108,8 @@ const Settings = () => {
     setUsername,
     setProfilePicture,
   } = useArtContext();
+
+  const navigate = useNavigate()
 
   const { isLoading, data, getRequest } = useGetCurrentUserData();
 
@@ -224,6 +224,7 @@ const Settings = () => {
                   <Button
                     style={{ ...buttonStyles, background: "#7324E8" }}
                     variant="contained"
+                    onClick={() => {navigate('/portofolio/create')}}
                   >
                     <Typography
                       style={{ ...buttonTextStyles, color: "#FFFFFF" }}
