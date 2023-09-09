@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
 import { InputAdornment, TextField } from "@mui/material";
+import useCreateComment from "../../../commands/createComment";
+import { useArtContext } from "../../../state/AppContext";
 
 const decorLine = {
   width: "9px",
@@ -55,65 +57,53 @@ const inputStyles = {
   boxShadow: "none",
   background: "#FFFFFF",
   outline: "none",
+  fontSize: "20px",
   transition: "border-color 0.2s ease-in-out",
   "&:hover, &:focus": {
     borderColor: "#222222", // Change border color on hover/focus
   },
 };
 
-const fakeData = [
-  {
-    profileImg:
-      "https://static.wixstatic.com/media/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg",
-    username: "Alice Smith",
-    post: "Just had a wonderful day at the park with my family! Just had a wonderful day at the park with my family! Just had a wonderful day at the park with my family! Just had a wonderful day at the park with my family!",
-    id: 0,
-  },
-  {
-    profileImg:
-      "https://static.wixstatic.com/media/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg",
-    username: "Bob Johnson",
-    post: "Enjoying a relaxing weekend getaway by the beach.",
-    id: 1,
-  },
-  {
-    profileImg:
-      "https://static.wixstatic.com/media/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg",
-    username: "Eva Davis",
-    post: "Celebrating my birthday with friends and cake!",
-    id: 2,
-  },
-  {
-    profileImg:
-      "https://static.wixstatic.com/media/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg",
-    username: "David Wilson",
-    post: "Hiking in the mountains and loving the scenic views!",
-    id: 3,
-  },
-  {
-    profileImg:
-      "https://static.wixstatic.com/media/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg",
-    username: "Olivia Brown",
-    post: "Trying out new recipes in the kitchen today. Cooking is fun!",
-    id: 4,
-  },
-  {
-    profileImg:
-      "https://static.wixstatic.com/media/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg/v1/fill/w_640,h_428,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/7fa9fc_20b81982b5174c6087d2c12fc071058e~mv2.jpg",
-    username: "Sophia Lee",
-    post: "Visited the art gallery and was inspired by the beautiful paintings.",
-    id: 5,
-  },
-];
-
 const NotificationCard = ({
   profileImg,
   username,
   post,
   id,
+  title,
+  comments,
   setSelectedPost,
   selectedPost,
+  createdAt,
 }) => {
+  const [currentComments, setCurrentComments] = useState(comments);
+  const [currentComment, setCurrentComment] = useState({
+    description: "",
+    notificationId: id,
+    title: title,
+  });
+
+  const { data, createComment } = useCreateComment();
+  const { authToken } = useArtContext();
+
+  const sendComment = async () => {
+    await createComment(currentComment, authToken);
+    setCurrentComment({
+      description: "",
+      notificationId: id,
+      title: title,
+    });
+  };
+
+  useEffect(() => {
+    console.log(currentComments);
+  }, [currentComments]);
+
+  useEffect(() => {
+    if (data) {
+      setCurrentComments((prev) => [...prev, data]);
+    }
+  }, [data]);
+
   return (
     <Stack direction={"column"} sx={{ backgroundColor: "#F4F4F4" }}>
       <Stack
@@ -133,11 +123,23 @@ const NotificationCard = ({
         }}
       >
         <div style={decorLine}></div>
-        <img src={profileImg} style={imgStyles} />
-        <Stack direction="column" spacing={1} width={'100%'}>
-          <Typography style={nameStyles}>{username}</Typography>
-          <Typography style={descriptionStyles}>Art update</Typography>
-          <Typography style={{ ...postStyles, width: Boolean(selectedPost !== null) && '100%' }}>{post}</Typography>
+        <img src={`data:image/png;base64,${profileImg}`} style={imgStyles} />
+        <Stack direction="row" spacing={1} width={"100%"}>
+          <Stack direction="column" spacing={1} width={"100%"}>
+            <Typography style={nameStyles}>{username}</Typography>
+            <Typography style={descriptionStyles}>{title}</Typography>
+            <Typography
+              style={{
+                ...postStyles,
+                width: Boolean(selectedPost !== null) && "100%",
+              }}
+            >
+              {post}
+            </Typography>
+          </Stack>
+          <Typography align="center" sx={{ opacity: 0.5, width: "100%" }}>
+            {new Date(createdAt).toLocaleString()}
+          </Typography>
         </Stack>
         {Boolean(selectedPost !== null) && (
           <Stack
@@ -165,35 +167,55 @@ const NotificationCard = ({
           spacing={3}
           padding={5}
         >
-          {fakeData.map((reply) => {
-            return (
-              <Stack
-                direction="row"
-                sx={{
-                  background: "#FFFFFF",
-                  width: "70%",
-                  height: "80%",
-                  borderRadius: "30px",
-                }}
-                alignItems={"center"}
-                justifyContent={"flex-start"}
-              >
-                <img
-                  src={profileImg}
-                  style={{ ...imgStyles, width: "80px", height: "80px" }}
-                />
-                <Stack direction="column" spacing={1}>
-                  <Typography style={nameStyles}>{username}</Typography>
-                  <Typography style={descriptionStyles}>Art update</Typography>
-                  <Typography style={{ ...postStyles, width: "95%" }}>
-                    {post}
-                  </Typography>
+          {currentComments.length !== 0 &&
+            currentComments.map((comment) => {
+              return (
+                <Stack
+                  direction="row"
+                  sx={{
+                    background: "#FFFFFF",
+                    width: "70%",
+                    height: "80%",
+                    borderRadius: "30px",
+                  }}
+                  alignItems={"center"}
+                  justifyContent={"flex-start"}
+                >
+                  <img
+                    src={`data:image/png;base64,${comment.artist.profileImage}`}
+                    style={{ ...imgStyles, width: "80px", height: "80px" }}
+                  />
+                  <Stack direction="row" spacing={1} justifyContent={'space-between'} width={'100%'}>
+                    <Stack direction="column" spacing={1}>
+                      <Typography style={nameStyles}>
+                        {comment.artist.username}
+                      </Typography>
+                      <Typography style={{ ...postStyles, width: "95%" }}>
+                        {comment.description}
+                      </Typography>
+                    </Stack>
+                    <Stack width={'100%'} alignItems={"flex-end"}>
+                    <Typography align="right" style={{ ...postStyles, opacity: 0.4 }}>
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </Typography>
+                    </Stack>
+                  </Stack>
                 </Stack>
-              </Stack>
-            );
-          })}
+              );
+            })}
           <Stack direction={"row"} sx={{ width: "70%" }} alignItems={"center"}>
             <TextField
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendComment();
+                }
+              }}
+              value={currentComment.description}
+              onChange={(e) => {
+                setCurrentComment((prev) => {
+                  return { ...prev, description: e.target.value };
+                });
+              }}
               placeholder="Reply..."
               variant="outlined"
               fullWidth
@@ -203,6 +225,9 @@ const NotificationCard = ({
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
+                      onClick={() => {
+                        sendComment();
+                      }}
                       color="primary"
                       sx={{
                         background: "#C786FF",

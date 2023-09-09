@@ -6,7 +6,7 @@ const useGetNotifications = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getNotifications = async (page = 0, size = 6) => {
+  const getNotifications = async (page = 0, size = 20) => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:8080/notification/findAll?page=${page}&size=${size}`);

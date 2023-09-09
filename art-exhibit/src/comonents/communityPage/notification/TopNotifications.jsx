@@ -51,9 +51,9 @@ const fakeData = [
 
 const TopNotifications = () => {
   const [selectedPost, setSelectedPost] = useState(null);
-  const [notifications, setNotifications] = useState(null)
+  const [notifications, setNotifications] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const {data, getNotifications} = useGetNotifications()
+  const { data, getNotifications } = useGetNotifications();
 
   useEffect(() => {
     getNotifications(currentPage);
@@ -68,60 +68,67 @@ const TopNotifications = () => {
 
   return (
     <Grid container width={"100%"} spacing={0} component={motion.div} layout>
-      <AnimatePresence mode='wait'  initial={false}>
-        {fakeData.map(({ profileImg, username, post, id }, index) => {
-          if (selectedPost === id) {
-            return (
-              <Grid
-                item
-                xs={selectedPost === id ? 12 : 6}
-                padding={"2rem"}
-                style={{ overflow: "hidden" }}
-                component={motion.div}
-                layout
-                key={index}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-                transition={{ duration: .2 , ease: 'easeOut'}}
-              >
-                <NotificationCard
-                  profileImg={profileImg}
-                  username={username}
-                  post={post}
-                  id={id}
-                  setSelectedPost={setSelectedPost}
-                  selectedPost={selectedPost}
-                />
-              </Grid>
-            );
-          } else if (selectedPost === null) {
-            return (
-              <Grid
-                item
-                xs={selectedPost === id ? 12 : 6}
-                padding={"2rem"}
-                style={{ overflow: "hidden" }}
-                component={motion.div}
-                layout
-                key={index}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-                transition={{ duration: .2 , ease: 'easeOut'}}
-              >
-                <NotificationCard
-                  profileImg={profileImg}
-                  username={username}
-                  post={post}
-                  id={id}
-                  setSelectedPost={setSelectedPost}
-                  selectedPost={selectedPost}
-                />
-              </Grid>
-            );
-          }
-        })}
+      <AnimatePresence mode="wait" initial={false}>
+        {notifications !== null &&
+          notifications.map((notification, index) => {
+            if (selectedPost === notification.id) {
+              return (
+                <Grid
+                  item
+                  xs={selectedPost === notification.id ? 12 : 6}
+                  padding={"2rem"}
+                  style={{ overflow: "hidden" }}
+                  component={motion.div}
+                  layout
+                  key={index}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                >
+                  <NotificationCard
+                    profileImg={notification.artist.profileImage}
+                    username={notification.artist.username}
+                    post={notification.description}
+                    id={notification.id}
+                    title={notification.title}
+                    comments={notification.comments}
+                    setSelectedPost={setSelectedPost}
+                    selectedPost={selectedPost}
+                    createdAt={notification.createdAt}
+                  />
+                </Grid>
+              );
+            } else if (selectedPost === null) {
+              return (
+                <Grid
+                  item
+                  xs={selectedPost === notification.id ? 12 : 6}
+                  padding={"2rem"}
+                  style={{ overflow: "hidden" }}
+                  component={motion.div}
+                  layout
+                  key={index}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                >
+                  <NotificationCard
+                    profileImg={notification.artist.profileImage}
+                    username={notification.artist.username}
+                    post={notification.description}
+                    id={notification.id}
+                    title={notification.title}
+                    comments={notification.comments}
+                    setSelectedPost={setSelectedPost}
+                    selectedPost={selectedPost}
+                    createdAt={notification.createdAt}
+                  />
+                </Grid>
+              );
+            }
+          })}
       </AnimatePresence>
     </Grid>
   );
