@@ -71,11 +71,11 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
         <Typography
           sx={{ cursor: "pointer" }}
           onClick={() => {
-            setEditeblePath("firstSection.title");
+            setEditeblePath("firstSection.headerTitle");
           }}
           style={titleStyles}
         >
-          {firstSection.title}
+          {firstSection.headerTitle}
         </Typography>
       </Grid>
       <Grid item xs={12}>
