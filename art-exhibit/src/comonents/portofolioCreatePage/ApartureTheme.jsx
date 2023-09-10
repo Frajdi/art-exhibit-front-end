@@ -1,22 +1,6 @@
-import {
-  Grid,
-  Stack,
-  Typography,
-  IconButton,
-} from "@mui/material";
 import React, { useState } from "react";
+import { Grid, Stack, Typography, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-
-//Fake data
-
-const carouselImages = [
-  "https://artlogic-res.cloudinary.com/w_1500,h_1500,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/16/annie-spratt-695519-unsplash.jpg",
-  "https://artlogic-res.cloudinary.com/w_1500,h_1500,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/16/eberhard-grossgasteiger-760243-unsplash.jpg",
-  "https://artlogic-res.cloudinary.com/w_1500,h_1500,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/16/annie-spratt-695519-unsplash.jpg",
-  "https://artlogic-res.cloudinary.com/w_1500,h_1500,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/16/eberhard-grossgasteiger-760243-unsplash.jpg",
-  "https://artlogic-res.cloudinary.com/w_1500,h_1500,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/16/annie-spratt-695519-unsplash.jpg",
-  "https://artlogic-res.cloudinary.com/w_1500,h_1500,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/16/eberhard-grossgasteiger-760243-unsplash.jpg",
-];
 
 //Styles
 
@@ -27,19 +11,19 @@ const imageGridStyle = {
 };
 
 const imageItemStyle = {
-    flex: '0 0 auto',
-    width: '27rem',
-    height: '100%',
-    textAlign: 'center',
-    transition: 'opacity 0.3s ease-in-out',
-  };
+  flex: "0 0 auto",
+  width: "27rem",
+  height: "30rem",
+  textAlign: "center",
+  transition: "opacity 0.3s ease-in-out",
+};
 
 const centeredImageStyle = {
   opacity: 1,
 };
 
 const hiddenImageStyle = {
-  opacity: 0.5,
+  filter: 'brightness(70%)'
 };
 ///
 const titleStyles = {
@@ -50,7 +34,7 @@ const titleStyles = {
 };
 
 const headerImgStyles = {
-  width: "93%",
+  width: "98%",
   height: "40rem",
   objectFit: "cover",
 };
@@ -62,45 +46,68 @@ const secondSectionImg = {
   objectFit: "cover",
 };
 
-const ApartureTheme = () => {
+const ApartureTheme = ({ themeContent, setEditeblePath }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const { firstSection, secondSection, thirdSection, fourthSection } =
+    themeContent;
 
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1
+      prevIndex === thirdSection.imgGroup.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const handlePrev = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? carouselImages.length - 1 : prevIndex - 1
+      prevIndex === 0 ? thirdSection.imgGroup.length - 1 : prevIndex - 1
     );
   };
 
   return (
-    <Grid container spacing={3} margin={4} overflow={"hidden"}>
+    <Grid container spacing={3} margin={'2rem 2rem 0 2rem'}  width={"auto"}>
       <Grid item xs={12}>
-        <Typography style={titleStyles}>Aperture</Typography>
+        {/* firstSection.title */}
+        <Typography
+          sx={{ cursor: "pointer" }}
+          onClick={() => {
+            setEditeblePath("firstSection.title");
+          }}
+          style={titleStyles}
+        >
+          {firstSection.title}
+        </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Stack
-          direction="column"
-          sx={{ overflow: "hidden", width: "100%" }}
-          spacing={4}
-        >
+        <Stack direction="column" sx={{ width: "100%" }} spacing={4}>
           <img
-            style={headerImgStyles}
-            src={
-              "https://artlogic-res.cloudinary.com/w_2000,h_2000,c_limit,f_auto,fl_lossy,q_auto/ws-gtaperture2/usr/library/images/main/1/eberhard-grossgasteiger-389784-unsplash.jpg"
-            }
+            onClick={() => {
+              setEditeblePath("firstSection.img");
+            }}
+            style={{ ...headerImgStyles, cursor: "pointer" }}
+            src={`data:image/png;base64,${firstSection.img}`}
           />
-          <Typography style={{ ...titleStyles, fontSize: "20px" }}>
-            JEREMY BECK : DARKEST HOURS
-          </Typography>
+
+          {/* firstSection.subtitle */}
           <Typography
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              setEditeblePath("firstSection.subtitle");
+            }}
+            style={{ ...titleStyles, fontSize: "20px" }}
+          >
+            {firstSection.subtitle}
+          </Typography>
+
+          {/* firstSection.date */}
+          <Typography
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              setEditeblePath("firstSection.date");
+            }}
             style={{ ...titleStyles, fontSize: "15px", opacity: "0.7" }}
           >
-            8 - 19 JANUARY 2019
+            {firstSection.date}
           </Typography>
         </Stack>
       </Grid>
@@ -112,24 +119,38 @@ const ApartureTheme = () => {
           paddingRight={15}
         >
           <Stack>
-            <Typography style={titleStyles}>JEREMY BECK</Typography>
+            {/* secondSection.title */}
             <Typography
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                setEditeblePath("secondSection.title");
+              }}
+              style={titleStyles}
+            >
+              {secondSection.title}
+            </Typography>
+
+            {/* secondSection.subtitle */}
+            <Typography
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                setEditeblePath("secondSection.subtitle");
+              }}
               style={{ ...titleStyles, fontSize: "15px", opacity: "0.7" }}
             >
-              FEATURED PRINTS
+              {secondSection.subtitle}
             </Typography>
           </Stack>
           <Stack>
+            {/* secondSection.content */}
             <Typography
+              sx={{ cursor: "pointer" }}
+              onClick={() => {
+                setEditeblePath("secondSection.content");
+              }}
               style={{ ...titleStyles, fontSize: "14px", lineHeight: "30px" }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisque nisl consectetur et. Donec ullamcorper
-              nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque
-              ornare sem lacinia quam venenatis vestibulum.
+              {secondSection.content}
             </Typography>
           </Stack>
         </Stack>
@@ -139,16 +160,27 @@ const ApartureTheme = () => {
           alignItems={"flex-start"}
           sx={{ overflow: "hidden", width: "40rem" }}
         >
+          {/* secondSection.img */}
           <img
-            style={secondSectionImg}
-            src="https://img.freepik.com/premium-photo/woman-s-face-is-made-up-geometric-shapes-cyberpunk-colorful-fractalism-cubism_834088-1.jpg"
+            onClick={() => {
+              setEditeblePath("secondSection.img");
+            }}
+            style={{ ...secondSectionImg, cursor: "pointer" }}
+            src={`data:image/png;base64,${secondSection.img}`}
           ></img>
         </Stack>
       </Grid>
       <Grid item xs={12}>
         <Stack direction={"column"} width={"100%"}>
-          <Typography style={{ ...titleStyles, fontSize: "20px" }}>
-            LATEST PRINTS
+          {/* thirdSection.title */}
+          <Typography
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              setEditeblePath("thirdSection.title");
+            }}
+            style={{ ...titleStyles, fontSize: "20px" }}
+          >
+            {thirdSection.title}
           </Typography>
           <div
             style={{
@@ -166,9 +198,12 @@ const ApartureTheme = () => {
                 top: "50%",
                 transform: "translateY(-50%)",
                 zIndex: "1",
+                color: 'white',
+                height: '12%',
+                width:'5%'
               }}
             >
-              <ArrowBack />
+              <ArrowBack sx={{height: '100%', width: '100%'}}/>
             </IconButton>
             <IconButton
               onClick={handleNext}
@@ -178,19 +213,23 @@ const ApartureTheme = () => {
                 top: "50%",
                 transform: "translateY(-50%)",
                 zIndex: "1",
+                color: 'white',
+                height: '12%',
+                width:'5%'
               }}
             >
-              <ArrowForward />
+              <ArrowForward  sx={{height: '100%', width: '100%'}}/>
             </IconButton>
             <div
               style={{
                 ...imageGridStyle,
                 transform: `translateX(-${
-                  currentImageIndex * (100 / carouselImages.length)
+                  currentImageIndex * (100 / thirdSection.imgGroup.length)
                 }%)`,
               }}
             >
-              {carouselImages.map((image, index) => (
+              {/* thirdSection.imgGroup */}
+              {thirdSection.imgGroup.map((image, index) => (
                 <div
                   key={index}
                   style={{
@@ -201,12 +240,17 @@ const ApartureTheme = () => {
                   }}
                 >
                   <img
-                    src={image}
+                    src={`data:image/png;base64,${image.img}`}
+                    onClick={() => {
+                      setEditeblePath(`thirdSection.imgGroup.${index}.img`);
+                    }}
                     alt={`Image ${index + 1}`}
                     style={{
                       width: "100%",
                       maxHeight: "30rem",
                       objectFit: "cover",
+                      cursor: "pointer",
+                      height: '-webkit-fill-available'
                     }}
                   />
                 </div>
@@ -221,8 +265,11 @@ const ApartureTheme = () => {
           sx={{ overflow: "hidden", width: "40rem" }}
         >
           <img
-            style={secondSectionImg}
-            src="https://img.freepik.com/premium-photo/woman-s-face-is-made-up-geometric-shapes-cyberpunk-colorful-fractalism-cubism_834088-1.jpg"
+          onClick={() => {
+              setEditeblePath("fourthSection.img");
+            }}
+            style={{...secondSectionImg, cursor: 'pointer'}}
+            src={`data:image/png;base64,${fourthSection.img}`}
           ></img>
         </Stack>
       </Grid>
@@ -235,15 +282,12 @@ const ApartureTheme = () => {
         >
           <Stack>
             <Typography
-              style={{ ...titleStyles, fontSize: "14px", lineHeight: "30px" }}
+            onClick={() => {
+              setEditeblePath("fourthSection.content");
+            }}
+              style={{ ...titleStyles, fontSize: "14px", lineHeight: "30px", cursor: 'pointer' }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisque nisl consectetur et. Donec ullamcorper
-              nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque
-              ornare sem lacinia quam venenatis vestibulum.
+              {fourthSection.content}
             </Typography>
           </Stack>
         </Stack>

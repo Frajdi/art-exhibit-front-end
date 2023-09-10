@@ -1,48 +1,6 @@
 import React from "react";
 import { Grid, Stack, Typography } from "@mui/material";
 
-//Fake Data
-
-//Cards
-const artworkData = [
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 1",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 2",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 3",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 4",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 5",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 6",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 7",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 8",
-  },
-  {
-    img: "https://www.scotsman.com/webimg/b25lY21zOjJkMDY1MGVmLWRiZmQtNDQyNC1iMzMyLTk3MmM3YzkwYWZjMDo4NzUyNzZlZi0xMThjLTQwNjktODBkZC0zOTUwNmZjM2ZjMGE=.jpg?width=1200&enable=upscale",
-    title: "Artwork 9",
-  },
-];
-
 //styles
 const titleStyles = {
   color: "#222222",
@@ -52,49 +10,101 @@ const titleStyles = {
   lineHeight: "60px",
 };
 
-const headerStyles = {
-  background:
-    "url(https://p4.wallpaperbetter.com/wallpaper/176/310/470/jellyfish-underwater-blue-hd-wallpaper-preview.jpg)",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  height: "88vh",
-  backgroundAttachment: "fixed",
-  backgroundPosition: "center",
-  padding: "3rem 0 5rem 4rem",
+const overlayStyles = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.4)",
+  zIndex: 0,
 };
 
-const AspectTheme = () => {
+const AspectTheme = ({ themeContent, setEditeblePath }) => {
+  const {
+    firstSection,
+    secondSection,
+    thirdSection,
+    fourthSection,
+    fifthSection,
+    sixthSection,
+  } = themeContent;
+
+
+  const firstSectionStyle = {
+    '--background-image-url': `url(data:image/png;base64,${firstSection.img})`,
+  };
+  const thirdSectionStyle = {
+    '--background-image-url': `url(data:image/png;base64,${thirdSection.img})`,
+  };
+  const fifthSectionStyle = {
+    '--background-image-url': `url(data:image/png;base64,${fifthSection.img})`,
+  };
+
   return (
-    <Grid container spacing={10} marginBottom={20}>
+    <Grid container spacing={10} paddingBottom={'10rem'}>
       <Grid item xs={12}>
-        <Typography style={{ ...titleStyles, margin: "1rem" }}>
-          Aspect
+        <Typography
+          onClick={() => {
+            setEditeblePath("firstSection.headerTitle");
+          }}
+          style={{ ...titleStyles, margin: "1rem", cursor: "pointer" }}
+        >
+          {firstSection.headerTitle}
         </Typography>
         <Stack
+          onClick={() => {
+            setEditeblePath("firstSection.img");
+          }}
           direction={"column"}
-          style={headerStyles}
+          style={{
+            ...firstSectionStyle, // Apply the stackStyle directly to the style prop
+            position: "relative",
+            background: 'var(--background-image-url)',
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            height: "80vh",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            padding: "3rem 4rem",
+            overflow: "hidden",
+            cursor: "pointer",
+          }}
           justifyContent={"flex-end"}
         >
+          <div style={overlayStyles}></div>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditeblePath("firstSection.title");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 5,
               color: "#FFFFFF",
               fontWeight: 400,
+              zIndex: 1,
+              cursor: "pointer",
             }}
           >
-            JEREMY BLACK : BLUE DEEP
+            {firstSection.title}
           </Typography>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditeblePath("firstSection.subtitle");
+            }}
             style={{
               ...titleStyles,
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
               marginBottom: "3rem",
+              zIndex: 1,
+              cursor: "pointer",
             }}
           >
-            COMING SOON TO THE VIEWING ROOM
+            {firstSection.subtitle}
           </Typography>
         </Stack>
       </Grid>
@@ -106,76 +116,125 @@ const AspectTheme = () => {
             justifyContent={"center"}
             spacing={2}
           >
-            <Typography style={{ ...titleStyles, fontWeight: "400" }}>
-              JEREMY BECK
+            <Typography
+              onClick={() => {
+                setEditeblePath("secondSection.title");
+              }}
+              style={{ ...titleStyles, fontWeight: "400", cursor: "pointer" }}
+            >
+              {secondSection.title}
             </Typography>
             <Typography
+              onClick={() => {
+                setEditeblePath("secondSection.subtitle");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "25px",
                 opacity: "0.7",
+                cursor: "pointer",
               }}
             >
-              FEATURED PRINTS
+              {secondSection.subtitle}
             </Typography>
             <Typography
+              onClick={() => {
+                setEditeblePath("secondSection.content");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "15px",
                 lineHeight: "22px",
                 opacity: "0.5",
+                cursor: "pointer",
               }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisqu
+              {secondSection.content}
             </Typography>
           </Stack>
           <img
-            style={{ width: "50vw", height: "80vh", objectFit: "cover" }}
-            src="https://img.redbull.com/images/c_crop,x_1576,y_0,h_3648,w_2736/c_fill,w_450,h_600/q_auto:low,f_auto/redbullcom/2020/8/7/vfumquitffikquedbfod/jamie-o-brien-oahu"
+            onClick={() => {
+              setEditeblePath("secondSection.img");
+            }}
+            style={{
+              width: "50vw",
+              height: "80vh",
+              objectFit: "cover",
+              cursor: "pointer",
+            }}
+            src={`data:image/png;base64,${secondSection.img}`}
           />
         </Stack>
       </Grid>
       <Grid item xs={12}>
         <Stack
-          style={{ ...headerStyles, height: "30vh" }}
+          onClick={() => {
+            setEditeblePath("thirdSection.img");
+          }}
+          style={{
+            ...thirdSectionStyle, // Apply the stackStyle directly to the style prop
+            position: "relative",
+            background: 'var(--background-image-url)',
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            padding: "3rem 0 5rem 4rem",
+            height: "30vh",
+            cursor: "pointer",
+          }}
           justifyContent={"center"}
           alignItems={"center"}
           spacing={3}
         >
           <Typography
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditeblePath("thirdSection.title");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 20,
               color: "#FFFFFF",
               fontWeight: 400,
+              cursor: "pointer",
             }}
           >
-            DARKEST HOURS
+            {thirdSection.title}
           </Typography>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditeblePath("thirdSection.subtitle");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 2,
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
+              cursor: "pointer",
             }}
           >
-            SERIES BY PIPPA MAYER
+            {thirdSection.subtitle}
           </Typography>
         </Stack>
       </Grid>
       <Grid item sx={12}>
         <Stack direction={"row"} padding={"0 8rem"} spacing={7}>
           <img
-            style={{ width: "50vw", height: "80vh", objectFit: "cover" }}
-            src="https://img.redbull.com/images/c_crop,x_1576,y_0,h_3648,w_2736/c_fill,w_450,h_600/q_auto:low,f_auto/redbullcom/2020/8/7/vfumquitffikquedbfod/jamie-o-brien-oahu"
+            onClick={() => {
+              setEditeblePath("fourthSection.img");
+            }}
+            style={{
+              width: "50vw",
+              height: "80vh",
+              objectFit: "cover",
+              cursor: "pointer",
+            }}
+            src={`data:image/png;base64,${fourthSection.img}`}
           />
           <Stack
             direction={"column"}
@@ -184,74 +243,93 @@ const AspectTheme = () => {
             spacing={2}
           >
             <Typography
+              onClick={() => {
+                setEditeblePath("fourthSection.firstContent");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "15px",
                 lineHeight: "27px",
                 opacity: "0.5",
+                cursor: "pointer",
               }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisqu
+              {fourthSection.firstContent}
             </Typography>
             <Typography
+              onClick={() => {
+                setEditeblePath("fourthSection.secondContent");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "15px",
                 lineHeight: "27px",
                 opacity: "0.5",
+                cursor: "pointer",
               }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisqu
+              {fourthSection.secondContent}
             </Typography>
           </Stack>
         </Stack>
       </Grid>
       <Grid item xs={12}>
         <Stack
+          onClick={() => {
+            setEditeblePath("fifthSection.img");
+          }}
           style={{
-            ...headerStyles,
+            ...fifthSectionStyle, // Apply the stackStyle directly to the style prop
+            position: "relative",
+            background: 'var(--background-image-url)',
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            padding: "3rem 0 5rem 4rem",
             height: "35vh",
-            background:
-              "url(https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/800px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg)",
+            cursor: "pointer",
           }}
           justifyContent={"center"}
           alignItems={"center"}
           spacing={3}
         >
           <Typography
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditeblePath("fifthSection.title");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 20,
               color: "#FFFFFF",
               fontWeight: 400,
+              cursor: "pointer",
             }}
           >
-            DARKEST HOURS
+            {fifthSection.title}
           </Typography>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditeblePath("fifthSection.subtitle");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 2,
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
+              cursor: "pointer",
             }}
           >
-            SERIES BY PIPPA MAYER
+            {fifthSection.subtitle}
           </Typography>
         </Stack>
       </Grid>
-      {artworkData.map((item) => {
+      {sixthSection.content.map((item, index) => {
         return (
           <Grid item xs={4}>
             <Stack
@@ -262,16 +340,28 @@ const AspectTheme = () => {
               height={"28rem"}
             >
               <img
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={item.img}
+                onClick={() => {
+                  setEditeblePath(`sixthSection.content.${index}.img`);
+                }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
+                src={`data:image/png;base64,${item.img}`}
               />
               <Typography
+                onClick={() => {
+                  setEditeblePath(`sixthSection.content.${index}.title`);
+                }}
                 style={{
                   ...titleStyles,
                   letterSpacing: 2,
                   color: "#222222",
                   fontWeight: 400,
                   fontSize: "20px",
+                  cursor: "pointer",
                 }}
               >
                 {item.title}

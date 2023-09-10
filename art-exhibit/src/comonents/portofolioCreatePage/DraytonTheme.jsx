@@ -1,30 +1,6 @@
 import React from "react";
 import { Grid, Stack, Typography } from "@mui/material";
 
-//Cards
-const artworkData = [
-    {
-      img: "https://wallpapercave.com/wp/BzyvtdP.jpg",
-      title: "Artwork 1",
-    },
-    {
-      img: "https://wallpapercave.com/wp/BzyvtdP.jpg",
-      title: "Artwork 2",
-    },
-    {
-      img: "https://wallpapercave.com/wp/BzyvtdP.jpg",
-      title: "Artwork 3",
-    },
-    {
-      img: "https://wallpapercave.com/wp/BzyvtdP.jpg",
-      title: "Artwork 4",
-    },
-    {
-      img: "https://wallpapercave.com/wp/BzyvtdP.jpg",
-      title: "Artwork 5",
-    }
-  ];
-
 //STYLES
 
 const titleStyles = {
@@ -34,18 +10,6 @@ const titleStyles = {
   fontSize: "50px",
   lineHeight: "60px",
   zIndex: 1,
-};
-
-const headerStyles = {
-  position: "relative",
-  background: "url(https://wallpaperaccess.com/full/190324.jpg)",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  height: "110vh",
-  backgroundAttachment: "fixed",
-  backgroundPosition: "center",
-  padding: "3rem 4rem",
-  overflow: "hidden",
 };
 
 const overlayStyles = {
@@ -59,13 +23,48 @@ const overlayStyles = {
 };
 
 //COMPONENT
-const DraytonTheme = () => {
+const DraytonTheme = ({ themeContent, setEditeblePath }) => {
+  const {
+    firstSection,
+    secondSection,
+    thirdSection,
+    fourthSection,
+    fifthSection,
+    sixthSection,
+  } = themeContent;
+
+
+  const firstSectionStyle = {
+    '--background-image-url': `url(data:image/png;base64,${firstSection.img})`,
+  };
+  const thirdSectionStyle = {
+    '--background-image-url': `url(data:image/png;base64,${thirdSection.img})`,
+  };
+  const fifthSectionStyle = {
+    '--background-image-url': `url(data:image/png;base64,${fifthSection.img})`,
+  };
+
   return (
-    <Grid container spacing={10} marginBottom={20}>
+    <Grid container spacing={10} paddingBottom={20}>
       <Grid item xs={12}>
         <Stack
+          onClick={() => {
+            setEditeblePath("firstSection.img");
+          }}
           direction={"column"}
-          style={headerStyles}
+          style={{
+            ...firstSectionStyle, // Apply the stackStyle directly to the style prop
+            position: "relative",
+            background: 'var(--background-image-url)', // Use the CSS variable here
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            height: "110vh",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            padding: "3rem 4rem",
+            overflow: "hidden",
+            cursor: 'pointer'
+          }}
           justifyContent={"center"}
           alignItems={"center"}
         >
@@ -80,28 +79,42 @@ const DraytonTheme = () => {
             }}
           >
             <Typography
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditeblePath("firstSection.headerTitle");
+              }}
               style={{
                 ...titleStyles,
                 margin: "1rem",
                 color: "#FFFFFF",
                 letterSpacing: "10px",
+                cursor: 'pointer'
               }}
             >
-              DRAYTON
+              {firstSection.headerTitle}
             </Typography>
           </Stack>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditeblePath("firstSection.title");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 9,
               color: "#FFFFFF",
               fontWeight: 500,
               fontSize: "70px",
+              cursor: 'pointer'
             }}
           >
-            DRAYTON FINE ART
+            {firstSection.title}
           </Typography>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditeblePath("firstSection.subtitle");
+            }}
             style={{
               ...titleStyles,
               color: "#FFFFFF",
@@ -109,9 +122,10 @@ const DraytonTheme = () => {
               fontSize: "25px",
               marginTop: "2rem",
               letterSpacing: 3,
+              cursor: 'pointer'
             }}
           >
-            OLD MASTER PAINTINGS LONDON
+            {firstSection.subtitle}
           </Typography>
         </Stack>
       </Grid>
@@ -124,91 +138,123 @@ const DraytonTheme = () => {
             spacing={2}
           >
             <Typography
+              onClick={() => {
+                setEditeblePath("secondSection.title");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "40px",
                 letterSpacing: 7,
+                cursor: 'pointer'
               }}
             >
-              JUSEPE DE RIBERA
+              {secondSection.title}
             </Typography>
             <Typography
+              onClick={() => {
+                setEditeblePath("secondSection.subtitle");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "500",
                 fontSize: "20px",
                 opacity: "0.8",
                 letterSpacing: 3,
+                cursor: 'pointer'
               }}
             >
-              DAPIBUS PORTA
+              {secondSection.subtitle}
             </Typography>
             <Typography
+              onClick={() => {
+                setEditeblePath("secondSection.content");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "15px",
                 lineHeight: "32px",
                 opacity: "0.6",
+                cursor: 'pointer'
               }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisque nisl consectetur et. Donec ullamcorper
-              nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque
-              ornare sem lacinia quam venenatis vestibulum.
+              {secondSection.content}
             </Typography>
           </Stack>
           <img
-            style={{ width: "40vw", height: "80vh", objectFit: "cover" }}
-            src="https://e0.pxfuel.com/wallpapers/587/536/desktop-wallpaper-a-musical-interlude-architecture-art-landscape-beautiful-artwork-fritz-wagner-oldmaster-scenery-wide-screen-instrument-music-painting-wagner-interlude-old-master-cottage.jpg"
+            onClick={() => {
+              setEditeblePath("secondSection.img");
+            }}
+            style={{ width: "40vw", height: "80vh", objectFit: "cover", cursor: 'pointer' }}
+            src={`data:image/png;base64,${secondSection.img}`}
           />
         </Stack>
       </Grid>
       <Grid item xs={12}>
         <Stack
+          onClick={() => {
+            setEditeblePath("thirdSection.img");
+          }}
           style={{
-            ...headerStyles,
+            ...thirdSectionStyle,
+            background: 'var(--background-image-url)',
+            position: "relative",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            padding: "3rem 4rem",
+            overflow: "hidden",
             height: "35vh",
-            background:
-              "url(https://wallpaperaccess.com/full/49618.jpg)",
+            cursor: 'pointer'
           }}
           justifyContent={"center"}
           alignItems={"center"}
           spacing={3}
         >
-        <div style={overlayStyles}></div>
+          <div style={overlayStyles}></div>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditeblePath("thirdSection.title");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 20,
               color: "#FFFFFF",
               fontWeight: 400,
+              cursor: 'pointer'
             }}
           >
-            DARKEST HOURS
+            {thirdSection.title}
           </Typography>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditeblePath("thirdSection.subtitle");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 2,
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
+              cursor: 'pointer'
             }}
           >
-            SERIES BY PIPPA MAYER
+            {thirdSection.subtitle}
           </Typography>
         </Stack>
       </Grid>
       <Grid item sx={12}>
         <Stack direction={"row"} padding={"0 8rem"} spacing={7}>
           <img
-            style={{ width: "40vw", height: "80vh", objectFit: "cover" }}
-            src="https://wallpaperaccess.com/full/1363516.jpg"
+            onClick={() => {
+              setEditeblePath("fourthSection.img");
+            }}
+            style={{ width: "40vw", height: "80vh", objectFit: "cover", cursor: 'pointer' }}
+            src={`data:image/png;base64,${fourthSection.img}`}
           />
           <Stack
             direction={"column"}
@@ -217,75 +263,95 @@ const DraytonTheme = () => {
             spacing={2}
           >
             <Typography
+              onClick={() => {
+                setEditeblePath("fourthSection.firstContent");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "15px",
                 lineHeight: "27px",
                 opacity: "0.5",
+                cursor: 'pointer'
               }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisqu
+              {fourthSection.firstContent}
             </Typography>
             <Typography
+              onClick={() => {
+                setEditeblePath("fourthSection.secondContent");
+              }}
               style={{
                 ...titleStyles,
                 fontWeight: "400",
                 fontSize: "15px",
                 lineHeight: "27px",
                 opacity: "0.5",
+                cursor: 'pointer'
               }}
             >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-              eget lacinia odio sem nec elit. Duis mollis, est non commodo
-              luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-              elit. Curabitur blandit tempus porttitor. Praesent commodo cursus
-              magna, vel scelerisqu
+              {fourthSection.secondContent}
             </Typography>
           </Stack>
         </Stack>
       </Grid>
       <Grid item xs={12}>
         <Stack
+          onClick={() => {
+            setEditeblePath("fifthSection.img");
+          }}
           style={{
-            ...headerStyles,
+            ...fifthSectionStyle,
+            position: "relative",
+            backgroundSize: "cover",
+            background: 'var(--background-image-url)',
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+            padding: "3rem 4rem",
+            overflow: "hidden",
             height: "35vh",
-            background:
-              "url(https://free4kwallpapers.com/uploads/originals/2015/07/24/nice-art-paintings-hd-wallpaper.jpg)",
+            cursor: 'pointer',
           }}
           justifyContent={"center"}
           alignItems={"center"}
           spacing={3}
         >
-        <div style={overlayStyles}></div>
+          <div style={overlayStyles}></div>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditeblePath("fifthSection.title");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 20,
               color: "#FFFFFF",
               fontWeight: 400,
+              cursor: 'pointer'
             }}
           >
-            WITHIN MY DREAMS
+            {fifthSection.title}
           </Typography>
           <Typography
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditeblePath("fifthSection.subtitle");
+            }}
             style={{
               ...titleStyles,
               letterSpacing: 2,
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
+              cursor: 'pointer'
             }}
           >
-            FEATURED WORKS BY ANDY HOLMES
+            {fifthSection.subtitle}
           </Typography>
         </Stack>
       </Grid>
-      {artworkData.map((item) => {
+      {sixthSection.content.map((item, index) => {
         return (
           <Grid item xs={4}>
             <Stack
@@ -296,16 +362,23 @@ const DraytonTheme = () => {
               height={"28rem"}
             >
               <img
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={item.img}
+                onClick={() => {
+                  setEditeblePath(`sixthSection.content.${index}.img`);
+                }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", cursor: 'pointer' }}
+                src={`data:image/png;base64,${item.img}`}
               />
               <Typography
+              onClick={() => {
+                  setEditeblePath(`sixthSection.content.${index}.title`);
+                }}
                 style={{
                   ...titleStyles,
                   letterSpacing: 2,
                   color: "#222222",
                   fontWeight: 400,
                   fontSize: "20px",
+                  cursor: 'pointer'
                 }}
               >
                 {item.title}

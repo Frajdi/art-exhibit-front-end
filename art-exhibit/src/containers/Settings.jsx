@@ -224,7 +224,7 @@ const Settings = () => {
                   <Button
                     style={{ ...buttonStyles, background: "#7324E8" }}
                     variant="contained"
-                    onClick={() => {navigate('/portofolio/create')}}
+                    onClick={() => {navigate('/portofolio-theme-pick')}}
                   >
                     <Typography
                       style={{ ...buttonTextStyles, color: "#FFFFFF" }}

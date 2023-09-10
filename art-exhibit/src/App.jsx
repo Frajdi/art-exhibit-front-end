@@ -12,6 +12,8 @@ import Settings from "./containers/Settings";
 import withRouteAnimation from "./animationUtils/RouteAnimation";
 import CommunityPage from "./containers/CommunityPage";
 import PortofolioPage from "./containers/PortofolioPage";
+import Themes from "./comonents/portofolioCreatePage/Themes";
+import CurrentTheme from "./comonents/portofolioCreatePage/CurrentTheme";
 
 const AnimatedLandingPage = withRouteAnimation(LandingPage);
 const AnimatedArtistsPage = withRouteAnimation(ArtistsPage);
@@ -19,6 +21,8 @@ const AnimatedCategoryPage = withRouteAnimation(CategoryPage);
 const AnimatedSettings = withRouteAnimation(Settings)
 const AnimatedCommunityPage = withRouteAnimation(CommunityPage)
 const AnimatedPortofolioPage = withRouteAnimation(PortofolioPage)
+const AnimatedThemes = withRouteAnimation(Themes)
+const AnimatedCurrentTheme = withRouteAnimation(CurrentTheme)
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -30,7 +34,9 @@ const AnimatedRoutes = () => {
         <Route path="/category" element={<AnimatedCategoryPage />} />
         <Route path="/settings" element={<AnimatedSettings />} />
         <Route path="/community" element={<AnimatedCommunityPage />} />
-        <Route path="/portofolio/:action" element={<AnimatedPortofolioPage />} />
+        {/* <Route path="/portofolio" element={<AnimatedPortofolioPage />} /> */}
+        <Route path="/portofolio-theme-pick" element={<AnimatedThemes />} />
+        <Route path="/portofolio-create/:theme" element={<AnimatedCurrentTheme />} />
       </Routes>
     </AnimatePresence>
   );

@@ -11,11 +11,11 @@ const withRouteAnimation = (Component) => (props) => {
       animate={{
         opacity: 1,
         clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
-        transition: {duration: 1}
+        transition: {duration: 0.5}
       }}
       exit={{
         clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
-        transition: {duration: 1.5}
+        transition: {duration: 0.5}
       }}
     >
         <Component {...props}/>
