@@ -55,9 +55,8 @@ const headerStyles = {
 };
 
 const contentStyles = {
-  overflowY: "scroll"
+  overflowY: "scroll",
 };
-
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -72,7 +71,7 @@ const AuthenticationDialog = () => {
     setAuthLoading,
     setAuthError,
     isLogIn,
-    setIsLogIn
+    setIsLogIn,
   } = useArtContext();
 
   //   UI States
@@ -105,11 +104,108 @@ const AuthenticationDialog = () => {
     isLogIn ? "login" : "signup"
   );
 
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    if (!isLogIn) {
+      // Validate username for sign-up
+      if (!signUpData.username) {
+        newErrors.username = "Username is required.";
+        isValid = false;
+      }
+
+      // Validate other fields for sign-up
+      if (!signUpData.password) {
+        newErrors.password = "Password is required.";
+        isValid = false;
+      }
+      if (!signUpData.password) {
+        newErrors.password = "Password must be longer than 8 characters.";
+        isValid = false;
+      }
+      if (!signUpData.firstName) {
+        newErrors.firstName = "First Name is required.";
+        isValid = false;
+      }
+      if (!signUpData.lastName) {
+        newErrors.lastName = "Last Name is required.";
+        isValid = false;
+      }
+      if (!signUpData.phoneNumber) {
+        newErrors.phoneNumber = "Phone Number is required.";
+        isValid = false;
+      }
+      if (!signUpData.email) {
+        newErrors.email = "Email is required.";
+        isValid = false;
+      }
+      if (!signUpData.address) {
+        newErrors.address = "Address is required.";
+        isValid = false;
+      }
+      if (!signUpData.category) {
+        newErrors.category = "Category is required.";
+        isValid = false;
+      }
+      if (!signUpData.birthOfDate) {
+        newErrors.birthOfDate = "Date Of Birth is required.";
+        isValid = false;
+      }
+    } else {
+      // Validation for login form
+      if (!isLogInData.username) {
+        newErrors.username = "Username is required.";
+        isValid = false;
+      }
+
+      if (!isLogInData.password) {
+        newErrors.password = "Password is required.";
+        isValid = false;
+      }
+    }
+
+    // Validate password for both login and sign-up
+    if (!isLogInData.password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    }
+
+    // Set the errors state
+    setErrors(newErrors);
+
+    return isValid;
+  };
+
+  const handleLogin = () => {
+    const isValid = validateForm();
+
+    if (isValid) {
+      // Perform the login action
+      postRequest(isLogInData);
+      handleClose();
+    }
+  };
+
+  const handleSignUp = () => {
+    const isValid = validateForm();
+
+    if (isValid) {
+      // Perform the sign-up action
+      postRequest(signUpData);
+      setIsLogIn(true);
+    }
+  };
 
   useEffect(() => {
     if (isLoading === false && error) {
       setAuthError(error);
-      setIsLogIn(null)
+      setIsLogIn(null);
     }
   }, [isLoading]);
 
@@ -119,23 +215,23 @@ const AuthenticationDialog = () => {
       setProfilePicture(`data:image/png;base64,${data.profileImage}`);
       setAuthLoading(isLoading);
       setUsername(data.username);
-      setCategory(data.category)
+      setCategory(data.category);
       setAuthToken(accessToken);
     }
   }, [data]);
 
   useEffect(() => {
+    setErrors({ username: "", password: "" });
     if (!isLogIn) {
-      dialogHeightControls.start('signUp')
+      dialogHeightControls.start("signUp");
     } else {
-      dialogHeightControls.start('isLogIn')
+      dialogHeightControls.start("isLogIn");
     }
     titleControl.start("hidden");
     setTimeout(() => {
       titleControl.start("visible");
     }, 600);
   }, [isLogIn, isLogIn]);
-
 
   //hooks for animation
 
@@ -220,7 +316,7 @@ const AuthenticationDialog = () => {
             />
           </DialogTitle>
         </motion.div>
-        <DialogContent sx={{ overflow: "hidden", p: 0 }}>
+        <DialogContent sx={{ overflow: "hidden", pt: 5 }}>
           <AnimatePresence mode="wait" initial={false}>
             <Stack
               direction="column"
@@ -229,55 +325,58 @@ const AuthenticationDialog = () => {
               component={motion.div}
               layout
               variants={{
-                signUp: { height: '70vh' },
-                isLogIn: { height: '15vh' }
+                signUp: { height: "80vh" },
+                isLogIn: { height: "17vh" },
               }}
-              initial={'signUp'}
+              initial={"signUp"}
               animate={dialogHeightControls}
-              transition={{duration: 0.3}}
-              justifyContent='flex-start'
-              
+              transition={{ duration: 0.3 }}
+              justifyContent="flex-start"
             >
-            {!isLogIn && <motion.div
-                layout
-                key={0}
-                style={{ width: 56 }}
-                onMouseEnter={() => setProfilePictureHovered(true)}
-                onMouseLeave={() => setProfilePictureHovered(false)}
-              >
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleChange("profileImage")}
-                  style={{ display: "none" }}
-                  id="fileInput"
-                />
-                <Avatar
-                  sx={{
-                    bgcolor: "#C786FF",
-                    width: 56,
-                    height: 56,
-                    cursor: "pointer",
-                  }}
-                  onClick={handleAvatarClick}
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={0}
+                  style={{ width: 56 }}
                   onMouseEnter={() => setProfilePictureHovered(true)}
                   onMouseLeave={() => setProfilePictureHovered(false)}
                 >
-                  {profilePictureHovered ? (
-                    <FileUploadIcon />
-                  ) : signUpData.profileImage ? (
-                    <img
-                      style={{ objectFit: "cover", width: 56, height: 56 }}
-                      src={`data:image/png;base64,${signUpData.profileImage}`}
-                    />
-                  ) : (
-                    <PersonAddAltIcon />
-                  )}
-                </Avatar>
-              </motion.div>}
-              
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleChange("profileImage")}
+                    style={{ display: "none" }}
+                    id="fileInput"
+                  />
+                  <Avatar
+                    sx={{
+                      bgcolor: "#C786FF",
+                      width: 56,
+                      height: 56,
+                      cursor: "pointer",
+                    }}
+                    onClick={handleAvatarClick}
+                    onMouseEnter={() => setProfilePictureHovered(true)}
+                    onMouseLeave={() => setProfilePictureHovered(false)}
+                  >
+                    {profilePictureHovered ? (
+                      <FileUploadIcon />
+                    ) : signUpData.profileImage ? (
+                      <img
+                        style={{ objectFit: "cover", width: 56, height: 56 }}
+                        src={`data:image/png;base64,${signUpData.profileImage}`}
+                      />
+                    ) : (
+                      <PersonAddAltIcon />
+                    )}
+                  </Avatar>
+                </motion.div>
+              )}
+
               <TextField
-              style={{ width: "100%", height: "10px", marginTop:'10px' }}
+                helperText={errors.username}
+                error={Boolean(errors.username)}
+                style={{ width: "100%", height: "10px", marginTop: "10px" }}
                 key={1}
                 variant="standard"
                 label="User Name"
@@ -285,7 +384,9 @@ const AuthenticationDialog = () => {
                 value={isLogIn ? isLogInData.username : signUpData.username}
               />
               <TextField
-              style={{ width: "100%", height: "10px" }}
+                helperText={errors.password}
+                error={Boolean(errors.password)}
+                style={{ width: "100%", height: "10px" }}
                 key={2}
                 variant="standard"
                 label="Password"
@@ -293,132 +394,162 @@ const AuthenticationDialog = () => {
                 onChange={handleChange("password")}
                 value={isLogIn ? isLogInData.password : signUpData.password}
               />
-              {!isLogIn && <motion.div
-                layout
-                key={3}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <TextField
-                  onChange={handleChange("firstName")}
-                  value={signUpData.firstName}
-                  fullWidth
-                  variant="standard"
-                  label="First Name"
-                />
-              </motion.div>}
-              
-              {!isLogIn && <motion.div
-                layout
-                key={4}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <TextField
-                  onChange={handleChange("lastName")}
-                  value={signUpData.lastName}
-                  fullWidth
-                  variant="standard"
-                  label="Last Name"
-                />
-              </motion.div>}
-              
-              {!isLogIn && <motion.div
-                layout
-                key={5}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <TextField
-                  onChange={handleChange("phoneNumber")}
-                  value={signUpData.phoneNumber}
-                  fullWidth
-                  variant="standard"
-                  label="Phone number"
-                />
-              </motion.div>}
-              
-              {!isLogIn && <motion.div
-                layout
-                key={6}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <TextField
-                  onChange={handleChange("email")}
-                  value={signUpData.email}
-                  fullWidth
-                  variant="standard"
-                  label="Email"
-                />
-              </motion.div>}
-              
-              {!isLogIn && <motion.div
-                layout
-                key={7}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <TextField
-                  onChange={handleChange("address")}
-                  value={signUpData.address}
-                  fullWidth
-                  variant="standard"
-                  label="Country"
-                />
-              </motion.div>}
-              
-              {!isLogIn &&  <motion.div
-                layout
-                key={8}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <FormControl variant="standard" sx={{ width: "100%" }}>
-                  <InputLabel id="demo-simple-select-standard-label">
-                    Choose category
-                  </InputLabel>
-                  <Select
-                    id="demo-simple-select-standard"
-                    onChange={handleChange("category")}
-                    value={signUpData.category}
-                    label="Choose category"
-                  >
-                    <MenuItem value={"ART_COLLECTOR"}>Art Collector</MenuItem>
-                    <MenuItem value={"ARCHITECTURE"}>Architecture</MenuItem>
-                    <MenuItem value={"CALLIGRAPHY"}>Calligraphy</MenuItem>
-                    <MenuItem value={"CINEMATOGRAPHY"}>Cinematography</MenuItem>
-                    <MenuItem value={"DANCE"}>Dance</MenuItem>
-                    <MenuItem value={"DESIGNER"}>Designer</MenuItem>
-                    <MenuItem value={"DRAWING"}>Drawing</MenuItem>
-                    <MenuItem value={"FILM"}>Film</MenuItem>
-                    <MenuItem value={"MUSIC"}>Music</MenuItem>
-                    <MenuItem value={"PAINTING"}>Painting</MenuItem>
-                    <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
-                    <MenuItem value={"SCULPTURE"}>Sculpture</MenuItem>
-                    <MenuItem value={"PERFORMING"}>Performing</MenuItem>
-                    <MenuItem value={"ARTS"}>Arts</MenuItem>
-                    <MenuItem value={"POTTERY"}>Pottery</MenuItem>
-                    <MenuItem value={"PRINTMAKING"}>Printmaking</MenuItem>
-                    <MenuItem value={"WRITING"}>Writing</MenuItem>
-                  </Select>
-                </FormControl>
-              </motion.div>}
-             
-              {!isLogIn && <motion.div
-                layout
-                key={9}
-                style={{ width: "100%", height: "10px" }}
-              >
-                <TextField
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={3}
                   style={{ width: "100%", height: "10px" }}
-                  variant="standard"
-                  id="demo-simple-select-standard"
-                  onChange={handleChange("birthOfDate")}
-                  value={signUpData.birthOfDate}
-                  label="Date Of Birth"
-                  type="date"
-                  InputLabelProps={{
-                    style: {
-                      marginLeft: "7rem", // Adjust the value as needed
-                    },
-                  }}
-                />
-              </motion.div>}
+                >
+                  <TextField
+                    helperText={errors.firstName}
+                    error={Boolean(errors.firstName)}
+                    onChange={handleChange("firstName")}
+                    value={signUpData.firstName}
+                    fullWidth
+                    variant="standard"
+                    label="First Name"
+                  />
+                </motion.div>
+              )}
+
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={4}
+                  style={{ width: "100%", height: "10px" }}
+                >
+                  <TextField
+                    helperText={errors.lastName}
+                    error={Boolean(errors.lastName)}
+                    onChange={handleChange("lastName")}
+                    value={signUpData.lastName}
+                    fullWidth
+                    variant="standard"
+                    label="Last Name"
+                  />
+                </motion.div>
+              )}
+
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={5}
+                  style={{ width: "100%", height: "10px" }}
+                >
+                  <TextField
+                    helperText={errors.phoneNumber}
+                    error={Boolean(errors.phoneNumber)}
+                    onChange={handleChange("phoneNumber")}
+                    value={signUpData.phoneNumber}
+                    fullWidth
+                    variant="standard"
+                    label="Phone number"
+                  />
+                </motion.div>
+              )}
+
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={6}
+                  style={{ width: "100%", height: "10px" }}
+                >
+                  <TextField
+                    helperText={errors.email}
+                    error={Boolean(errors.email)}
+                    onChange={handleChange("email")}
+                    value={signUpData.email}
+                    fullWidth
+                    variant="standard"
+                    label="Email"
+                  />
+                </motion.div>
+              )}
+
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={7}
+                  style={{ width: "100%", height: "10px" }}
+                >
+                  <TextField
+                    helperText={errors.address}
+                    error={Boolean(errors.address)}
+                    onChange={handleChange("address")}
+                    value={signUpData.address}
+                    fullWidth
+                    variant="standard"
+                    label="Country"
+                  />
+                </motion.div>
+              )}
+
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={8}
+                  style={{ width: "100%", height: "10px" }}
+                >
+                  <FormControl variant="standard" sx={{ width: "100%" }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      Choose category
+                    </InputLabel>
+                    <Select
+                      helperText={errors.category}
+                      error={Boolean(errors.category)}
+                      id="demo-simple-select-standard"
+                      onChange={handleChange("category")}
+                      value={signUpData.category}
+                      label="Choose category"
+                    >
+                      <MenuItem value={"ART_COLLECTOR"}>Art Collector</MenuItem>
+                      <MenuItem value={"ARCHITECTURE"}>Architecture</MenuItem>
+                      <MenuItem value={"CALLIGRAPHY"}>Calligraphy</MenuItem>
+                      <MenuItem value={"CINEMATOGRAPHY"}>
+                        Cinematography
+                      </MenuItem>
+                      <MenuItem value={"DANCE"}>Dance</MenuItem>
+                      <MenuItem value={"DESIGNER"}>Designer</MenuItem>
+                      <MenuItem value={"DRAWING"}>Drawing</MenuItem>
+                      <MenuItem value={"FILM"}>Film</MenuItem>
+                      <MenuItem value={"MUSIC"}>Music</MenuItem>
+                      <MenuItem value={"PAINTING"}>Painting</MenuItem>
+                      <MenuItem value={"PHOTOGRAPHY"}>Photography</MenuItem>
+                      <MenuItem value={"SCULPTURE"}>Sculpture</MenuItem>
+                      <MenuItem value={"PERFORMING"}>Performing</MenuItem>
+                      <MenuItem value={"ARTS"}>Arts</MenuItem>
+                      <MenuItem value={"POTTERY"}>Pottery</MenuItem>
+                      <MenuItem value={"PRINTMAKING"}>Printmaking</MenuItem>
+                      <MenuItem value={"WRITING"}>Writing</MenuItem>
+                    </Select>
+                  </FormControl>
+                </motion.div>
+              )}
+
+              {!isLogIn && (
+                <motion.div
+                  layout
+                  key={9}
+                  style={{ width: "100%", height: "10px" }}
+                >
+                  <TextField
+                    helperText={errors.birthOfDate}
+                    error={Boolean(errors.birthOfDate)}
+                    style={{ width: "100%", height: "10px" }}
+                    variant="standard"
+                    id="demo-simple-select-standard"
+                    onChange={handleChange("birthOfDate")}
+                    value={signUpData.birthOfDate}
+                    label="Date Of Birth"
+                    type="date"
+                    InputLabelProps={{
+                      style: {
+                        marginLeft: "7rem", // Adjust the value as needed
+                      },
+                    }}
+                  />
+                </motion.div>
+              )}
             </Stack>
           </AnimatePresence>
         </DialogContent>
@@ -441,8 +572,7 @@ const AuthenticationDialog = () => {
                 <Button
                   style={buttonStyles}
                   onClick={() => {
-                    postRequest(isLogInData);
-                    handleClose();
+                    handleLogin();
                   }}
                 >
                   <Typography style={buttonTextStyles}>Log In</Typography>
@@ -483,8 +613,7 @@ const AuthenticationDialog = () => {
                 <Button
                   style={buttonStyles}
                   onClick={() => {
-                    postRequest(signUpData);
-                    setIsLogIn(true);
+                    handleSignUp();
                   }}
                 >
                   <Typography style={buttonTextStyles}>Sign Up</Typography>

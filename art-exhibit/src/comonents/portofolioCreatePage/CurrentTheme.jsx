@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ApartureTheme from "./ApartureTheme";
 import AspectTheme from "./AspectTheme";
 import DraytonTheme from "./DraytonTheme";
@@ -9,6 +9,8 @@ import draytonFakeData from "./fakeData/draytonFakeData";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import useCreatePortofolio from "../../commands/createPortofolio";
+import { useArtContext } from '../../state/AppContext' 
 
 //Styles
 
@@ -65,7 +67,10 @@ const defaultData = {
 };
 
 const CurrentTheme = () => {
+  const navigate = useNavigate()
   const { theme } = useParams();
+  const { authToken } = useArtContext()
+  const { createPortofolio } = useCreatePortofolio();
 
   const [themeContent, setThemeContent] = useState(defaultData[theme]);
   const [editeblePath, setEditeblePath] = useState(null);
@@ -121,6 +126,22 @@ const CurrentTheme = () => {
     // Trigger the hidden file input when the avatar is clicked
     document.getElementById("fileInput").click();
   };
+
+  const handleCreatePortofolio = async() => {
+
+    const jsonTheme = {
+      themeType: theme,
+      themeContent: themeContent
+    }
+    const body = {
+      name: themeContent.firstSection.headerTitle,
+      jsonTheme: JSON.stringify(jsonTheme)
+    }
+
+    console.log(body);
+    await createPortofolio(body, authToken)
+    navigate('/portofolio')
+  }
 
   return (
     <>
@@ -191,6 +212,7 @@ const CurrentTheme = () => {
           </>
         )}
         <Button
+        onClick={() => {handleCreatePortofolio()}}
           sx={buttonStyles}
           startIcon={
             <CreateNewFolderIcon sx={{ width: "2rem", height: "100%" }} />

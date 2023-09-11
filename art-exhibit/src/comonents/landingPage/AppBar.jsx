@@ -14,6 +14,7 @@ import AuthenticationDialog from "./AuthenticationDialog";
 import { useArtContext } from "../../state/AppContext";
 import Avatar from "@mui/material/Avatar";
 import NotificationToaster from "./NotificationToaster";
+import Logo from "../../../assets/logo-02.png";
 
 const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
   const logoTitleStyles = {
@@ -148,15 +149,29 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
             >
               <Link style={{ textDecoration: "none" }} to={"/"}>
                 <motion.div
-                  style={{ borderRadius: "50px", padding: "0 20px" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "50px",
+                    width: "60px",
+                    height: "60px",
+                    overflow: "hidden",
+                  }}
                   whileHover={{
                     boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
                     cursor: "pointer",
                   }}
                 >
-                  <Typography noWrap sx={logoTitleStyles}>
-                    ArtExhibit
-                  </Typography>
+                  <img
+                    src={Logo}
+                    style={{
+                      maxWidth: "250%",
+                      maxHeight: "250%",
+                      objectFit: "cover", // Crop the image to cover the container
+                      objectPosition: "center center", // Center the image both horizontally and vertically
+                    }}
+                  />
                 </motion.div>
               </Link>
               <Stack direction={"row"} spacing={6}>
@@ -215,7 +230,11 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                       padding: "0px 20px",
                     }}
                   >
-                    <Typography sx={menuOptionsStyles}>{category === 'ART_COLLECTOR'? 'Collection' : 'Portfolio'}</Typography>
+                    <Typography sx={menuOptionsStyles}>
+                      {category === "ART_COLLECTOR"
+                        ? "Collection"
+                        : "Portfolio"}
+                    </Typography>
                   </Link>
                 )}
               </Stack>

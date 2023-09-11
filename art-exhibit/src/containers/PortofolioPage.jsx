@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import { useArtContext } from "../state/AppContext";
-import { useParams } from "react-router-dom";
-import Themes from "../comonents/portofolioCreatePage/Themes";
-
+import useGetMyPortofolio from "../commands/getMyPortofolio";
 
 
 const PortofolioPage = () => {
-  const { category } = useArtContext();
-  const { action } = useParams();
+  const { authToken } = useArtContext();
+  const {getMyPortofolio, data} = useGetMyPortofolio()
+
+  useEffect(() => {
+    getMyPortofolio(authToken)
+  },[])
+
+  useEffect(() => {
+    console.log({data});
+  },[data])
+  
 
   return (
     <Grid container sx={{ backgroundColor: "#FFFFFF" }}>
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <AppBarMenu color="#FFFFFF" />
-      </Grid> */}
+      </Grid>
       <Grid item xs={12} overflow={'hidden'}>
-        <Themes />
       </Grid>
     </Grid>
   );

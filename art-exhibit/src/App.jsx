@@ -34,7 +34,7 @@ const AnimatedRoutes = () => {
         <Route path="/category" element={<AnimatedCategoryPage />} />
         <Route path="/settings" element={<AnimatedSettings />} />
         <Route path="/community" element={<AnimatedCommunityPage />} />
-        {/* <Route path="/portofolio" element={<AnimatedPortofolioPage />} /> */}
+        <Route path="/portofolio" element={<AnimatedPortofolioPage />} />
         <Route path="/portofolio-theme-pick" element={<AnimatedThemes />} />
         <Route path="/portofolio-create/:theme" element={<AnimatedCurrentTheme />} />
       </Routes>
