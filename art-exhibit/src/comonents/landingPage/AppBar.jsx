@@ -331,6 +331,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                         disableFocusRipple
                         startIcon={<SettingsIcon />}
                         onClick={() => {
+                          handleClose()
                           navigate("/settings");
                         }}
                       >
@@ -339,6 +340,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                       <hr />
                       <Button
                         onClick={() => {
+                          handleClose()
                           setLogedIn(false)
                           logOut();
                           navigate('/')
