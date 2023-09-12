@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -15,6 +15,9 @@ import { useArtContext } from "../../state/AppContext";
 import Avatar from "@mui/material/Avatar";
 import NotificationToaster from "./NotificationToaster";
 import Logo from "../../../assets/logo-02.png";
+import { Menu, MenuItem } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
   const logoTitleStyles = {
@@ -56,6 +59,9 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
   };
 
   const [logedIn, setLogedIn] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const location = useLocation();
 
@@ -67,6 +73,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
     authError,
     setAuthError,
     setIsLogIn,
+    logOut,
   } = useArtContext();
 
   const { scrollY } = useScroll();
@@ -89,6 +96,13 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
       setLogedIn(true);
     }
   }, [profilePicture, username, authToken]);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const removeNotification = () => {
     setAuthError(null);
@@ -248,56 +262,95 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                     }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Link
-                      to={"/settings"}
+                    <motion.div
                       style={{
-                        textDecoration: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        width: "100%",
+                        borderRadius: "50px",
+                        boxShadow:
+                          "0px 0px 73px 20px rgba(199,134,255,0.57) inset",
+                      }}
+                      key="logedIn"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ duration: 0.3 }}
+                      onClick={handleClick}
+                    >
+                      <Typography
+                        style={{ ...menuOptionsStyles, marginLeft: "10%" }}
+                      >
+                        {username}
+                      </Typography>
+                      <Avatar
+                        sx={{
+                          bgcolor: "#C786FF",
+                          width: 56,
+                          height: 56,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {profilePicture && profilePicture.length < 100 ? (
+                          username.charAt(0)
+                        ) : (
+                          <img
+                            style={{
+                              objectFit: "cover",
+                              width: 56,
+                              height: 56,
+                            }}
+                            src={profilePicture}
+                          />
+                        )}
+                      </Avatar>
+                    </motion.div>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      slotProps={{
+                        paper: {
+                          style: {
+                            width: "14%",
+                            borderRadius: "20px",
+                            background: "rgba(245,233,255, 0.6)",
+                            marginTop: "1rem",
+                            boxShadow:
+                              "0px 0px 73px 20px rgba(199,134,255,0.57) inset",
+                            backdropFilter: " blur( 10px )",
+                          },
+                        },
                       }}
                     >
-                      <motion.div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          width: "100%",
-                          borderRadius: "50px",
-                          boxShadow:
-                            "0px 0px 73px 20px rgba(199,134,255,0.57) inset",
+                      <Button
+                        sx={{ color: "#222222" }}
+                        fullWidth
+                        disableFocusRipple
+                        startIcon={<SettingsIcon />}
+                        onClick={() => {
+                          navigate("/settings");
                         }}
-                        key="logedIn"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        transition={{ duration: 0.3 }}
                       >
-                        <Typography
-                          style={{ ...menuOptionsStyles, marginLeft: "10%" }}
-                        >
-                          {username}
-                        </Typography>
-                        <Avatar
-                          sx={{
-                            bgcolor: "#C786FF",
-                            width: 56,
-                            height: 56,
-                            cursor: "pointer",
-                          }}
-                        >
-                          {profilePicture.length < 100 ? (
-                            username.charAt(0)
-                          ) : (
-                            <img
-                              style={{
-                                objectFit: "cover",
-                                width: 56,
-                                height: 56,
-                              }}
-                              src={profilePicture}
-                            />
-                          )}
-                        </Avatar>
-                      </motion.div>
-                    </Link>
+                        Settings
+                      </Button>
+                      <hr />
+                      <Button
+                        onClick={() => {
+                          setLogedIn(false)
+                          logOut();
+                          navigate('/')
+                        }}
+                        sx={{ color: "#222222" }}
+                        fullWidth
+                        disableFocusRipple
+                        startIcon={<LogoutIcon />}
+                      >
+                        Log Out
+                      </Button>
+                    </Menu>
                   </motion.div>
                 ) : (
                   <motion.div

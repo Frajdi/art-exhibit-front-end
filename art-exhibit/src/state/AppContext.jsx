@@ -14,6 +14,7 @@ const withContext = (Component) => (props) => {
   const [authError, setAuthError] = useState(null);
   const [authLoading, setAuthLoading] = useState(null);
 
+
   useEffect(() => {
     const profilePicture = localStorage.getItem("profilePicture")
     const username = localStorage.getItem("username")
@@ -45,6 +46,15 @@ const withContext = (Component) => (props) => {
     localStorage.setItem("authToken", authToken);
   }, [authToken]);
 
+  const logOut = () => {
+    setProfilePicture(null)
+    setUsername(null)
+    setCategory(null)
+    setAuthToken(null)
+    setAuthError(null),
+    setAuthLoading(null)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -61,7 +71,8 @@ const withContext = (Component) => (props) => {
         setAuthToken,
         setIsLogIn,
         setAuthError,
-        setAuthLoading
+        setAuthLoading,
+        logOut
       }}
     >
       <Component {...props} />

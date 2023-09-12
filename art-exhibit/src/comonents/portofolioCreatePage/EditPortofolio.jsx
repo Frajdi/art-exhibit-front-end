@@ -6,11 +6,20 @@ import DraytonTheme from "./DraytonTheme";
 import apertureFakeData from "./fakeData/apertureFakeData";
 import aspectFakeData from "./fakeData/aspectFakeData";
 import draytonFakeData from "./fakeData/draytonFakeData";
-import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import UpdateIcon from "@mui/icons-material/Update";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import useCreatePortofolio from "../../commands/createPortofolio";
 import { useArtContext } from "../../state/AppContext";
+import useGetMyPortofolio from "../../commands/getMyPortofolio";
+import useUpdatePortofolio from "../../commands/updatePortofolio";
 
 //Styles
 
@@ -39,8 +48,8 @@ const textFieldStyles = {
 };
 
 const buttonStyles = {
-  width: "20%",
-  height: "40%",
+  width: "25%",
+  height: "50%",
   background: "#e0e0e0",
   color: "#333333",
   textTransform: "none",
@@ -66,15 +75,32 @@ const defaultData = {
   drayton: draytonFakeData,
 };
 
-const CurrentTheme = () => {
+const EditPortofolio = () => {
   const navigate = useNavigate();
-  const { theme } = useParams();
+  const { getMyPortofolio, data } = useGetMyPortofolio();
   const { authToken } = useArtContext();
-  const { createPortofolio, isLoading } = useCreatePortofolio();
 
-  const [themeContent, setThemeContent] = useState(defaultData[theme]);
+  const { updatePortofolio, isLoading } = useUpdatePortofolio();
+
+  const [themeContent, setThemeContent] = useState(null);
+  const [theme, setTheme] = useState(null);
   const [editeblePath, setEditeblePath] = useState(null);
   const [textUpdate, setTextUpdate] = useState(true);
+  const [portofolioId, setPortofolioId] = useState(null);
+
+  useEffect(() => {
+    console.log({ authToken });
+    getMyPortofolio(authToken);
+  }, [authToken]);
+
+  useEffect(() => {
+    if (data) {
+      console.log({ data });
+      setThemeContent(JSON.parse(data.jsonTheme).themeContent);
+      setTheme(JSON.parse(data.jsonTheme).themeType);
+      setPortofolioId(data.id);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (editeblePath !== null) {
@@ -127,7 +153,7 @@ const CurrentTheme = () => {
     document.getElementById("fileInput").click();
   };
 
-  const handleCreatePortofolio = async () => {
+  const handleUpdatePortofolio = async () => {
     const jsonTheme = {
       themeType: theme,
       themeContent: themeContent,
@@ -137,12 +163,11 @@ const CurrentTheme = () => {
       jsonTheme: JSON.stringify(jsonTheme),
     };
 
-    console.log(body);
-    await createPortofolio(body, authToken);
+    await updatePortofolio(body, portofolioId, authToken);
     navigate("/portofolio");
   };
 
-  return (
+  return themeContent ? (
     <>
       {theme === "aperture" ? (
         <ApartureTheme
@@ -212,12 +237,10 @@ const CurrentTheme = () => {
         )}
         <Button
           onClick={() => {
-            handleCreatePortofolio();
+            handleUpdatePortofolio();
           }}
           sx={buttonStyles}
-          startIcon={
-            isLoading? null : <CreateNewFolderIcon sx={{ width: "2rem", height: "100%" }} />
-          }
+          startIcon={isLoading? null : <UpdateIcon sx={{ width: "2rem", height: "100%" }} />}
           variant="contained"
         >
           {isLoading ? (
@@ -225,12 +248,16 @@ const CurrentTheme = () => {
               <CircularProgress />
             </Box>
           ) : (
-            <Typography style={ButtonTextStyles}>Save Portofolio</Typography>
+            <Typography style={ButtonTextStyles}>Update Portofolio</Typography>
           )}
         </Button>
       </Stack>
     </>
+  ) : (
+    <Box sx={{ display: "flex" }}>
+      <CircularProgress />
+    </Box>
   );
 };
 
-export default CurrentTheme;
+export default EditPortofolio;

@@ -11,10 +11,18 @@ const useGetMyPortofolio = () => {
     try {
       const response = await axios.get(`http://localhost:8080/portfolio/get`, {
         headers: {
-            Authorization: `Bearer ${accessToken}`, // Include the token in the Authorization header
-          },
+          Authorization: `Bearer ${accessToken}`, // Include the token in the Authorization header
+        },
       });
-      setData(response.data);
+
+      // Access the response status code
+      const statusCode = response.status;
+
+      if (statusCode === 1004) {
+        setData(false);
+      } else {
+        setData(response.data);
+      }
       setError(null);
     } catch (err) {
       if (err.response.data.details) {

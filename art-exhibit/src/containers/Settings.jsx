@@ -94,6 +94,7 @@ const labelStyles = {
 const Settings = () => {
   const [userData, setUserData] = useState(null);
   const [generalSettings, setGeneralSettings] = useState(true);
+  const [hasPortofolio, setHasPortofolio] = useState(false);
 
   const [password, setPassword] = useState({
     confirmNewPassword: "",
@@ -109,7 +110,7 @@ const Settings = () => {
     setProfilePicture,
   } = useArtContext();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { isLoading, data, getRequest } = useGetCurrentUserData();
 
@@ -150,6 +151,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (data) {
+      console.log({data});
       setUserData({
         firstName: data.firstName ? data.firstName : "",
         category: data.category ? data.category : "",
@@ -163,6 +165,9 @@ const Settings = () => {
         phoneNumber: data.phoneNumber ? data.phoneNumber : "",
         profileImage: data.profileImage ? data.profileImage : "",
       });
+      if(data.portofolio){
+        setHasPortofolio(true)
+      }
     }
   }, [data]);
 
@@ -221,10 +226,13 @@ const Settings = () => {
                   alignItems="center"
                   height="80px"
                 >
+                {hasPortofolio !== null ? 
                   <Button
                     style={{ ...buttonStyles, background: "#7324E8" }}
                     variant="contained"
-                    onClick={() => {navigate('/portofolio-theme-pick')}}
+                    onClick={() => {
+                      navigate("/portofolio-theme-pick");
+                    }}
                   >
                     <Typography
                       style={{ ...buttonTextStyles, color: "#FFFFFF" }}
@@ -232,7 +240,7 @@ const Settings = () => {
                       Create a new portofolio
                     </Typography>
                   </Button>
-                  <Button
+                  : <Button
                     style={{ ...buttonStyles, background: "#E7DEEF" }}
                     variant="contained"
                   >
@@ -242,6 +250,7 @@ const Settings = () => {
                       Edit portofolio
                     </Typography>
                   </Button>
+                }
                 </Stack>
               )}
             </Stack>
@@ -253,10 +262,27 @@ const Settings = () => {
                   alignItems="center"
                   justifyContent="flex-start"
                 >
-                  <img
-                    src={`data:image/png;base64,${userData?.profileImage}`}
-                    style={profileImageStyles}
-                  />
+                  <Avatar
+                    sx={{
+                      bgcolor: "#7324e8",
+                      width: '80px',
+                      height: '80px',
+                      cursor: "pointer",
+                    }}
+                  >
+                    {userData?.profileImage.length < 100 ? (
+                      userData?.username.charAt(0)
+                    ) : (
+                      <img
+                        style={{
+                          objectFit: "cover",
+                          width: 56,
+                          height: 56,
+                        }}
+                        src={`data:image/png;base64,${userData?.profileImage}`}
+                      />
+                    )}
+                  </Avatar>
                   <Stack direction="column" spacing={1.5}>
                     <Button
                       onClick={() => {

@@ -109,97 +109,92 @@ const AuthenticationDialog = () => {
     password: "",
   });
 
-  const validateForm = () => {
-    let isValid = true;
-    const newErrors = {};
+  // const validateForm = () => {
+  //   let isValid = true;
+  //   const newErrors = {};
 
-    if (!isLogIn) {
-      // Validate username for sign-up
-      if (!signUpData.username) {
-        newErrors.username = "Username is required.";
-        isValid = false;
-      }
+  //   if (!isLogIn) {
+  //     // Validate username for sign-up
+  //     if (!signUpData.username) {
+  //       newErrors.username = "Username is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.password) {
+  //       console.log(signUpData.password);
+  //       newErrors.password = "Password is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.firstName) {
+  //       newErrors.firstName = "First Name is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.lastName) {
+  //       newErrors.lastName = "Last Name is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.phoneNumber) {
+  //       newErrors.phoneNumber = "Phone Number is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.email) {
+  //       newErrors.email = "Email is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.address) {
+  //       newErrors.address = "Address is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.category) {
+  //       newErrors.category = "Category is required.";
+  //       isValid = false;
+  //     }
+  //     if (!signUpData.birthOfDate) {
+  //       newErrors.birthOfDate = "Date Of Birth is required.";
+  //       isValid = false;
+  //     }
+  //   } else {
+  //     // Validation for login form
+  //     if (!isLogInData.username) {
+  //       newErrors.username = "Username is required.";
+  //       isValid = false;
+  //     }
 
-      // Validate other fields for sign-up
-      if (!signUpData.password) {
-        newErrors.password = "Password is required.";
-        isValid = false;
-      }
-      if (!signUpData.password) {
-        newErrors.password = "Password must be longer than 8 characters.";
-        isValid = false;
-      }
-      if (!signUpData.firstName) {
-        newErrors.firstName = "First Name is required.";
-        isValid = false;
-      }
-      if (!signUpData.lastName) {
-        newErrors.lastName = "Last Name is required.";
-        isValid = false;
-      }
-      if (!signUpData.phoneNumber) {
-        newErrors.phoneNumber = "Phone Number is required.";
-        isValid = false;
-      }
-      if (!signUpData.email) {
-        newErrors.email = "Email is required.";
-        isValid = false;
-      }
-      if (!signUpData.address) {
-        newErrors.address = "Address is required.";
-        isValid = false;
-      }
-      if (!signUpData.category) {
-        newErrors.category = "Category is required.";
-        isValid = false;
-      }
-      if (!signUpData.birthOfDate) {
-        newErrors.birthOfDate = "Date Of Birth is required.";
-        isValid = false;
-      }
-    } else {
-      // Validation for login form
-      if (!isLogInData.username) {
-        newErrors.username = "Username is required.";
-        isValid = false;
-      }
+  //     if (!isLogInData.password) {
+  //       newErrors.password = "Password is required.";
+  //       isValid = false;
+  //     }
+  //   }
 
-      if (!isLogInData.password) {
-        newErrors.password = "Password is required.";
-        isValid = false;
-      }
-    }
+  //   // Validate password for both login and sign-up
+  //   if (!isLogInData.password) {
+  //     newErrors.password = "Password is required.";
+  //     isValid = false;
+  //   }
 
-    // Validate password for both login and sign-up
-    if (!isLogInData.password) {
-      newErrors.password = "Password is required.";
-      isValid = false;
-    }
+  //   // Set the errors state
+  //   setErrors(newErrors);
 
-    // Set the errors state
-    setErrors(newErrors);
-
-    return isValid;
-  };
+  //   return isValid;
+  // };
 
   const handleLogin = () => {
-    const isValid = validateForm();
+    // const isValid = validateForm();
 
-    if (isValid) {
+    // if (isValid) {
       // Perform the login action
       postRequest(isLogInData);
       handleClose();
-    }
+    // }
   };
 
   const handleSignUp = () => {
-    const isValid = validateForm();
+    // const isValid = validateForm();
 
-    if (isValid) {
+    // if (isValid) {
       // Perform the sign-up action
       postRequest(signUpData);
       setIsLogIn(true);
-    }
+    // }
   };
 
   useEffect(() => {
