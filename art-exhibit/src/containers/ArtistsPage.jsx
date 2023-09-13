@@ -37,6 +37,7 @@ const ArtistsPage = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setArtists(data);
     }
   }, [data]);

@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { motion } from "framer-motion";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
 
 const cardStyles = {
   width: "90%",
@@ -11,6 +14,18 @@ const cardStyles = {
   borderRadius: "10px",
   overflow: "hidden",
   boxShadow: "0 5px 4px rgba(0,0,0,0.25)",
+};
+
+const viewButtonStyles = {
+  color: "#7022e7",
+  fontFamily: "Poppins, sans-serif",
+  fontWeight: 500,
+  fontSize: "15px",
+  lineHeight: "30px",
+  borderColor: "#7022e7",
+  height: "40px",
+  width: "80%",
+  textTransform: "none",
 };
 
 const wallpaperImageStyles = {
@@ -64,8 +79,9 @@ const ArtistCard = ({
   setSelectedSquare,
   variants,
   selectedSquare,
-  scrollTopHeight
+  scrollTopHeight,
 }) => {
+  const navigate = useNavigate()
   const { username, description, profileImage } = artist;
   return (
     <Stack
@@ -78,21 +94,49 @@ const ArtistCard = ({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2, type: "spring" }}
     >
-      <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://media.istockphoto.com/id/174923556/photo/3d-illuminated-podium.jpg?s=612x612&w=0&k=20&c=WC7GBNAhyDYQeVfkTIA6h9ohR8gH89nTPWZweSdcnLo='} style={wallpaperImageStyles} />
-      <img src={profileImage ? `data:image/png;base64,${profileImage}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDL0XSeU9gN2IENmQwvTt0wHfcOZwvRe4oxAez1guBRPs4hrvADSiOrSphBATx3gmIXM&usqp=CAU'} style={profilePictureStyles} />
-      <Stack direction="column" alignItems="center" spacing={2} width={'100%'}>
+      <img
+        src={
+          profileImage
+            ? `data:image/png;base64,${profileImage}`
+            : "https://media.istockphoto.com/id/174923556/photo/3d-illuminated-podium.jpg?s=612x612&w=0&k=20&c=WC7GBNAhyDYQeVfkTIA6h9ohR8gH89nTPWZweSdcnLo="
+        }
+        style={wallpaperImageStyles}
+      />
+      <img
+        src={
+          profileImage
+            ? `data:image/png;base64,${profileImage}`
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDL0XSeU9gN2IENmQwvTt0wHfcOZwvRe4oxAez1guBRPs4hrvADSiOrSphBATx3gmIXM&usqp=CAU"
+        }
+        style={profilePictureStyles}
+      />
+      <Stack direction="column" alignItems="center" spacing={2} width={"100%"}>
         <Typography style={titleStyles}>{username}</Typography>
         <Typography style={bioStyles} align="center">
-          {description ? description : 'No Bio Available For This Artist'}
+          {description ? description : "No Bio Available For This Artist"}
         </Typography>
         {selectedSquare ? (
-          <Button
-            onClick={() => setSelectedSquare(null)}
-            variant="contained"
-            style={buttonStyles}
-          >
-            <Typography style={buttonTextStyles}>- Less</Typography>
-          </Button>
+          <>
+            <Button
+              onClick={() => setSelectedSquare(null)}
+              variant="contained"
+              style={buttonStyles}
+            >
+              <Typography style={buttonTextStyles}>- Less</Typography>
+            </Button>
+            <Button
+            startIcon={<VisibilityIcon />}
+              onClick={(e) => {
+                console.log(artist)
+                navigate(`/portofolio-view/${artist.id}`);
+              }}
+              variant="outlined"
+              style={viewButtonStyles}
+            >
+              <Typography style={buttonTextStyles}>View Portfolio</Typography>{" "}
+              
+            </Button>
+          </>
         ) : (
           <Button
             onClick={() => {

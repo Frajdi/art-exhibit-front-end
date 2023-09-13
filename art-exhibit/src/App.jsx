@@ -15,6 +15,7 @@ import PortofolioPage from "./containers/PortofolioPage";
 import Themes from "./comonents/portofolioCreatePage/Themes";
 import CurrentTheme from "./comonents/portofolioCreatePage/CurrentTheme";
 import EditPortofolio from "./comonents/portofolioCreatePage/EditPortofolio";
+import PortofolioView from "./comonents/portofolioCreatePage/PortofolioView";
 
 const AnimatedLandingPage = withRouteAnimation(LandingPage);
 const AnimatedArtistsPage = withRouteAnimation(ArtistsPage);
@@ -25,6 +26,7 @@ const AnimatedPortofolioPage = withRouteAnimation(PortofolioPage)
 const AnimatedThemes = withRouteAnimation(Themes)
 const AnimatedCurrentTheme = withRouteAnimation(CurrentTheme)
 const AnimatedEditPortofolio = withRouteAnimation(EditPortofolio)
+const AnimatedPortofolioView = withRouteAnimation(PortofolioView)
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -40,6 +42,7 @@ const AnimatedRoutes = () => {
         <Route path="/portofolio-theme-pick" element={<AnimatedThemes />} />
         <Route path="/portofolio-create/:theme" element={<AnimatedCurrentTheme />} />
         <Route path="/portofolio-edit" element={<AnimatedEditPortofolio />} />
+        <Route path="/portofolio-view/:id" element={<AnimatedPortofolioView />} />
       </Routes>
     </AnimatePresence>
   );

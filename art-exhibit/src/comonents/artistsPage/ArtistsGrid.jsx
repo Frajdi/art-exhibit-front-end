@@ -67,6 +67,7 @@ const squareVariants = {
 const ArtistsGrid = ({ artists, scrollTopHeight }) => {
   const [selectedSquare, setSelectedSquare] = useState(null);
 
+
   const renderArtists = () => (
     <Grid container layout component={motion.div} spacing={5} padding={5}>
       <AnimatePresence>
@@ -136,7 +137,23 @@ const ArtistsGrid = ({ artists, scrollTopHeight }) => {
             >
               Portofolio
             </Typography>
-            <Flashcards />
+            {selectedSquare?.portfolio !== null ? (
+              <Flashcards portfolio = {selectedSquare.portfolio} artistId= {selectedSquare.id}/>
+            ) : (
+              <Stack sx={{ height: "100%" }} justifyContent={"center"}>
+                <Typography
+                  style={{
+                    ...namePreviewStyles,
+                    color: "#222222",
+                    fontSize: "25px",
+                    padding: 5,
+                    top: "1rem",
+                  }}
+                >
+                  This artist doesn't have a portfolio.
+                </Typography>
+              </Stack>
+            )}
           </Stack>
         </Stack>
       ) : (
