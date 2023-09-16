@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ScrollingTestimonials from "./ImageGroup";
 import TextAnimation from "../../../animationUtils/TextAnimation";
 import Grid from "@mui/material/Grid";
@@ -38,6 +38,8 @@ const buttonTextStyles = {
 };
 
 const HeaderSection = () => {
+
+
   const {
     setIsLogIn
   } = useArtContext();

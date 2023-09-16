@@ -1,47 +1,55 @@
+import { useEffect, useState } from 'react';
 import Stack from "@mui/material/Stack";
 import { motion } from "framer-motion";
 
 const ScrollingTestimonials = () => {
+  // Add a state to track when the component should trigger animations
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  // Use useEffect to start animations when the component mounts
+  useEffect(() => {
+    setShouldAnimate(true);
+  }, []);
+
   return (
-    <Stack spacing={2} direction = {"row"} width={'100%'} height={'517px'} sx={{borderRadius: '10px', overflow: 'hidden'}}>
-        <Stack width={'30%'}>
-          <TestimonialList list={testimonials.top} duration={75} />
-          <TestimonialList list={testimonials.top} duration={75} />
-          <TestimonialList list={testimonials.top} duration={75} />
-        </Stack>
-        <Stack width={'30%'}>
-          <TestimonialList list={testimonials.middle} duration={75} reverse />
-          <TestimonialList list={testimonials.middle} duration={75} reverse />
-          <TestimonialList list={testimonials.middle} duration={75} reverse />
-        </Stack>
-        <Stack  width={'30%'}>
-          <TestimonialList list={testimonials.bottom} duration={75} />
-          <TestimonialList list={testimonials.bottom} duration={75} />
-          <TestimonialList list={testimonials.bottom} duration={75} />
-        </Stack>
+    <Stack spacing={2} direction={"row"} width={'100%'} height={'517px'} sx={{borderRadius: '10px', overflow: 'hidden'}}>
+      <Stack width={'30%'}>
+        <TestimonialList list={testimonials.top} duration={75} shouldAnimate={shouldAnimate} />
+        <TestimonialList list={testimonials.top} duration={75} shouldAnimate={shouldAnimate} />
+        <TestimonialList list={testimonials.top} duration={75} shouldAnimate={shouldAnimate} />
+      </Stack>
+      <Stack width={'30%'}>
+        <TestimonialList list={testimonials.middle} duration={75} reverse shouldAnimate={shouldAnimate} />
+        <TestimonialList list={testimonials.middle} duration={75} reverse shouldAnimate={shouldAnimate} />
+        <TestimonialList list={testimonials.middle} duration={75} reverse shouldAnimate={shouldAnimate} />
+      </Stack>
+      <Stack width={'30%'}>
+        <TestimonialList list={testimonials.bottom} duration={75} shouldAnimate={shouldAnimate} />
+        <TestimonialList list={testimonials.bottom} duration={75} shouldAnimate={shouldAnimate} />
+        <TestimonialList list={testimonials.bottom} duration={75} shouldAnimate={shouldAnimate} />
+      </Stack>
     </Stack>
   );
 };
 
-const TestimonialList = ({ list, reverse = false, duration = 50 }) => {
+const TestimonialList = ({ list, reverse = false, duration = 50, shouldAnimate }) => {
   return (
     <motion.div
       initial={{ translateY: reverse ? "-100%" : "0%" }}
-      animate={{ translateY: reverse ? "0%" : "-100%" }}
+      animate={{ translateY: shouldAnimate ? (reverse ? "0%" : "-100%") : 0 }}
       transition={{ duration, repeat: Infinity, ease: "linear" }}
     >
       {list.map((t) => {
         return (
-          <div
-            key={t.id}
-          >
-            <img style={{width: '187px', height: '220px', borderRadius: '10px', objectFit: "cover",margin: '1rem 0' }} src={t.img} />
+          <div key={t.id}>
+            <img style={{ width: '187px', height: '220px', borderRadius: '10px', objectFit: "cover", margin: '1rem 0' }} src={t.img} />
           </div>
         );
       })}
     </motion.div>
   );
 };
+
 
 const testimonials = {
   top: [
@@ -55,7 +63,7 @@ const testimonials = {
     },
     {
       id: 3,
-      img: "https://lh3.googleusercontent.com/ci/AA1T9HKpZctvmpml8sWTAkWdp4As64C1ebatgv7fm-AixJq912_Pay8j_V2qdjndhfOoR43aZw6P",
+      img: "https://cdn.pixabay.com/photo/2023/03/02/20/05/ai-generated-7826359_640.jpg",
     },
     {
       id: 4,

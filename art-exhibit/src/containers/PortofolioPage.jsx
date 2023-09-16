@@ -35,23 +35,29 @@ const buttonTextStyles = {
 const PortofolioPage = () => {
   const navigate = useNavigate();
   const { authToken } = useArtContext();
-  const { getMyPortofolio, data, isLoading } = useGetMyPortofolio();
+  const { getMyPortofolio, data, isLoading, error } = useGetMyPortofolio();
   const [currentPortofolio, setCurrentPortofolio] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getMyPortofolio(authToken);
+      getMyPortofolio(authToken);
   }, [authToken]);
 
   useEffect(() => {
     if (data === false) {
       setCurrentPortofolio(false);
+      setLoading(false)
     }
     if (data) {
       setCurrentPortofolio(JSON.parse(data.jsonTheme));
+      setLoading(false)
     }
-  }, [data]);
+    if(error !== null){
+      setLoading(false)
+    }
+  }, [data, error]);
 
-  if (isLoading || currentPortofolio === null) {
+  if (loading) {
     return (
       <Grid
         container
@@ -62,9 +68,13 @@ const PortofolioPage = () => {
           <AppBarMenu color="#FFFFFF" />
         </Grid>
         <Grid item xs={12} padding={"8rem 2rem 0 2rem"} height={"100vh"}>
-          <Stack height={'100%'} alignItems={"center"} justifyContent={'center'}>
+          <Stack
+            height={"100%"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             <Box sx={{ display: "flex" }}>
-              <CircularProgress size={'8rem'} />
+              <CircularProgress size={"8rem"} />
             </Box>
           </Stack>
         </Grid>
@@ -120,7 +130,7 @@ const PortofolioPage = () => {
         </Grid>
       ) : (
         <Grid item xs={12}>
-          <Stack alignItems={"center"}>
+          <Stack alignItems={"center"} justifyContent={'center'} height={'100%'}>
             <Button
               style={{ ...buttonStyles, background: "#7324E8" }}
               variant="contained"
