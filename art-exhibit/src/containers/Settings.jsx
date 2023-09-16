@@ -45,10 +45,9 @@ const buttonTextStyles = {
   textTransform: "none",
 };
 
-const profileImageStyles = {
-  width: "99px",
-  height: "99px",
-  borderRadius: "100%",
+const imgStyles = {
+  width: "100px",
+  height: "100px",
   objectFit: "cover",
 };
 
@@ -151,7 +150,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (data) {
-      console.log({data});
+      console.log({ data });
       setUserData({
         firstName: data.firstName ? data.firstName : "",
         category: data.category ? data.category : "",
@@ -165,8 +164,8 @@ const Settings = () => {
         phoneNumber: data.phoneNumber ? data.phoneNumber : "",
         profileImage: data.profileImage ? data.profileImage : "",
       });
-      if(data.portofolio){
-        setHasPortofolio(true)
+      if (data.portofolio) {
+        setHasPortofolio(true);
       }
     }
   }, [data]);
@@ -218,41 +217,6 @@ const Settings = () => {
                   ? "Art Collector"
                   : "Art Creator"}
               </Typography>
-              {userData.category !== "ART_COLLECTOR" && (
-                <Stack
-                  direction="row"
-                  spacing={5}
-                  justifyContent="center"
-                  alignItems="center"
-                  height="80px"
-                >
-                {hasPortofolio !== null ? 
-                  <Button
-                    style={{ ...buttonStyles, background: "#7324E8" }}
-                    variant="contained"
-                    onClick={() => {
-                      navigate("/portofolio-theme-pick");
-                    }}
-                  >
-                    <Typography
-                      style={{ ...buttonTextStyles, color: "#FFFFFF" }}
-                    >
-                      Create a new portofolio
-                    </Typography>
-                  </Button>
-                  : <Button
-                    style={{ ...buttonStyles, background: "#E7DEEF" }}
-                    variant="contained"
-                  >
-                    <Typography
-                      style={{ ...buttonTextStyles, color: "#222222" }}
-                    >
-                      Edit portofolio
-                    </Typography>
-                  </Button>
-                }
-                </Stack>
-              )}
             </Stack>
             <Grid container height={"100%"}>
               <Grid item xs={3}>
@@ -264,21 +228,17 @@ const Settings = () => {
                 >
                   <Avatar
                     sx={{
-                      bgcolor: "#7324e8",
-                      width: '80px',
-                      height: '80px',
-                      cursor: "pointer",
+                      width: "80px",
+                      height: "80px",
+                      bgcolor: "#C786FF",
+                      m: 3,
                     }}
                   >
                     {userData?.profileImage.length < 100 ? (
                       userData?.username.charAt(0)
                     ) : (
                       <img
-                        style={{
-                          objectFit: "cover",
-                          width: 56,
-                          height: 56,
-                        }}
+                        style={imgStyles}
                         src={`data:image/png;base64,${userData?.profileImage}`}
                       />
                     )}
