@@ -83,6 +83,8 @@ const ArtistCard = ({
 }) => {
   const navigate = useNavigate()
   const { username, description, profileImage } = artist;
+
+  console.log('>>>>>>>>>>', artist);
   return (
     <Stack
       layout
@@ -126,6 +128,7 @@ const ArtistCard = ({
             </Button>
             <Button
             startIcon={<VisibilityIcon />}
+            disabled={artist.portfolio === null}
               onClick={(e) => {
                 console.log(artist)
                 navigate(`/portofolio-view/${artist.id}`);
