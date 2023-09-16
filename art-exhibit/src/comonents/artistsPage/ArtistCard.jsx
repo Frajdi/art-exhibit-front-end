@@ -131,7 +131,7 @@ const ArtistCard = ({
             disabled={artist.portfolio === null}
               onClick={(e) => {
                 console.log(artist)
-                navigate(`/portofolio-view/${artist.id}`);
+                navigate(`/view/${username}/${artist.id}`);
               }}
               variant="outlined"
               style={viewButtonStyles}

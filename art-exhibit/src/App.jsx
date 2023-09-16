@@ -42,7 +42,7 @@ const AnimatedRoutes = () => {
         <Route path="/portofolio-theme-pick" element={<AnimatedThemes />} />
         <Route path="/portofolio-create/:theme" element={<AnimatedCurrentTheme />} />
         <Route path="/portofolio-edit" element={<AnimatedEditPortofolio />} />
-        <Route path="/portofolio-view/:id" element={<AnimatedPortofolioView />} />
+        <Route path="/view/:artist/:id" element={<AnimatedPortofolioView />} />
       </Routes>
     </AnimatePresence>
   );

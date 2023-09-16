@@ -22,7 +22,7 @@ const ThemeCard = ({ img, title, description, onClick }) => {
 
   const cardStyles = {
     borderRadius: "10px",
-    height: "28rem",
+    height: "35rem",
     cursor: "pointer",
     transition: "background-color 0.3s, transform 0.3s",
     backgroundColor: isHovered ? "#f0f0f0" : "white", // Change background color on hover
@@ -44,7 +44,7 @@ const ThemeCard = ({ img, title, description, onClick }) => {
           </Typography>
           <img style={imgStyles} src={img} alt={title} />
           <Typography
-            style={{ ...titleStyles, fontSize: "15px", opacity: "0.7" }}
+            style={{ ...titleStyles, fontSize: "18px", opacity: "0.7" }}
           >
             {description}
           </Typography>

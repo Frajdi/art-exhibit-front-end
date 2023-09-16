@@ -130,7 +130,7 @@ const PortofolioPage = () => {
         </Grid>
       ) : (
         <Grid item xs={12}>
-          <Stack alignItems={"center"} justifyContent={'center'} height={'100%'}>
+          <Stack alignItems={"center"} justifyContent={'center'} height={'100%'} sx={{m: '4rem 8rem', borderRadius: '300px'}} component={Paper} elevation={5}>
             <Button
               style={{ ...buttonStyles, background: "#7324E8" }}
               variant="contained"
