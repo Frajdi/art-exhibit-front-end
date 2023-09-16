@@ -454,10 +454,12 @@ const AuthenticationDialog = () => {
                       },
                     }}
                   />
+                </motion.div>
+              )}
                   <TextField
                     helperText={errors.password}
                     error={Boolean(errors.password)}
-                    style={{ width: "100%", height: "10px", marginTop: '2rem' }}
+                    style={{ width: "100%", height: "10px", marginTop: '3rem' }}
                     key={2}
                     variant="standard"
                     label="Password"
@@ -465,8 +467,6 @@ const AuthenticationDialog = () => {
                     onChange={handleChange("password")}
                     value={isLogIn ? isLogInData.password : signUpData.password}
                   />
-                </motion.div>
-              )}
             </Stack>
           </AnimatePresence>
         </DialogContent>
