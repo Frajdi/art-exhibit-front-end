@@ -56,7 +56,7 @@ const EventCard = ({
     color: "#FFFFFF",
     fontFamily: "Poppins, sans-serif",
     fontWeight: 700,
-    fontSize: "20px",
+    fontSize: "16px",
   }
 
   const textStyles = {
@@ -81,10 +81,10 @@ const EventCard = ({
       </div>
       <Stack style={textContainerStyles} alignItems={'space-between'} width={'95%'} height={'95%'}>
         <Stack direction={'column'} spacing={2} padding={'1rem'}>
+          <Typography style={textStyles} width={'20ch'} variant="body1">{description}</Typography>
           <Typography variant="h6" style={textStyles}>
             {name}
           </Typography>
-          <Typography style={textStyles} width={'50%'} variant="body1">{description}</Typography>
         </Stack>
         <Stack alignItems={'flex-end'} justifyContent={'center'} padding={'1rem'} sx={{position: 'absolute', bottom: '2rem', right: '2rem'}} >
           <Typography variant="subtitle1" style={textStyles}>
