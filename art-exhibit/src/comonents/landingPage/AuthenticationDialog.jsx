@@ -55,7 +55,7 @@ const headerStyles = {
 };
 
 const contentStyles = {
-  overflowY: "scroll",
+  // overflowY: "scroll",
 };
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -109,92 +109,14 @@ const AuthenticationDialog = () => {
     password: "",
   });
 
-  // const validateForm = () => {
-  //   let isValid = true;
-  //   const newErrors = {};
-
-  //   if (!isLogIn) {
-  //     // Validate username for sign-up
-  //     if (!signUpData.username) {
-  //       newErrors.username = "Username is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.password) {
-  //       console.log(signUpData.password);
-  //       newErrors.password = "Password is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.firstName) {
-  //       newErrors.firstName = "First Name is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.lastName) {
-  //       newErrors.lastName = "Last Name is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.phoneNumber) {
-  //       newErrors.phoneNumber = "Phone Number is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.email) {
-  //       newErrors.email = "Email is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.address) {
-  //       newErrors.address = "Address is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.category) {
-  //       newErrors.category = "Category is required.";
-  //       isValid = false;
-  //     }
-  //     if (!signUpData.birthOfDate) {
-  //       newErrors.birthOfDate = "Date Of Birth is required.";
-  //       isValid = false;
-  //     }
-  //   } else {
-  //     // Validation for login form
-  //     if (!isLogInData.username) {
-  //       newErrors.username = "Username is required.";
-  //       isValid = false;
-  //     }
-
-  //     if (!isLogInData.password) {
-  //       newErrors.password = "Password is required.";
-  //       isValid = false;
-  //     }
-  //   }
-
-  //   // Validate password for both login and sign-up
-  //   if (!isLogInData.password) {
-  //     newErrors.password = "Password is required.";
-  //     isValid = false;
-  //   }
-
-  //   // Set the errors state
-  //   setErrors(newErrors);
-
-  //   return isValid;
-  // };
-
   const handleLogin = () => {
-    // const isValid = validateForm();
-
-    // if (isValid) {
-      // Perform the login action
-      postRequest(isLogInData);
-      handleClose();
-    // }
+    postRequest(isLogInData);
+    handleClose();
   };
 
   const handleSignUp = () => {
-    // const isValid = validateForm();
-
-    // if (isValid) {
-      // Perform the sign-up action
-      postRequest(signUpData);
-      setIsLogIn(true);
-    // }
+    postRequest(signUpData);
+    setIsLogIn(true);
   };
 
   useEffect(() => {
@@ -305,13 +227,13 @@ const AuthenticationDialog = () => {
               text={
                 isLogIn
                   ? "Welcome Back To ArtExhibit"
-                  : "Get Started Set Up Your Account"
+                  : "Set Up Your Account"
               }
               style={headerStyles}
             />
           </DialogTitle>
         </motion.div>
-        <DialogContent sx={{ overflow: "hidden", pt: 5 }}>
+        <DialogContent sx={{ overflow: "scrooll", pt: 5 }}>
           <AnimatePresence mode="wait" initial={false}>
             <Stack
               direction="column"
@@ -377,17 +299,6 @@ const AuthenticationDialog = () => {
                 label="User Name"
                 onChange={handleChange("username")}
                 value={isLogIn ? isLogInData.username : signUpData.username}
-              />
-              <TextField
-                helperText={errors.password}
-                error={Boolean(errors.password)}
-                style={{ width: "100%", height: "10px" }}
-                key={2}
-                variant="standard"
-                label="Password"
-                type="password"
-                onChange={handleChange("password")}
-                value={isLogIn ? isLogInData.password : signUpData.password}
               />
               {!isLogIn && (
                 <motion.div
@@ -542,6 +453,17 @@ const AuthenticationDialog = () => {
                         marginLeft: "7rem", // Adjust the value as needed
                       },
                     }}
+                  />
+                  <TextField
+                    helperText={errors.password}
+                    error={Boolean(errors.password)}
+                    style={{ width: "100%", height: "10px", marginTop: '2rem' }}
+                    key={2}
+                    variant="standard"
+                    label="Password"
+                    type="password"
+                    onChange={handleChange("password")}
+                    value={isLogIn ? isLogInData.password : signUpData.password}
                   />
                 </motion.div>
               )}
