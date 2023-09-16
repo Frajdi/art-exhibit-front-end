@@ -240,7 +240,11 @@ const EditPortofolio = () => {
             handleUpdatePortofolio();
           }}
           sx={buttonStyles}
-          startIcon={isLoading? null : <UpdateIcon sx={{ width: "2rem", height: "100%" }} />}
+          startIcon={
+            isLoading ? null : (
+              <UpdateIcon sx={{ width: "2rem", height: "100%" }} />
+            )
+          }
           variant="contained"
         >
           {isLoading ? (
@@ -254,8 +258,16 @@ const EditPortofolio = () => {
       </Stack>
     </>
   ) : (
-    <Box sx={{ display: "flex" }}>
-      <CircularProgress />
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
+      <CircularProgress size={"8rem"} />
     </Box>
   );
 };
