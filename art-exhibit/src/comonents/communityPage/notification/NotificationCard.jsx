@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import SendIcon from "@mui/icons-material/Send";
 import IconButton from "@mui/material/IconButton";
-import { InputAdornment, TextField } from "@mui/material";
+import { Avatar, InputAdornment, TextField } from "@mui/material";
 import useCreateComment from "../../../commands/createComment";
 import { useArtContext } from "../../../state/AppContext";
 
@@ -15,11 +15,9 @@ const decorLine = {
 };
 
 const imgStyles = {
-  borderRadius: "50%",
   width: "100px",
   height: "100px",
   objectFit: "cover",
-  margin: "2rem",
 };
 
 const nameStyles = {
@@ -75,6 +73,7 @@ const NotificationCard = ({
   selectedPost,
   createdAt,
 }) => {
+  console.log('>>>>',profileImg, username);
   const [currentComments, setCurrentComments] = useState(comments);
   const [currentComment, setCurrentComment] = useState({
     description: "",
@@ -123,7 +122,23 @@ const NotificationCard = ({
         }}
       >
         <div style={decorLine}></div>
-        <img src={`data:image/png;base64,${profileImg}`} style={imgStyles} />
+        <Avatar
+          sx={{
+            width: "80px",
+            height: "80px",
+            bgcolor: "#C786FF",
+            m: 3
+          }}
+        >
+          {profileImg.length < 100 ? (
+            username.charAt(0)
+          ) : (
+            <img
+              style={imgStyles}
+              src={`data:image/png;base64,${profileImg}`}
+            />
+          )}
+        </Avatar>
         <Stack direction="row" spacing={1} width={"100%"}>
           <Stack direction="column" spacing={1} width={"100%"}>
             <Typography style={nameStyles}>{username}</Typography>
@@ -185,7 +200,12 @@ const NotificationCard = ({
                     src={`data:image/png;base64,${comment.artist.profileImage}`}
                     style={{ ...imgStyles, width: "80px", height: "80px" }}
                   />
-                  <Stack direction="row" spacing={1} justifyContent={'space-between'} width={'100%'}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    justifyContent={"space-between"}
+                    width={"100%"}
+                  >
                     <Stack direction="column" spacing={1}>
                       <Typography style={nameStyles}>
                         {comment.artist.username}
@@ -194,10 +214,13 @@ const NotificationCard = ({
                         {comment.description}
                       </Typography>
                     </Stack>
-                    <Stack width={'100%'} alignItems={"flex-end"}>
-                    <Typography align="right" style={{ ...postStyles, opacity: 0.4 }}>
-                      {new Date(comment.createdAt).toLocaleString()}
-                    </Typography>
+                    <Stack width={"100%"} alignItems={"flex-end"}>
+                      <Typography
+                        align="right"
+                        style={{ ...postStyles, opacity: 0.4 }}
+                      >
+                        {new Date(comment.createdAt).toLocaleString()}
+                      </Typography>
                     </Stack>
                   </Stack>
                 </Stack>

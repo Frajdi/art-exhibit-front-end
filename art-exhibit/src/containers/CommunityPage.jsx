@@ -90,6 +90,7 @@ const CommunityPage = () => {
   const [seeAllEvents, setSeeAllEvents] = useState(false);
   const [seeAllNotifications, setSeeAllNotifications] = useState(false);
   const [createNotification, setCreateNotification] = useState(false);
+  const [refetchNotifications, setRefetchNotifications] = useState(false)
   const [newNotification, setNewNotification] = useState({
     title: "",
     description: "",
@@ -102,9 +103,11 @@ const CommunityPage = () => {
 
 
 
-    const handleSubmitNewNotification = () =>{
+    const handleSubmitNewNotification = async() =>{
       if(newNotification.title !== '' && newNotification.description !== ''){
-        createNotificationCommand(newNotification, authToken)
+        await createNotificationCommand(newNotification, authToken)
+        setRefetchNotifications(true)
+        setCreateNotification(false)
       }else{
         setNotificationErrors(true)
       }
@@ -296,7 +299,7 @@ const CommunityPage = () => {
                 padding={"4rem 8rem 0 8rem"}
                 sx={{ backgroundColor: "#FFFFFF" }}
               >
-                <TopNotifications />
+                <TopNotifications  refetchNotifications={refetchNotifications} setRefetchNotifications={setRefetchNotifications}/>
               </Grid>
             </motion.div>
           </>
