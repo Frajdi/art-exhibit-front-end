@@ -225,9 +225,7 @@ const AuthenticationDialog = () => {
           <DialogTitle sx={{ p: 0 }}>
             <TextReveal
               text={
-                isLogIn
-                  ? "Welcome Back To ArtExhibit"
-                  : "Set Up Your Account"
+                isLogIn ? "Welcome Back To ArtExhibit" : "Set Up Your Account"
               }
               style={headerStyles}
             />
@@ -456,17 +454,17 @@ const AuthenticationDialog = () => {
                   />
                 </motion.div>
               )}
-                  <TextField
-                    helperText={errors.password}
-                    error={Boolean(errors.password)}
-                    style={{ width: "100%", height: "10px", marginTop: '3rem' }}
-                    key={2}
-                    variant="standard"
-                    label="Password"
-                    type="password"
-                    onChange={handleChange("password")}
-                    value={isLogIn ? isLogInData.password : signUpData.password}
-                  />
+              <TextField
+                helperText={errors.password}
+                error={Boolean(errors.password)}
+                style={{ width: "100%", height: "10px", marginTop: "3rem" }}
+                key={2}
+                variant="standard"
+                label="Password"
+                type="password"
+                onChange={handleChange("password")}
+                value={isLogIn ? isLogInData.password : signUpData.password}
+              />
             </Stack>
           </AnimatePresence>
         </DialogContent>
@@ -487,12 +485,19 @@ const AuthenticationDialog = () => {
                 alignItems={"center"}
               >
                 <Button
-                  style={buttonStyles}
+                  disabled={!isLogInData.username || !isLogInData.password}
+                  style={{...buttonStyles, backgroundColor: !isLogInData.username || !isLogInData.password
+                      ? "#D3D3D3"
+                      : "#C786FF"}}
                   onClick={() => {
                     handleLogin();
                   }}
                 >
-                  <Typography style={buttonTextStyles}>Log In</Typography>
+                  <Typography style={buttonTextStyles}>
+                    {!isLogInData.username || !isLogInData.password
+                      ? "Please fill all fields"
+                      : "Log in"}
+                  </Typography>
                 </Button>
                 <Typography style={buttonTextStyles}>
                   Don't have an account
@@ -528,12 +533,49 @@ const AuthenticationDialog = () => {
                 alignItems={"center"}
               >
                 <Button
-                  style={buttonStyles}
+                  style={{
+                    ...buttonStyles,
+                    backgroundColor:
+                      !signUpData.address ||
+                      !signUpData.category ||
+                      !signUpData.birthOfDate ||
+                      !signUpData.email ||
+                      !signUpData.firstName ||
+                      !signUpData.lastName ||
+                      !signUpData.password ||
+                      !signUpData.phoneNumber ||
+                      !signUpData.username
+                        ? "#D3D3D3"
+                        : "#C786FF",
+                  }}
+                  disabled={
+                    !signUpData.address ||
+                    !signUpData.category ||
+                    !signUpData.birthOfDate ||
+                    !signUpData.email ||
+                    !signUpData.firstName ||
+                    !signUpData.lastName ||
+                    !signUpData.password ||
+                    !signUpData.phoneNumber ||
+                    !signUpData.username
+                  }
                   onClick={() => {
                     handleSignUp();
                   }}
                 >
-                  <Typography style={buttonTextStyles}>Sign Up</Typography>
+                  <Typography style={buttonTextStyles}>
+                    {!signUpData.address ||
+                    !signUpData.category ||
+                    !signUpData.birthOfDate ||
+                    !signUpData.email ||
+                    !signUpData.firstName ||
+                    !signUpData.lastName ||
+                    !signUpData.password ||
+                    !signUpData.phoneNumber ||
+                    !signUpData.username
+                      ? "Please fill all fields"
+                      : "Sign Up"}
+                  </Typography>
                 </Button>
                 <Typography style={buttonTextStyles}>
                   Already have an account
