@@ -1,5 +1,12 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { Grid, Stack, Typography } from "@mui/material";
+import {
+  faTwitter,
+  faYoutube,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //STYLES
 
@@ -24,6 +31,10 @@ const overlayStyles = {
 
 //COMPONENT
 const DraytonTheme = ({ themeContent, setEditeblePath }) => {
+  const location = useLocation();
+
+  console.log(location.pathname);
+
   const {
     firstSection,
     secondSection,
@@ -33,15 +44,14 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
     sixthSection,
   } = themeContent;
 
-
   const firstSectionStyle = {
-    '--background-image-url': `url(data:image/png;base64,${firstSection.img})`,
+    "--background-image-url": `url(data:image/png;base64,${firstSection.img})`,
   };
   const thirdSectionStyle = {
-    '--background-image-url': `url(data:image/png;base64,${thirdSection.img})`,
+    "--background-image-url": `url(data:image/png;base64,${thirdSection.img})`,
   };
   const fifthSectionStyle = {
-    '--background-image-url': `url(data:image/png;base64,${fifthSection.img})`,
+    "--background-image-url": `url(data:image/png;base64,${fifthSection.img})`,
   };
 
   return (
@@ -55,7 +65,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
           style={{
             ...firstSectionStyle, // Apply the stackStyle directly to the style prop
             position: "relative",
-            background: 'var(--background-image-url)', // Use the CSS variable here
+            background: "var(--background-image-url)", // Use the CSS variable here
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             height: "110vh",
@@ -63,7 +73,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
             backgroundPosition: "center",
             padding: "3rem 4rem",
             overflow: "hidden",
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
           justifyContent={"center"}
           alignItems={"center"}
@@ -77,6 +87,8 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               width: "90vw",
               zIndex: 1,
             }}
+            direction={"row"}
+            justifyContent={"space-between"}
           >
             <Typography
               onClick={(e) => {
@@ -88,11 +100,75 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 margin: "1rem",
                 color: "#FFFFFF",
                 letterSpacing: "10px",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               {firstSection.headerTitle}
             </Typography>
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              spacing={5}
+              sx={{ mr: 8, color: "white" }}
+            >
+              <FontAwesomeIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (
+                    location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                  ) {
+                    setEditeblePath("firstSection.socialMedia.instagram");
+                  } else {
+                    window.open(
+                      firstSection.socialMedia.instagram,
+                      "_blank",
+                      "noopener noreferrer"
+                    );
+                  }
+                }}
+                style={{ fontSize: "30px", cursor: "pointer" }}
+                icon={faInstagram}
+              />
+              <FontAwesomeIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (
+                    location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                  ) {
+                    setEditeblePath("firstSection.socialMedia.twitter");
+                  } else {
+                    window.open(
+                      firstSection.socialMedia.twitter,
+                      "_blank",
+                      "noopener noreferrer"
+                    );
+                  }
+                }}
+                style={{ fontSize: "30px", cursor: "pointer" }}
+                icon={faTwitter}
+              />
+              <FontAwesomeIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (
+                    location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                  ) {
+                    setEditeblePath("firstSection.socialMedia.youtube");
+                  } else {
+                    window.open(
+                      firstSection.socialMedia.youtube,
+                      "_blank",
+                      "noopener noreferrer"
+                    );
+                  }
+                }}
+                style={{ fontSize: "30px", cursor: "pointer" }}
+                icon={faYoutube}
+              />
+            </Stack>
           </Stack>
           <Typography
             onClick={(e) => {
@@ -105,7 +181,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               color: "#FFFFFF",
               fontWeight: 500,
               fontSize: "70px",
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             {firstSection.title}
@@ -122,7 +198,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               fontSize: "25px",
               marginTop: "2rem",
               letterSpacing: 3,
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             {firstSection.subtitle}
@@ -146,7 +222,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 fontWeight: "400",
                 fontSize: "40px",
                 letterSpacing: 7,
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               {secondSection.title}
@@ -161,7 +237,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 fontSize: "20px",
                 opacity: "0.8",
                 letterSpacing: 3,
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               {secondSection.subtitle}
@@ -176,7 +252,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 fontSize: "15px",
                 lineHeight: "32px",
                 opacity: "0.6",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               {secondSection.content}
@@ -186,7 +262,12 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
             onClick={() => {
               setEditeblePath("secondSection.img");
             }}
-            style={{ width: "40vw", height: "80vh", objectFit: "cover", cursor: 'pointer' }}
+            style={{
+              width: "40vw",
+              height: "80vh",
+              objectFit: "cover",
+              cursor: "pointer",
+            }}
             src={`data:image/png;base64,${secondSection.img}`}
           />
         </Stack>
@@ -198,7 +279,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
           }}
           style={{
             ...thirdSectionStyle,
-            background: 'var(--background-image-url)',
+            background: "var(--background-image-url)",
             position: "relative",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
@@ -207,7 +288,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
             padding: "3rem 4rem",
             overflow: "hidden",
             height: "35vh",
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
           justifyContent={"center"}
           alignItems={"center"}
@@ -224,7 +305,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               letterSpacing: 20,
               color: "#FFFFFF",
               fontWeight: 400,
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             {thirdSection.title}
@@ -240,7 +321,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             {thirdSection.subtitle}
@@ -253,7 +334,12 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
             onClick={() => {
               setEditeblePath("fourthSection.img");
             }}
-            style={{ width: "40vw", height: "80vh", objectFit: "cover", cursor: 'pointer' }}
+            style={{
+              width: "40vw",
+              height: "80vh",
+              objectFit: "cover",
+              cursor: "pointer",
+            }}
             src={`data:image/png;base64,${fourthSection.img}`}
           />
           <Stack
@@ -272,7 +358,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 fontSize: "15px",
                 lineHeight: "27px",
                 opacity: "0.5",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               {fourthSection.firstContent}
@@ -287,7 +373,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 fontSize: "15px",
                 lineHeight: "27px",
                 opacity: "0.5",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               {fourthSection.secondContent}
@@ -304,14 +390,14 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
             ...fifthSectionStyle,
             position: "relative",
             backgroundSize: "cover",
-            background: 'var(--background-image-url)',
+            background: "var(--background-image-url)",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
             backgroundPosition: "center",
             padding: "3rem 4rem",
             overflow: "hidden",
             height: "35vh",
-            cursor: 'pointer',
+            cursor: "pointer",
           }}
           justifyContent={"center"}
           alignItems={"center"}
@@ -328,7 +414,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               letterSpacing: 20,
               color: "#FFFFFF",
               fontWeight: 400,
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             {fifthSection.title}
@@ -344,7 +430,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
               color: "#FFFFFF",
               fontWeight: 400,
               fontSize: "20px",
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             {fifthSection.subtitle}
@@ -365,11 +451,16 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                 onClick={() => {
                   setEditeblePath(`sixthSection.content.${index}.img`);
                 }}
-                style={{ width: "100%", height: "100%", objectFit: "cover", cursor: 'pointer' }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
                 src={`data:image/png;base64,${item.img}`}
               />
               <Typography
-              onClick={() => {
+                onClick={() => {
                   setEditeblePath(`sixthSection.content.${index}.title`);
                 }}
                 style={{
@@ -378,7 +469,7 @@ const DraytonTheme = ({ themeContent, setEditeblePath }) => {
                   color: "#222222",
                   fontWeight: 400,
                   fontSize: "20px",
-                  cursor: 'pointer'
+                  cursor: "pointer",
                 }}
               >
                 {item.title}

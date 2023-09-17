@@ -12,6 +12,10 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import usePortofolioById from "../../commands/getPortofolioById";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useArtContext } from "../../state/AppContext";
+import useAddToCollection from "../../commands/addToCollection";
 
 //Styles
 
@@ -46,16 +50,22 @@ const ButtonTextStyles = {
   fontFamily: "Poppins, sans-serif",
   fontSize: "23px",
   fontWeight: 500,
-  width: "75%",
+  width: "45%",
 };
 
 const PortofolioView = () => {
   const navigate = useNavigate(-1);
   const { id } = useParams();
   const { getPortofolioById, data } = usePortofolioById();
+  const {category, authToken} = useArtContext()
+  const {addToCollection, isLoading} = useAddToCollection()
+
+  const[isCollected, setIsCollected] = useState(false)
 
   const [themeContent, setThemeContent] = useState(null);
   const [theme, setTheme] = useState(null);
+  const [fontFamily, setFontFamily] = useState("Poppins, sans-serif");
+
 
   useEffect(() => {
     getPortofolioById(id);
@@ -66,17 +76,23 @@ const PortofolioView = () => {
       console.log({ data });
       setThemeContent(JSON.parse(data.jsonTheme).themeContent);
       setTheme(JSON.parse(data.jsonTheme).themeType);
+      setFontFamily(JSON.parse(data.jsonTheme).fontFamily);
     }
   }, [data]);
+
+  const handleAddToCollection = async() => {
+    await addToCollection(data.id, authToken)
+    setIsCollected(true)
+  }
 
   return themeContent ? (
     <>
       {theme === "aperture" ? (
-        <ApartureTheme themeContent={themeContent} setEditeblePath={() => {}} />
+        <ApartureTheme themeContent={themeContent} setEditeblePath={() => {}} fontFamily={fontFamily}/>
       ) : theme === "aspect" ? (
-        <AspectTheme themeContent={themeContent} setEditeblePath={() => {}} />
+        <AspectTheme themeContent={themeContent} setEditeblePath={() => {}} fontFamily={fontFamily}/>
       ) : (
-        <DraytonTheme themeContent={themeContent} setEditeblePath={() => {}} />
+        <DraytonTheme themeContent={themeContent} setEditeblePath={() => {}} fontFamily={fontFamily}/>
       )}
       <Stack
         direction={"row"}
@@ -92,6 +108,21 @@ const PortofolioView = () => {
         >
           <Typography style={ButtonTextStyles}>Go Back</Typography>
         </Button>
+        {category === 'ART_COLLECTOR' && 
+        <Button
+          onClick={() => {handleAddToCollection()}}
+          sx={{ ...buttonStyles, background: "#FFFFFF", width: isCollected ? '35%' : '25%' }}
+          startIcon={isLoading ? null : isCollected ? <DeleteOutlineIcon sx={{ width: "2rem", height: "100%" }} /> : <AddPhotoAlternateIcon sx={{ width: "2rem", height: "100%" }} />}
+          variant="contained"
+        >
+         {isLoading ? (
+            <Box sx={{ display: "flex" }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+          <Typography style={{...ButtonTextStyles, width: isCollected ? '65%' : '45%'}}>{isCollected ? 'Remove from collection' : 'Collect'}</Typography>
+          )}
+        </Button>}
       </Stack>
     </>
   ) : (

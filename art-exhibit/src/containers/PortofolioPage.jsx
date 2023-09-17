@@ -114,16 +114,19 @@ const PortofolioPage = () => {
               <ApartureTheme
                 themeContent={currentPortofolio.themeContent}
                 setEditeblePath={() => {}}
+                fontFamily={currentPortofolio.fontFamily}
               />
             ) : currentPortofolio.themeType === "aspect" ? (
               <AspectTheme
                 themeContent={currentPortofolio.themeContent}
                 setEditeblePath={() => {}}
+                fontFamily={currentPortofolio.fontFamily}
               />
             ) : (
               <DraytonTheme
                 themeContent={currentPortofolio.themeContent}
                 setEditeblePath={() => {}}
+                fontFamily={currentPortofolio.fontFamily}
               />
             )}
           </Paper>

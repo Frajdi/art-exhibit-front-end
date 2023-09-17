@@ -10,6 +10,10 @@ import {
   Box,
   Button,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -87,6 +91,7 @@ const EditPortofolio = () => {
   const [editeblePath, setEditeblePath] = useState(null);
   const [textUpdate, setTextUpdate] = useState(true);
   const [portofolioId, setPortofolioId] = useState(null);
+  const [fontFamily, setFontFamily] = useState("Poppins, sans-serif");
 
   useEffect(() => {
     console.log({ authToken });
@@ -99,6 +104,7 @@ const EditPortofolio = () => {
       setThemeContent(JSON.parse(data.jsonTheme).themeContent);
       setTheme(JSON.parse(data.jsonTheme).themeType);
       setPortofolioId(data.id);
+      setFontFamily(JSON.parse(data.jsonTheme).fontFamily)
     }
   }, [data]);
 
@@ -157,6 +163,7 @@ const EditPortofolio = () => {
     const jsonTheme = {
       themeType: theme,
       themeContent: themeContent,
+      fontFamily: fontFamily,
     };
     const body = {
       name: themeContent.firstSection.headerTitle,
@@ -173,16 +180,19 @@ const EditPortofolio = () => {
         <ApartureTheme
           themeContent={themeContent}
           setEditeblePath={setEditeblePath}
+          fontFamily={fontFamily}
         />
       ) : theme === "aspect" ? (
         <AspectTheme
           themeContent={themeContent}
           setEditeblePath={setEditeblePath}
+          fontFamily={fontFamily}
         />
       ) : (
         <DraytonTheme
           themeContent={themeContent}
           setEditeblePath={setEditeblePath}
+          fontFamily={fontFamily}
         />
       )}
       <Stack
@@ -235,6 +245,21 @@ const EditPortofolio = () => {
             </Button>
           </>
         )}
+        <FormControl variant="outlined" sx={{width: '15%', pt: '1rem'}}>
+        <InputLabel id="select-label">Select font family</InputLabel>
+        <Select
+          labelId="select-label"
+          id="select"
+          value={fontFamily} onChange={(e) => setFontFamily(e.target.value)}>
+          <MenuItem value="Poppins, sans-serif">Poppins</MenuItem>
+          <MenuItem value="'Playfair Display', serif">Playfair</MenuItem>
+          <MenuItem value="'Anton', sans-serif">Anton</MenuItem>
+          <MenuItem value="'Bebas Neue', sans-serif">Bebas Neue</MenuItem>
+          <MenuItem value="'Inconsolata', monospace">Inconsolata</MenuItem>
+          <MenuItem value="'Mooli', sans-serif">Mooli</MenuItem>
+          <MenuItem value="'Ubuntu', sans-serif">Ubuntu</MenuItem>
+        </Select>
+        </FormControl>
         <Button
           onClick={() => {
             handleUpdatePortofolio();

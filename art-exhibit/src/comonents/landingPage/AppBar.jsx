@@ -233,11 +233,13 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
                 </Link>
                 {category && (
                   <Link
-                    to={"/portofolio"}
+                    to={category === "ART_COLLECTOR"
+                        ? "/collection"
+                        : "/portofolio"}
                     style={{
                       textDecoration: "none",
                       boxShadow:
-                        location.pathname === "/portofolio"
+                        location.pathname === "/portofolio" || location.pathname === "/collection"
                           ? "0px 0px 73px 20px rgba(199,134,255,0.57) inset"
                           : "",
                       borderRadius: "50px",

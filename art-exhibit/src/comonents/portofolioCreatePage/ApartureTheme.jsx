@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Grid, Stack, Typography, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import {
+  faTwitter,
+  faYoutube,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from "react-router-dom";
 
 //Styles
 
@@ -23,15 +30,10 @@ const centeredImageStyle = {
 };
 
 const hiddenImageStyle = {
-  filter: 'brightness(70%)'
+  filter: "brightness(70%)",
 };
 ///
-const titleStyles = {
-  color: "#222222",
-  fontFamily: "Poppins, sans-serif",
-  fontSize: "40px",
-  width: "100%",
-};
+
 
 const headerImgStyles = {
   width: "98%",
@@ -46,7 +48,11 @@ const secondSectionImg = {
   objectFit: "cover",
 };
 
-const ApartureTheme = ({ themeContent, setEditeblePath }) => {
+const ApartureTheme = ({ themeContent, setEditeblePath, fontFamily }) => {
+
+  const location = useLocation();
+
+  console.log(location.pathname);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { firstSection, secondSection, thirdSection, fourthSection } =
@@ -64,19 +70,92 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
     );
   };
 
+  const titleStyles = {
+    color: "#222222",
+    fontFamily: fontFamily,
+    fontSize: "40px",
+    width: "100%",
+  };
+
   return (
-    <Grid container spacing={3} margin={'2rem 2rem 0 2rem'}  width={"auto"}>
+    <Grid container spacing={3} margin={"2rem 2rem 0 2rem"} width={"auto"}>
       <Grid item xs={12}>
         {/* firstSection.title */}
-        <Typography
-          sx={{ cursor: "pointer" }}
-          onClick={() => {
-            setEditeblePath("firstSection.headerTitle");
-          }}
-          style={titleStyles}
-        >
-          {firstSection.headerTitle}
-        </Typography>
+        <Stack justifyContent={"space-between"} direction={"row"}>
+          <Typography
+            sx={{ cursor: "pointer" }}
+            onClick={() => {
+              setEditeblePath("firstSection.headerTitle");
+            }}
+            style={titleStyles}
+          >
+            {firstSection.headerTitle}
+          </Typography>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            spacing={5}
+            sx={{ mr: 8 }}
+          >
+            <FontAwesomeIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                if (
+                  location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                ) {
+                  setEditeblePath("firstSection.socialMedia.instagram");
+                } else {
+                  window.open(
+                    firstSection.socialMedia.instagram,
+                    "_blank",
+                    "noopener noreferrer"
+                  );
+                }
+              }}
+              style={{ fontSize: "30px", cursor: "pointer" }}
+              icon={faInstagram}
+            />
+            <FontAwesomeIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                if (
+                  location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                ) {
+                  setEditeblePath("firstSection.socialMedia.twitter");
+                } else {
+                  window.open(
+                    firstSection.socialMedia.twitter,
+                    "_blank",
+                    "noopener noreferrer"
+                  );
+                }
+              }}
+              style={{ fontSize: "30px", cursor: "pointer" }}
+              icon={faTwitter}
+            />
+            <FontAwesomeIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                if (
+                  location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                ) {
+                  setEditeblePath("firstSection.socialMedia.youtube");
+                } else {
+                  window.open(
+                    firstSection.socialMedia.youtube,
+                    "_blank",
+                    "noopener noreferrer"
+                  );
+                }
+              }}
+              style={{ fontSize: "30px", cursor: "pointer" }}
+              icon={faYoutube}
+            />
+          </Stack>
+        </Stack>
       </Grid>
       <Grid item xs={12}>
         <Stack direction="column" sx={{ width: "100%" }} spacing={4}>
@@ -198,12 +277,12 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
                 top: "50%",
                 transform: "translateY(-50%)",
                 zIndex: "1",
-                color: 'white',
-                height: '12%',
-                width:'5%'
+                color: "white",
+                height: "12%",
+                width: "5%",
               }}
             >
-              <ArrowBack sx={{height: '100%', width: '100%'}}/>
+              <ArrowBack sx={{ height: "100%", width: "100%" }} />
             </IconButton>
             <IconButton
               onClick={handleNext}
@@ -213,12 +292,12 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
                 top: "50%",
                 transform: "translateY(-50%)",
                 zIndex: "1",
-                color: 'white',
-                height: '12%',
-                width:'5%'
+                color: "white",
+                height: "12%",
+                width: "5%",
               }}
             >
-              <ArrowForward  sx={{height: '100%', width: '100%'}}/>
+              <ArrowForward sx={{ height: "100%", width: "100%" }} />
             </IconButton>
             <div
               style={{
@@ -250,7 +329,7 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
                       maxHeight: "30rem",
                       objectFit: "cover",
                       cursor: "pointer",
-                      height: '-webkit-fill-available'
+                      height: "-webkit-fill-available",
                     }}
                   />
                 </div>
@@ -265,10 +344,10 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
           sx={{ overflow: "hidden", width: "40rem" }}
         >
           <img
-          onClick={() => {
+            onClick={() => {
               setEditeblePath("fourthSection.img");
             }}
-            style={{...secondSectionImg, cursor: 'pointer'}}
+            style={{ ...secondSectionImg, cursor: "pointer" }}
             src={`data:image/png;base64,${fourthSection.img}`}
           ></img>
         </Stack>
@@ -282,10 +361,15 @@ const ApartureTheme = ({ themeContent, setEditeblePath }) => {
         >
           <Stack>
             <Typography
-            onClick={() => {
-              setEditeblePath("fourthSection.content");
-            }}
-              style={{ ...titleStyles, fontSize: "14px", lineHeight: "30px", cursor: 'pointer' }}
+              onClick={() => {
+                setEditeblePath("fourthSection.content");
+              }}
+              style={{
+                ...titleStyles,
+                fontSize: "14px",
+                lineHeight: "30px",
+                cursor: "pointer",
+              }}
             >
               {fourthSection.content}
             </Typography>

@@ -1,5 +1,12 @@
 import React from "react";
 import { Grid, Stack, Typography } from "@mui/material";
+import {
+  faTwitter,
+  faYoutube,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from "react-router-dom";
 
 //styles
 const titleStyles = {
@@ -21,6 +28,10 @@ const overlayStyles = {
 };
 
 const AspectTheme = ({ themeContent, setEditeblePath }) => {
+
+  const location = useLocation();
+
+  console.log(location.pathname);
   const {
     firstSection,
     secondSection,
@@ -30,28 +41,93 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
     sixthSection,
   } = themeContent;
 
-
   const firstSectionStyle = {
-    '--background-image-url': `url(data:image/png;base64,${firstSection.img})`,
+    "--background-image-url": `url(data:image/png;base64,${firstSection.img})`,
   };
   const thirdSectionStyle = {
-    '--background-image-url': `url(data:image/png;base64,${thirdSection.img})`,
+    "--background-image-url": `url(data:image/png;base64,${thirdSection.img})`,
   };
   const fifthSectionStyle = {
-    '--background-image-url': `url(data:image/png;base64,${fifthSection.img})`,
+    "--background-image-url": `url(data:image/png;base64,${fifthSection.img})`,
   };
 
   return (
-    <Grid container spacing={10} paddingBottom={'10rem'}>
+    <Grid container spacing={10} paddingBottom={"10rem"}>
       <Grid item xs={12}>
-        <Typography
-          onClick={() => {
-            setEditeblePath("firstSection.headerTitle");
-          }}
-          style={{ ...titleStyles, margin: "1rem", cursor: "pointer" }}
-        >
-          {firstSection.headerTitle}
-        </Typography>
+        <Stack direction={"row"} justifyContent={"space-between"}>
+          <Typography
+            onClick={() => {
+              setEditeblePath("firstSection.headerTitle");
+            }}
+            style={{ ...titleStyles, margin: "1rem", cursor: "pointer" }}
+          >
+            {firstSection.headerTitle}
+          </Typography>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            spacing={5}
+            sx={{ mr: 8 }}
+          >
+            <FontAwesomeIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                if (
+                  location.pathname.includes("/portofolio-edit") ||
+                  location.pathname.includes("/portofolio-create")
+                ) {
+                  setEditeblePath("firstSection.socialMedia.instagram");
+                } else {
+                  window.open(
+                    firstSection.socialMedia.instagram,
+                    "_blank",
+                    "noopener noreferrer"
+                  );
+                }
+              }}
+              style={{ fontSize: "30px", cursor: "pointer" }}
+              icon={faInstagram}
+            />
+            <FontAwesomeIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                if (
+                  location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                ) {
+                  setEditeblePath("firstSection.socialMedia.twitter");
+                } else {
+                  window.open(
+                    firstSection.socialMedia.twitter,
+                    "_blank",
+                    "noopener noreferrer"
+                  );
+                }
+              }}
+              style={{ fontSize: "30px", cursor: "pointer" }}
+              icon={faTwitter}
+            />
+            <FontAwesomeIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                if (
+                  location.pathname.includes("/portofolio-edit") ||
+                    location.pathname.includes("/portofolio-create")
+                ) {
+                  setEditeblePath("firstSection.socialMedia.youtube");
+                } else {
+                  window.open(
+                    firstSection.socialMedia.youtube,
+                    "_blank",
+                    "noopener noreferrer"
+                  );
+                }
+              }}
+              style={{ fontSize: "30px", cursor: "pointer" }}
+              icon={faYoutube}
+            />
+          </Stack>
+        </Stack>
         <Stack
           onClick={() => {
             setEditeblePath("firstSection.img");
@@ -60,7 +136,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           style={{
             ...firstSectionStyle, // Apply the stackStyle directly to the style prop
             position: "relative",
-            background: 'var(--background-image-url)',
+            background: "var(--background-image-url)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             height: "80vh",
@@ -75,7 +151,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           <div style={overlayStyles}></div>
           <Typography
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setEditeblePath("firstSection.title");
             }}
             style={{
@@ -91,7 +167,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           </Typography>
           <Typography
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setEditeblePath("firstSection.subtitle");
             }}
             style={{
@@ -176,7 +252,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           style={{
             ...thirdSectionStyle, // Apply the stackStyle directly to the style prop
             position: "relative",
-            background: 'var(--background-image-url)',
+            background: "var(--background-image-url)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
@@ -191,7 +267,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
         >
           <Typography
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setEditeblePath("thirdSection.title");
             }}
             style={{
@@ -206,7 +282,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           </Typography>
           <Typography
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setEditeblePath("thirdSection.subtitle");
             }}
             style={{
@@ -283,7 +359,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           style={{
             ...fifthSectionStyle, // Apply the stackStyle directly to the style prop
             position: "relative",
-            background: 'var(--background-image-url)',
+            background: "var(--background-image-url)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
@@ -298,7 +374,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
         >
           <Typography
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setEditeblePath("fifthSection.title");
             }}
             style={{
@@ -313,7 +389,7 @@ const AspectTheme = ({ themeContent, setEditeblePath }) => {
           </Typography>
           <Typography
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setEditeblePath("fifthSection.subtitle");
             }}
             style={{

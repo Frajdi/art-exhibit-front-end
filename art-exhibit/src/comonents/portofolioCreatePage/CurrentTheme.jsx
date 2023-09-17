@@ -6,7 +6,18 @@ import DraytonTheme from "./DraytonTheme";
 import apertureFakeData from "./fakeData/apertureFakeData";
 import aspectFakeData from "./fakeData/aspectFakeData";
 import draytonFakeData from "./fakeData/draytonFakeData";
-import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import useCreatePortofolio from "../../commands/createPortofolio";
@@ -75,6 +86,7 @@ const CurrentTheme = () => {
   const [themeContent, setThemeContent] = useState(defaultData[theme]);
   const [editeblePath, setEditeblePath] = useState(null);
   const [textUpdate, setTextUpdate] = useState(true);
+  const [fontFamily, setFontFamily] = useState("Poppins, sans-serif");
 
   useEffect(() => {
     if (editeblePath !== null) {
@@ -130,6 +142,7 @@ const CurrentTheme = () => {
   const handleCreatePortofolio = async () => {
     const jsonTheme = {
       themeType: theme,
+      fontFamily: fontFamily,
       themeContent: themeContent,
     };
     const body = {
@@ -147,16 +160,19 @@ const CurrentTheme = () => {
       {theme === "aperture" ? (
         <ApartureTheme
           themeContent={themeContent}
+          fontFamily={fontFamily}
           setEditeblePath={setEditeblePath}
         />
       ) : theme === "aspect" ? (
         <AspectTheme
           themeContent={themeContent}
+          fontFamily={fontFamily}
           setEditeblePath={setEditeblePath}
         />
       ) : (
         <DraytonTheme
           themeContent={themeContent}
+          fontFamily={fontFamily}
           setEditeblePath={setEditeblePath}
         />
       )}
@@ -210,13 +226,30 @@ const CurrentTheme = () => {
             </Button>
           </>
         )}
+        <FormControl variant="outlined" sx={{width: '15%', pt: '1rem'}}>
+        <InputLabel id="select-label">Select font family</InputLabel>
+        <Select
+          labelId="select-label"
+          id="select"
+          value={fontFamily} onChange={(e) => setFontFamily(e.target.value)}>
+          <MenuItem value="Poppins, sans-serif">Poppins</MenuItem>
+          <MenuItem value="'Playfair Display', serif">Playfair</MenuItem>
+          <MenuItem value="'Anton', sans-serif">Anton</MenuItem>
+          <MenuItem value="'Bebas Neue', sans-serif">Bebas Neue</MenuItem>
+          <MenuItem value="'Inconsolata', monospace">Inconsolata</MenuItem>
+          <MenuItem value="'Mooli', sans-serif">Mooli</MenuItem>
+          <MenuItem value="'Ubuntu', sans-serif">Ubuntu</MenuItem>
+        </Select>
+        </FormControl>
         <Button
           onClick={() => {
             handleCreatePortofolio();
           }}
           sx={buttonStyles}
           startIcon={
-            isLoading? null : <CreateNewFolderIcon sx={{ width: "2rem", height: "100%" }} />
+            isLoading ? null : (
+              <CreateNewFolderIcon sx={{ width: "2rem", height: "100%" }} />
+            )
           }
           variant="contained"
         >
