@@ -84,30 +84,30 @@ const CurrentTheme = () => {
   const { createPortofolio, isLoading } = useCreatePortofolio();
 
   const [themeContent, setThemeContent] = useState(defaultData[theme]);
-  const [editeblePath, setEditeblePath] = useState(null);
+  const [editablePath, setEditeblePath] = useState(null);
   const [textUpdate, setTextUpdate] = useState(true);
   const [fontFamily, setFontFamily] = useState("Poppins, sans-serif");
 
   useEffect(() => {
-    if (editeblePath !== null) {
-      const pathArray = editeblePath.split(".");
+    if (editablePath !== null) {
+      const pathArray = editablePath.split(".");
       if (pathArray[pathArray.length - 1] === "img") {
         setTextUpdate(false);
       } else {
         setTextUpdate(true);
       }
     }
-  }, [editeblePath]);
+  }, [editablePath]);
 
   const getValue = () => {
-    if (editeblePath === null) {
+    if (editablePath === null) {
       return "";
     } else {
-      const pathArray = editeblePath.split(".");
+      const pathArray = editablePath.split(".");
       if (pathArray[pathArray.length - 1] === "img") {
         return "";
       }
-      return editeblePath
+      return editablePath
         .split(".")
         .reduce((obj, key) => obj[key], themeContent);
     }
@@ -119,7 +119,7 @@ const CurrentTheme = () => {
       const newThemeContent = JSON.parse(JSON.stringify(prevThemeContent));
 
       // Split the property path
-      const pathSegments = editeblePath.split(".");
+      const pathSegments = editablePath.split(".");
       let currentObj = newThemeContent;
 
       // Traverse the object to reach the desired key

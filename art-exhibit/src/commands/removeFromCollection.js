@@ -9,7 +9,7 @@ const useRemoveFromCOllection = () => {
   const removeFromCollection = async (collectionId, accessToken) => {
     setIsLoading(true);
     try {
-      const response = await axios.delete(`http://localhost:8080/collectors/delete/${collectionId}`, {
+      const response = await axios.delete(`http://localhost:8080/collectors/delete/${collectionId}`, null, {
         headers: {
           Authorization: `Bearer ${accessToken}`, 
         },

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -5,15 +6,14 @@ import {
   Grid,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import AppBarMenu from "../comonents/landingPage/AppBar";
 import useGetCollections from "../commands/getCollections";
 import { useNavigate } from "react-router-dom";
 import { useArtContext } from "../state/AppContext";
 import Footer from "../comonents/landingPage/Footer";
+import { motion } from "framer-motion";
 
 const buttonTextStyles = {
   fontWeight: 500,
@@ -34,7 +34,7 @@ const Collcetion = () => {
   const navigate = useNavigate();
   const { authToken } = useArtContext();
   const { getCollection, isLoading, data, error } = useGetCollections();
-  const [currentPortofolio, setCurrentPortofolio] = useState(null);
+  const [collections, setCollections] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,12 +42,16 @@ const Collcetion = () => {
   }, [authToken]);
 
   useEffect(() => {
+    console.log({ data });
+  }, [data]);
+
+  useEffect(() => {
     if (data === false) {
-      setCurrentPortofolio(false);
+      setCollections(false);
       setLoading(false);
     }
     if (data) {
-      setCurrentPortofolio(JSON.parse(data.jsonTheme));
+      setCollections(data);
       setLoading(false);
     }
     if (error !== null) {
@@ -60,7 +64,7 @@ const Collcetion = () => {
       <Grid
         container
         sx={{ backgroundColor: "#FFFFFF" }}
-        height={currentPortofolio ? "100%" : "100vh"}
+        height={collections ? "100%" : "100vh"}
       >
         <Grid item xs={12}>
           <AppBarMenu color="#FFFFFF" />
@@ -84,13 +88,13 @@ const Collcetion = () => {
     <Grid
       container
       sx={{ backgroundColor: "#FFFFFF" }}
-      height={currentPortofolio ? "100%" : "100vh"}
+      height={collections ? "100%" : "100vh"}
     >
       <Grid item xs={12}>
         <AppBarMenu color="#FFFFFF" />
       </Grid>
-      {currentPortofolio === null ? (
-        <Grid item xs={12} sx={{p: '4rem 2rem'}}>
+      {!collections ? (
+        <Grid item xs={12} sx={{ p: "4rem 2rem" }}>
           <Stack
             alignItems={"center"}
             justifyContent={"center"}
@@ -117,9 +121,43 @@ const Collcetion = () => {
           </Stack>
         </Grid>
       ) : (
-        <Grid item sx={12}>
-        {/* HERREEEEE SHOUUUULDDD GOOOO THEEEE COLLLLEEEECTIOOOONS */}
-
+        <Grid item xs={12} sx={{p: "6rem 2rem"  }}>
+          <Stack
+            alignItems={"center"}
+            justifyContent={"center"}
+            height={"100%"}
+            width = {'87vw'}
+            sx={{ m: "1rem 3rem", borderRadius: "20px", padding: '2rem 1rem' }}
+            component={Paper}
+            elevation={5}
+            spacing={8}
+          >
+            {collections.map((collection) => {
+              const portofolioContent = JSON.parse(
+                collection.portfolio.jsonTheme
+              );
+              return (
+                <Stack
+                  direction={"column"}
+                  component={Paper}
+                  elevation={5}
+                  sx={{ overflow: "hidden", borderRadius: '20px', width: '70%', backgroundColor: '#E09EFF', cursor: 'pointer' }}
+                  justifyContent={"flex-end"}
+                  onClick={() => {navigate(`/view/${collection.artist.username}/${collection.artist.id}`)}}
+                >
+                <Stack justifyContent={"center"} alignItems={'center'} height={'20%'} width={'100%'}>
+                <Typography height={'20%'} style={{...buttonTextStyles, fontSize: '60px', color: 'white'}}>{collection.portfolio.name}</Typography>
+                </Stack>
+                  <motion.div whileHover={{height: '80%', marginTop: 0}} style={{height: '100%', marginTop: '-10rem', width: '100%', overflow: 'hidden', borderRadius: '20px'}}>
+                    <img
+                      style={{ height: "30rem", width: "100%", objectFit: 'cover' }}
+                      src={`data:image/png;base64,${portofolioContent.themeContent.firstSection.img}`}
+                    />
+                  </motion.div>
+                </Stack>
+              );
+            })}
+          </Stack>
         </Grid>
       )}
       <Grid item xs={12} padding={"8rem 8rem 0 8rem"}>
