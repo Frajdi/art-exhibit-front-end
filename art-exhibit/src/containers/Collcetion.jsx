@@ -13,7 +13,7 @@ import useGetCollections from "../commands/getCollections";
 import { useNavigate } from "react-router-dom";
 import { useArtContext } from "../state/AppContext";
 import Footer from "../comonents/landingPage/Footer";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 const buttonTextStyles = {
   fontWeight: 500,
@@ -36,6 +36,7 @@ const Collcetion = () => {
   const { getCollection, isLoading, data, error } = useGetCollections();
   const [collections, setCollections] = useState(null);
   const [loading, setLoading] = useState(true);
+  const collectionAnimation = useAnimation();
 
   useEffect(() => {
     getCollection(authToken);
@@ -121,13 +122,13 @@ const Collcetion = () => {
           </Stack>
         </Grid>
       ) : (
-        <Grid item xs={12} sx={{p: "6rem 2rem"  }}>
+        <Grid item xs={12} sx={{ p: "6rem 2rem" }}>
           <Stack
             alignItems={"center"}
             justifyContent={"center"}
             height={"100%"}
-            width = {'87vw'}
-            sx={{ m: "1rem 3rem", borderRadius: "20px", padding: '2rem 1rem' }}
+            width={"87vw"}
+            sx={{ m: "1rem 3rem", borderRadius: "20px", padding: "2rem 1rem" }}
             component={Paper}
             elevation={5}
             spacing={8}
@@ -141,16 +142,60 @@ const Collcetion = () => {
                   direction={"column"}
                   component={Paper}
                   elevation={5}
-                  sx={{ overflow: "hidden", borderRadius: '20px', width: '70%', backgroundColor: '#E09EFF', cursor: 'pointer' }}
+                  sx={{
+                    overflow: "hidden",
+                    borderRadius: "20px",
+                    width: "70%",
+                    backgroundColor: "#E09EFF",
+                    cursor: "pointer",
+                  }}
                   justifyContent={"flex-end"}
-                  onClick={() => {navigate(`/view/${collection.artist.username}/${collection.artist.id}`)}}
+                  onClick={() => {
+                    navigate(
+                      `/view/${collection.creator.username}/${collection.creator.id}`
+                    );
+                  }}
+                  onMouseEnter={collectionAnimation.start("hovered")}
+                  onMouseLeave={collectionAnimation.start("notHovered")}
                 >
-                <Stack justifyContent={"center"} alignItems={'center'} height={'20%'} width={'100%'}>
-                <Typography height={'20%'} style={{...buttonTextStyles, fontSize: '60px', color: 'white'}}>{collection.portfolio.name}</Typography>
-                </Stack>
-                  <motion.div whileHover={{height: '80%', marginTop: 0}} style={{height: '100%', marginTop: '-10rem', width: '100%', overflow: 'hidden', borderRadius: '20px'}}>
+                  <Stack
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    height={"20%"}
+                    width={"100%"}
+                  >
+                    <Typography
+                      height={"20%"}
+                      style={{
+                        ...buttonTextStyles,
+                        fontSize: "60px",
+                        color: "white",
+                      }}
+                    >
+                      {collection.portfolio.name}
+                    </Typography>
+                  </Stack>
+                  <motion.div
+                    whileHover={{ height: "80%", marginTop: 0 }}
+                    variants={{
+                      hovered: { height: "80%", marginTop: 0 },
+                      notHovered: { height: "100%", marginTop: "-10rem" },
+                    }}
+                    animate={collectionAnimation}
+                    style={{
+                      height: "100%",
+                      marginTop: "-10rem",
+                      width: "100%",
+                      overflow: "hidden",
+                      borderRadius: "20px",
+                    }}
+                  >
                     <img
-                      style={{ height: "30rem", width: "100%", objectFit: 'cover' }}
+                      style={{
+                        height: "30rem",
+                        width: "100%",
+                        objectFit: "cover",
+                      }}
                       src={`data:image/png;base64,${portofolioContent.themeContent.firstSection.img}`}
                     />
                   </motion.div>
