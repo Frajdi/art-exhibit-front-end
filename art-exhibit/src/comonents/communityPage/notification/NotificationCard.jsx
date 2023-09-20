@@ -73,7 +73,7 @@ const NotificationCard = ({
   selectedPost,
   createdAt,
 }) => {
-  console.log('>>>>',profileImg, username);
+  console.log(">>>>", profileImg, username);
   const [currentComments, setCurrentComments] = useState(comments);
   const [currentComment, setCurrentComment] = useState({
     description: "",
@@ -127,7 +127,7 @@ const NotificationCard = ({
             width: "80px",
             height: "80px",
             bgcolor: "#C786FF",
-            m: 3
+            m: 3,
           }}
         >
           {profileImg.length < 100 ? (
@@ -196,10 +196,23 @@ const NotificationCard = ({
                   alignItems={"center"}
                   justifyContent={"flex-start"}
                 >
-                  <img
-                    src={`data:image/png;base64,${comment.artist.profileImage}`}
-                    style={{ ...imgStyles, width: "80px", height: "80px" }}
-                  />
+                  <Avatar
+                    sx={{
+                      width: "60px",
+                      height: "60px",
+                      bgcolor: "#C786FF",
+                      m: 3,
+                    }}
+                  >
+                    {comment.artist.profileImage.length < 100 ? (
+                      comment.artist.username.charAt(0)
+                    ) : (
+                      <img
+                        style={imgStyles}
+                        src={`data:image/png;base64,${comment.artist.profileImage}`}
+                      />
+                    )}
+                  </Avatar>
                   <Stack
                     direction="row"
                     spacing={1}

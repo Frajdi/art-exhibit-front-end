@@ -46,6 +46,12 @@ const withContext = (Component) => (props) => {
     localStorage.setItem("authToken", authToken);
   }, [authToken]);
 
+
+  
+  useEffect(() => {
+    console.log('????',authError)
+  },[authError])
+
   const logOut = () => {
     setProfilePicture(null)
     setUsername(null)

@@ -59,11 +59,13 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
   };
 
   const [logedIn, setLogedIn] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [authErr, setAuthErr] = useState(null)
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
 
   const location = useLocation();
+
 
   const {
     profilePicture,
@@ -80,6 +82,7 @@ const AppBarMenu = ({ color = "rgba(245,233,255, 0.7)" }) => {
 
   const appBarControls = useAnimation();
   const contentControls = useAnimation();
+
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest >= 100) {

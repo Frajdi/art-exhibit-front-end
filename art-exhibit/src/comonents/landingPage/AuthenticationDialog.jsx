@@ -460,7 +460,7 @@ const AuthenticationDialog = () => {
                 style={{ width: "100%", height: "10px", marginTop: "3rem" }}
                 key={2}
                 variant="standard"
-                label="Password"
+                label={<Stack direction={"row"} spacing={5} width={'100%'}><Typography>Password</Typography><Typography>(at least 8 characters)</Typography></Stack>}
                 type="password"
                 onChange={handleChange("password")}
                 value={isLogIn ? isLogInData.password : signUpData.password}

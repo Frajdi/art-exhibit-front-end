@@ -7,7 +7,7 @@ const EventCard = ({
   address,
   time,
   description,
-  category,
+  username,
   photo,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -65,9 +65,21 @@ const EventCard = ({
   };
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-    return new Date(dateString).toLocaleString(undefined, options);
+    const date = new Date(dateString);
+    const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    };
+  
+    return new Intl.DateTimeFormat('en-US', options).format(date);
   };
+  
+  
+  
 
   return (
     <Paper
@@ -88,7 +100,7 @@ const EventCard = ({
         </Stack>
         <Stack alignItems={'flex-end'} justifyContent={'center'} padding={'1rem'} sx={{position: 'absolute', bottom: '2rem', right: '2rem'}} >
           <Typography variant="subtitle1" style={textStyles}>
-            <strong>Category:</strong> {category?.toLowerCase()}
+            <strong>Artist:</strong> {username?.toLowerCase()}
           </Typography>
           <Typography variant="subtitle1" style={textStyles}>
             <strong>Location:</strong> {address}

@@ -44,7 +44,7 @@ const NotificationToaster = ({ text, removeNotif }) => {
     }, 3000);
 
     return () => clearTimeout(timeoutRef);
-  }, []);
+  }, [text]);
 
   return (
     <motion.div

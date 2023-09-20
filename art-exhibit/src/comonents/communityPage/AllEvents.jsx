@@ -43,13 +43,21 @@ const AllEvents = ({ setSeeAllEvents }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const { data, error, isLoading, getEvents } = useGetAllEvents();
 
+  const sortByTimeDesc = (array) => array.sort((a, b) => {
+    const timeA = new Date(a.time).getTime();
+    const timeB = new Date(b.time).getTime();
+    return timeB - timeA;
+  });
+  
+
   useEffect(() => {
     getEvents(currentPage);
   }, [currentPage]);
 
   useEffect(() => {
     if (data) {
-      setEvents(data);
+      
+      setEvents(sortByTimeDesc(data));
     }
   }, [data]);
 
@@ -74,7 +82,7 @@ const AllEvents = ({ setSeeAllEvents }) => {
       </Grid>
       {events !== null &&
         events.map(
-          ({ name, address, time, description, category, photo, id }) => (
+          ({ name, address, time, description, category, photo, id, username }) => (
             <Grid item xs={6} key={id}>
               <Stack alignItems={"center"} width={"100%"}>
                 <EventCard
@@ -82,7 +90,7 @@ const AllEvents = ({ setSeeAllEvents }) => {
                   address={address}
                   time={time}
                   description={description}
-                  category={category}
+                  username={username}
                   photo={photo}
                 />
               </Stack>

@@ -15,6 +15,7 @@ import useGetCurrentUserData from "../commands/getCurrentUserData";
 import useUpdateSettings from "../commands/updateSettings";
 import useUpdatePassword from "../commands/updatePassword";
 import { useArtContext } from "../state/AppContext";
+import { Box, CircularProgress } from "@mui/material";
 
 const titleStyles = {
   color: "#222222",
@@ -124,7 +125,14 @@ const Settings = () => {
     isLoading: isUpdatepasswordLoading,
     error: passwordError,
     updatePassword,
+    data: updatePassStatus
   } = useUpdatePassword();
+
+  useEffect(() => {
+    if(!isUpdatepasswordLoading){
+      setAuthError(updatePassStatus)
+    }
+  },[updatePassStatus, isUpdatepasswordLoading])
 
   useEffect(() => {
     if (isUpdateLoading === false && error) {
@@ -139,14 +147,18 @@ const Settings = () => {
     if (updateStatus === 200) {
       setUsername(userData.username);
       setProfilePicture(`data:image/png;base64,${userData?.profileImage}`);
+      if(!isUpdateLoading){
+        setAuthError("Settings Updated Succesfully");
+      }
     }
-  }, [updateStatus]);
+  }, [updateStatus, isUpdateLoading]);
 
   useEffect(() => {
     if (authToken) {
       getRequest(authToken);
     }
   }, [authToken]);
+
 
   useEffect(() => {
     if (data) {
@@ -601,7 +613,15 @@ const Settings = () => {
                           updateSettings(authToken, userData);
                         }}
                       >
-                        Update Settings
+                        {isUpdateLoading ? (
+                          <Box sx={{ display: "flex" }}>
+                            <CircularProgress sx={{color: "white"}} />
+                          </Box>
+                        ) : (
+                          <Box sx={{ display: "flex", height: '40px', alignItems: 'center', justifyContent: 'center' }}>
+                          Update Settings
+                          </Box>
+                        )}
                       </Button>
                     ) : (
                       <Button
@@ -618,7 +638,15 @@ const Settings = () => {
                           updatePassword(authToken, password);
                         }}
                       >
-                        Update Password
+                       {isUpdatepasswordLoading ? (
+                          <Box sx={{ display: "flex" }}>
+                            <CircularProgress sx={{color: "white"}} />
+                          </Box>
+                        ) : (
+                          <Box sx={{ display: "flex", height: '40px', alignItems: 'center', justifyContent: 'center' }}>
+                          Update Password
+                          </Box>
+                        )}
                       </Button>
                     )}
                   </Stack>

@@ -84,7 +84,9 @@ const ArtistCard = ({
   const navigate = useNavigate()
   const { username, description, profileImage } = artist;
 
-  console.log('>>>>>>>>>>', artist);
+  
+  const portofolioContent = artist.portfolio ? JSON.parse(artist.portfolio.jsonTheme) : false 
+  console.log('>>>>>>>>>>', portofolioContent);
   return (
     <Stack
       layout
@@ -98,8 +100,8 @@ const ArtistCard = ({
     >
       <img
         src={
-          profileImage
-            ? `data:image/png;base64,${profileImage}`
+          portofolioContent
+            ? `data:image/png;base64,${portofolioContent?.themeContent?.firstSection?.img}`
             : "https://media.istockphoto.com/id/174923556/photo/3d-illuminated-podium.jpg?s=612x612&w=0&k=20&c=WC7GBNAhyDYQeVfkTIA6h9ohR8gH89nTPWZweSdcnLo="
         }
         style={wallpaperImageStyles}
@@ -114,7 +116,7 @@ const ArtistCard = ({
       />
       <Stack direction="column" alignItems="center" spacing={2} width={"100%"}>
         <Typography style={titleStyles}>{username}</Typography>
-        <Typography style={bioStyles} align="center">
+        <Typography style={{...bioStyles, width: '30ch'}} noWrap={selectedSquare} align="center">
           {description ? description : "No Bio Available For This Artist"}
         </Typography>
         {selectedSquare ? (
