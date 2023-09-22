@@ -27,7 +27,16 @@ const overlayStyles = {
   zIndex: 0,
 };
 
-const AspectTheme = ({ themeContent, setEditeblePath }) => {
+const AspectTheme = ({ themeContent, setEditeblePath, fontFamily }) => {
+
+
+  const titleStyles = {
+    color: "#222222",
+    fontFamily: fontFamily,
+    fontWeight: 700,
+    fontSize: "50px",
+    lineHeight: "60px",
+  };
 
   const location = useLocation();
 

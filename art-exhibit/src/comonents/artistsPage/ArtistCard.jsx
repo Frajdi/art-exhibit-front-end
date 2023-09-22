@@ -7,6 +7,9 @@ import { motion } from "framer-motion";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 
+ 
+
+
 const cardStyles = {
   width: "90%",
   height: "420px",
@@ -104,7 +107,7 @@ const ArtistCard = ({
             ? `data:image/png;base64,${portofolioContent?.themeContent?.firstSection?.img}`
             : "https://media.istockphoto.com/id/174923556/photo/3d-illuminated-podium.jpg?s=612x612&w=0&k=20&c=WC7GBNAhyDYQeVfkTIA6h9ohR8gH89nTPWZweSdcnLo="
         }
-        style={wallpaperImageStyles}
+        style={{wallpaperImageStyles, height: selectedSquare ? '40%' : '50%', width: '100%', objectFit: 'cover'}}
       />
       <img
         src={
@@ -116,7 +119,7 @@ const ArtistCard = ({
       />
       <Stack direction="column" alignItems="center" spacing={2} width={"100%"}>
         <Typography style={titleStyles}>{username}</Typography>
-        <Typography style={{...bioStyles, width: '30ch'}} noWrap={selectedSquare} align="center">
+        <Typography style={{...bioStyles, width: '30ch'}} align="center">
           {description ? description : "No Bio Available For This Artist"}
         </Typography>
         {selectedSquare ? (

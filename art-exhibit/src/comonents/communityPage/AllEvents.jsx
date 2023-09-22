@@ -43,11 +43,27 @@ const AllEvents = ({ setSeeAllEvents }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const { data, error, isLoading, getEvents } = useGetAllEvents();
 
-  const sortByTimeDesc = (array) => array.sort((a, b) => {
-    const timeA = new Date(a.time).getTime();
-    const timeB = new Date(b.time).getTime();
-    return timeB - timeA;
-  });
+  const filterAndSortEventsByCurrentTime = (array) => {
+    const currentTime = new Date().getTime();
+    
+    // Filter events by time (keep events with times greater than or equal to the current time)
+    const filteredArray = array.filter((item) => {
+      const eventTime = new Date(item.time).getTime();
+      return eventTime >= currentTime;
+    });
+  
+    // Sort filtered events by time (from closest to furthest)
+    filteredArray.sort((a, b) => {
+      const timeA = new Date(a.time).getTime();
+      const timeB = new Date(b.time).getTime();
+      const timeDifferenceA = Math.abs(timeA - currentTime);
+      const timeDifferenceB = Math.abs(timeB - currentTime);
+      return timeDifferenceA - timeDifferenceB;
+    });
+  
+    return filteredArray;
+  };
+  
   
 
   useEffect(() => {
@@ -57,7 +73,7 @@ const AllEvents = ({ setSeeAllEvents }) => {
   useEffect(() => {
     if (data) {
       
-      setEvents(sortByTimeDesc(data));
+      setEvents(filterAndSortEventsByCurrentTime(data));
     }
   }, [data]);
 

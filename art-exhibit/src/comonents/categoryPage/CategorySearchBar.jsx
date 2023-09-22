@@ -26,7 +26,6 @@ const categoryOptions = [
   { value: "POTTERY", label: "Pottery" },
   { value: "PRINTMAKING", label: "Printmaking" },
   { value: "WRITING", label: "Writing" },
-  { value: "ART_COLLECTOR", label: "Art Collector" },
 ];
 
 const titleStyles = {

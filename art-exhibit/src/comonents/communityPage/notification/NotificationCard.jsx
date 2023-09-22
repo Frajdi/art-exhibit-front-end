@@ -152,13 +152,19 @@ const NotificationCard = ({
               {post}
             </Typography>
           </Stack>
-          <Typography align="center" sx={{ opacity: 0.5, width: "100%" }}>
-            {new Date(createdAt).toLocaleString()}
+          <Typography align="center" sx={{ opacity: 0.5, width: "10ch", position: 'relative', right: '3rem' }}>
+            {new Date(createdAt).toLocaleString(undefined, {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </Typography>
         </Stack>
         {Boolean(selectedPost !== null) && (
           <Stack
-            width={"100%"}
+            width={"5%"}
             height={"100%"}
             alignItems={"flex-end"}
             justifyContent={"flex-start"}
@@ -189,7 +195,7 @@ const NotificationCard = ({
                   direction="row"
                   sx={{
                     background: "#FFFFFF",
-                    width: "70%",
+                    width: "100%",
                     height: "80%",
                     borderRadius: "30px",
                   }}
@@ -219,15 +225,15 @@ const NotificationCard = ({
                     justifyContent={"space-between"}
                     width={"100%"}
                   >
-                    <Stack direction="column" spacing={1}>
+                    <Stack direction="column" spacing={1} width={"100%"}>
                       <Typography style={nameStyles}>
                         {comment.artist.username}
                       </Typography>
-                      <Typography style={{ ...postStyles, width: "95%" }}>
+                      <Typography style={{ ...postStyles, width: "100%" }}>
                         {comment.description}
                       </Typography>
                     </Stack>
-                    <Stack width={"100%"} alignItems={"flex-end"}>
+                    <Stack width={"10%"} alignItems={"flex-end"}>
                       <Typography
                         align="right"
                         style={{ ...postStyles, opacity: 0.4 }}

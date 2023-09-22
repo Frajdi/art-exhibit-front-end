@@ -14,7 +14,7 @@ const titleStyles = {
 };
 
 const CategorySearchGrid = ({ artistsData }) => {
-  const [artists, setArtists] = useState(artistsData);
+  const [artists, setArtists] = useState(artistsData.filter(artist => artist.category !== 'ART_COLLECTOR'));
   const [filteredArtistsByCategory, setFilteredArtistsByCategory] =
     useState(artistsData);
 

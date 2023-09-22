@@ -10,14 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //STYLES
 
-const titleStyles = {
-  color: "#222222",
-  fontFamily: "'Playfair Display', serif",
-  fontWeight: 400,
-  fontSize: "50px",
-  lineHeight: "60px",
-  zIndex: 1,
-};
+
 
 const overlayStyles = {
   position: "absolute",
@@ -30,7 +23,16 @@ const overlayStyles = {
 };
 
 //COMPONENT
-const DraytonTheme = ({ themeContent, setEditeblePath }) => {
+const DraytonTheme = ({ themeContent, setEditeblePath, fontFamily }) => {
+  const titleStyles = {
+    color: "#222222",
+    fontFamily: fontFamily,
+    fontWeight: 400,
+    fontSize: "50px",
+    lineHeight: "60px",
+    zIndex: 1,
+  };
+  
   const location = useLocation();
 
   console.log(location.pathname);
